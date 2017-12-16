@@ -79,11 +79,31 @@
   margin-top: 2.5vh;
 }
 
-.side-panel {
+.sidepanel {
   width: 40%;
-  background: grey;
   height: 100%;
+  background: #373C4F;
+  color: white;
 }
+
+.sidepanel-info {
+  display: flex;
+  height: 12vh;
+  align-items: center;
+}
+
+.sidepanel-info > div {
+  flex-grow: 1;
+}
+
+.sidepanel-info > div:first-child {
+  font-size: xx-large;
+}
+
+.sidepanel-info > div:last-child {
+  color: #7781a3;
+}
+
 
 .flex {
   display: flex;
