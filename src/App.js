@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './styles/App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        Hello world
-      </div>
-    );
-  }
-}
+import Calendar from './components/calendar';
 
-export default App;
+export default () => (
+  <div className="App">
+    <Calendar />
+    <div className="side-panel">Sidepanel placeholder</div>
+  </div>
+);

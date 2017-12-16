@@ -1,28 +1,82 @@
+@font-face {
+  font-family: angeltoes;
+  src: url('angeltoes.ttf');
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
+  display: flex;
+  height: 100vh;
+  font-family: angeltoes;
+  font-weight: bold;
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.calendar {
+  width: 60%;
+  height: 100%;
+  color: #808BA2;
+  margin: 1%;
+}
+
+.calendar-day {
+  width: 14%;
+  height: 7vh;
+  padding-top: 3vh;
+  border-top: 1px solid #dbdada;
+  border-left: 1px solid #dbdada;
+  color: #B287DD;
+}
+
+.calendar-day.disabled {
+  color: #bbbbbb;
+}
+
+.calendar-day:last-child {
+  border-right: 1px solid #dbdada;
+}
+
+.calendar-row:last-child > .calendar-day {
+  border-bottom: 1px solid #dbdada;
+}
+
+.calendar-day-name {
+  width: 14%;
+  height: 5vh;
+}
+
+.month-selector {
+  width: 100%;
+  height: 10%;
+  display: flex;
+}
+
+.month-selector img:first-child {
+  float: left;
+}
+
+.month-selector img:last-child {
+  float: right;
+}
+
+.month-selector img:first-child,
+.month-selector img:last-child {
+  margin-top: 1vh;
+  height: 5vh;
+  cursor: pointer;
+}
+
+.month-selector > div {
+  flex-grow: 1;
+  margin-top: 2.5vh;
+}
+
+.side-panel {
+  width: 40%;
+  background: grey;
+  height: 100%;
+}
+
+.flex {
+  display: flex;
 }
