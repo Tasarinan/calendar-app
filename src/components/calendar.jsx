@@ -2,26 +2,44 @@ import React from 'react';
 import shortId from 'shortid';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actionCreators from '../redux/actions/calendarActions';
+import * as actionCreators1 from '../redux/actions/calendarActions';
+import * as actionCreators2 from '../redux/actions/sidepanelActions';
 import Day from './calendar-day';
 import MonthSelector from './calendar-month-selector';
 import * as dateUtil from '../util/date';
+
+const actionCreators = {
+  ...actionCreators1,
+  ...actionCreators2,
+};
 
 class Calendar extends React.Component {
   constructor() {
     super();
 
     this.changeMonth = this.changeMonth.bind(this);
+    this.changeFocusedDay = this.changeFocusedDay.bind(this);
+  }
+
+  changeFocusedDay(y, m, d) {
+    if (d <= 0) {
+      this.changeMonth(d > -15);
+      this.props.changeFocusedDay(y, d > -15 ? m : m-2, d * -1);
+      return;
+    }
+    this.props.changeFocusedDay(y, m-1, d);
   }
 
   getDays() {
-    const {year, month} = this.props;
+    const {year, month, fYear, fMonth, fDay} = this.props;
     const mapFunc = row => (
       <div className="calendar-row flex" key={shortId.generate()}>
         {row.map(d => <Day
                         number={d}
                         key={shortId.generate()}
                         today={dateUtil.isToday(year, month, d)}
+                        focused={year === fYear && month === fMonth && d === fDay}
+                        onClick={() => this.changeFocusedDay(year, month, d)}
                       />)}
       </div>
     );
@@ -66,6 +84,9 @@ class Calendar extends React.Component {
 const mapStateToProps = state => ({
   year: state.calendar.year,
   month: state.calendar.month,
+  fYear: state.sidepanel.year,
+  fMonth: state.sidepanel.month,
+  fDay: state.sidepanel.day,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

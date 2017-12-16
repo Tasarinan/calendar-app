@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actionCreators from '../redux/actions/calendarActions';
+// import { bindActionCreators } from 'redux';
+// import * as actionCreators from '../redux/actions/calendarActions';
 import { getDaysName, getMonthName, getExt } from '../util/date';
 
 class Sidepanel extends React.Component {  
@@ -19,12 +19,12 @@ class Sidepanel extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  year: state.calendar.year,
-  month: state.calendar.month,
-  day: state.calendar.day,
-  weekDay: state.calendar.weekDay,
+  year: state.sidepanel.year,
+  month: state.sidepanel.month,
+  day: state.sidepanel.day,
+  weekDay: state.sidepanel.weekDay,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
+// const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidepanel);
+export default connect(mapStateToProps)(Sidepanel);

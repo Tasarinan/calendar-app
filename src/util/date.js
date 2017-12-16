@@ -75,9 +75,9 @@ export const getExt = day => {
 
 export const getMonthName = month => monthNames[month-1];
 
-export const getDaysName = weekDay => dayNames[weekDay-1];
+export const getDaysName = weekDay => dayNames[weekDay];
 
-const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                     'August', 'September', 'October', 'November', 'December'];
