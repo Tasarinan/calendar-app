@@ -49,11 +49,20 @@ export const resolveMonthChange = (year, month, add) => {
     year: changedYear,
     month: changedMonth
   };
-} 
+};
+
+export const isToday = (year, month, day) => {
+  const date = new Date();
+  return (
+    date.getDate() === day &&
+    date.getMonth() === month - 1 &&
+    date.getFullYear() === year
+  );
+}
 
 export const getMonthName = month => {
   return monthNames[month-1];
-}
+};
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                     'August', 'September', 'October', 'November', 'December'];

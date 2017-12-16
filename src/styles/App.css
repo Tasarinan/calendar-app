@@ -45,6 +45,14 @@
   height: 5vh;
 }
 
+.calendar-today {
+  background: #B287DD;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 2px #B287DD;
+  z-index: 1;
+}
+
 .month-selector {
   width: 100%;
   height: 10%;
