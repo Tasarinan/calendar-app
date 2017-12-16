@@ -1,5 +1,8 @@
 import React from 'react';
 import shortId from 'shortid';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../redux/actions/calendarActions';
 import Day from './calendar-day';
 import MonthSelector from './calendar-month-selector';
 import * as dateUtil from '../util/date';
@@ -8,17 +11,11 @@ class Calendar extends React.Component {
   constructor() {
     super();
 
-    const date = new Date();
-    this.state = {
-      month: date.getMonth() + 1,
-      year: date.getFullYear(),
-    };
-
     this.changeMonth = this.changeMonth.bind(this);
   }
 
   getDays() {
-    const {year, month} = this.state;
+    const {year, month} = this.props;
     const mapFunc = row => (
       <div className="calendar-row flex" key={shortId.generate()}>
         {row.map(d => <Day
@@ -44,18 +41,15 @@ class Calendar extends React.Component {
 
   changeMonth(forward) {
     const changed = dateUtil.resolveMonthChange(
-      this.state.year,
-      this.state.month,
+      this.props.year,
+      this.props.month,
       forward,
     );
-    this.setState({
-      month: changed.month+1,
-      year: changed.year,
-    });
+    this.props.changeDate(changed.year, changed.month + 1);
   }
   
   render() {
-    const {year, month} = this.state;
+    const {year, month} = this.props;
     return (
       <div className="calendar">
         <MonthSelector
@@ -69,4 +63,11 @@ class Calendar extends React.Component {
   }
 }
 
-export default Calendar;
+const mapStateToProps = state => ({
+  year: state.calendar.year,
+  month: state.calendar.month,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
