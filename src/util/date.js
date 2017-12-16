@@ -60,9 +60,24 @@ export const isToday = (year, month, day) => {
   );
 }
 
-export const getMonthName = month => {
-  return monthNames[month-1];
-};
+export const getExt = day => {
+  switch(day % 10) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+}
+
+export const getMonthName = month => monthNames[month-1];
+
+export const getDaysName = weekDay => dayNames[weekDay];
+
+const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                     'August', 'September', 'October', 'November', 'December'];

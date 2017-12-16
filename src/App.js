@@ -1,11 +1,16 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import './styles/App.css';
 
 import Calendar from './components/calendar';
+import Sidepanel from './components/sidepanel';
 
 export default () => (
-  <div className="App">
-    <Calendar />
-    <div className="side-panel">Sidepanel placeholder</div>
-  </div>
+  <Provider store={store}>
+    <div className="App">
+      <Calendar />
+      <Sidepanel />
+    </div>
+  </Provider>
 );
