@@ -2,7 +2,7 @@ import React from 'react';
 import shortId from 'shortid';
 import Day from './calendar-day';
 import MonthSelector from './calendar-month-selector';
-import {getDays} from '../util/date';
+import * as dateUtil from '../util/date';
 
 class Calendar extends React.Component {
   static getDays(year, month) {
@@ -20,19 +20,45 @@ class Calendar extends React.Component {
         >{n}</div>
       ));
     const nameRow = <div className="flex" key={shortId.generate()}>{names}</div>;
-    const days = getDays(year, month, 1); //Week starts on monday
+    const days = dateUtil.getDays(year, month, 1); //Week starts on monday
 
     return [nameRow, ...days.map(mapFunc)];
   }
+
+  constructor() {
+    super();
+
+    const date = new Date();
+    this.state = {
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    };
+
+    this.changeMonth = this.changeMonth.bind(this);
+  }
+
+  changeMonth(forward) {
+    const changed = dateUtil.resolveMonthChange(
+      this.state.year,
+      this.state.month,
+      forward,
+    );
+    this.setState({
+      month: changed.month+1,
+      year: changed.year,
+    });
+  }
   
   render() {
+    const {year, month} = this.state;
     return (
       <div className="calendar">
         <MonthSelector
-          month="December"
-          year={2015}
+          month={dateUtil.getMonthName(month)}
+          year={year}
+          changeMonth={this.changeMonth}
         />
-        {Calendar.getDays(2015, 12)}
+        {Calendar.getDays(year, month)}
       </div>
     );
   }
