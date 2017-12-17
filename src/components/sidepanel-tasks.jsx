@@ -21,6 +21,7 @@ class Tasks extends React.Component {
     super(props);
 
     this.renderTask = this.renderTask.bind(this);
+    this.filterTasks = this.filterTasks.bind(this);
   }
 
   renderTask(task) {
@@ -58,10 +59,20 @@ class Tasks extends React.Component {
     );
   }
 
+  filterTasks(task) {
+    const { day, month, year } = this.props;
+    return task.date.getDate() === day &&
+      task.date.getMonth() + 1 === month &&
+      task.date.getFullYear() === year;
+  }
+
   render() {
     return (
       <div className="sidepanel-tasks">
-        {this.props.tasks.sort(Tasks.orderByTime).map(this.renderTask)}
+        {this.props.tasks
+          .filter(this.filterTasks)
+          .sort(Tasks.orderByTime)
+          .map(this.renderTask)}
       </div>
     );
   }
