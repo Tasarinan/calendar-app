@@ -10,6 +10,7 @@
   font-family: angeltoes;
   font-weight: bold;
   font-size: large;
+  overflow-y: hidden;
 }
 
 .calendar {
@@ -94,6 +95,7 @@
   height: 100%;
   background: #373C4F;
   color: white;
+  overflow-y: auto;
 }
 
 .sidepanel-info {
