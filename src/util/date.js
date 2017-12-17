@@ -73,6 +73,12 @@ export const getExt = day => {
   }
 }
 
+export const getTime = date => {
+  if (!date) return null;
+  const mins = date.getMinutes();
+  return `${date.getHours()}:${mins < 10 ? '0' + mins : mins}`
+}
+
 export const getMonthName = month => monthNames[month-1];
 
 export const getDaysName = weekDay => dayNames[weekDay];

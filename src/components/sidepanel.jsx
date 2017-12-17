@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 // import * as actionCreators from '../redux/actions/calendarActions';
 import { getDaysName, getMonthName, getExt } from '../util/date';
+import Tasks from './sidepanel-tasks';
 
 class Sidepanel extends React.Component {  
   render() {
@@ -13,6 +14,8 @@ class Sidepanel extends React.Component {
           <div>{getDaysName(weekDay)}</div>
           <div>{day}{getExt(day)} {getMonthName(month)} {year}</div>
         </div>
+        <Tasks
+        />
       </div>
     );
   }
