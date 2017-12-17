@@ -124,6 +124,10 @@
   display: flex;
 }
 
+.task:hover {
+  cursor: pointer;
+}
+
 .task-content {
   width: 80%;
   height: 100%;
@@ -146,6 +150,24 @@
 
 .task.completed {
   text-decoration: line-through;
+}
+
+.task-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 15%;
+  visibility: hidden;
+}
+
+.task-controls > img {
+  height: 30%;
+  width: auto;
+  align-self: center;
+}
+
+.task:hover > .task-controls {
+  visibility: visible;
 }
 
 .flex {
