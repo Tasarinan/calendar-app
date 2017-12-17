@@ -10,6 +10,7 @@
   font-family: angeltoes;
   font-weight: bold;
   font-size: large;
+  overflow-y: hidden;
 }
 
 .calendar {
@@ -94,6 +95,7 @@
   height: 100%;
   background: #373C4F;
   color: white;
+  overflow-y: auto;
 }
 
 .sidepanel-info {
@@ -114,6 +116,61 @@
   color: #7781a3;
 }
 
+.task:nth-child(odd) {
+  background: linear-gradient(to right, rgb(83, 92, 116), #373C4F)
+}
+
+.task {
+  width: 100%;
+  height: 7vh;
+  display: flex;
+}
+
+.task:hover {
+  cursor: pointer;
+}
+
+.task-content {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  text-align: left;
+  padding-left: 5%;
+}
+
+.task-bubble {
+  height: 10px;
+  width: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 3px 1px #442a4d;
+  margin-left: 10%;
+  float: left;
+  align-self: center;
+}
+
+.task.completed {
+  text-decoration: line-through;
+}
+
+.task-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 15%;
+  visibility: hidden;
+}
+
+.task-controls > img {
+  height: 30%;
+  width: auto;
+  align-self: center;
+}
+
+.task:hover > .task-controls {
+  visibility: visible;
+}
 
 .flex {
   display: flex;
