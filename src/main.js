@@ -1,11 +1,13 @@
 const {app, BrowserWindow} = require('electron');
+const electron = require('electron');
 const path = require('path');
 const url = require('url');
 
 let win;
 
 function createWindow() {
-  win = new BrowserWindow({width: 800, height: 600});
+  const screen = electron.screen.getPrimaryDisplay().size;
+  win = new BrowserWindow({width: screen.width, height: screen.height});
   win.loadURL('http://localhost:3000');
 
   //win.webContents.openDevTools();

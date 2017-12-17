@@ -96,6 +96,8 @@
   background: #373C4F;
   color: white;
   overflow-y: auto;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
 .sidepanel-info {
@@ -131,7 +133,7 @@
 }
 
 .task-content {
-  width: 80%;
+  width: 70%;
   height: 100%;
   display: flex;
   flex-flow: column wrap;
@@ -140,12 +142,16 @@
   padding-left: 5%;
 }
 
+.task-content > div {
+  text-overflow: ellipsis;
+}
+
 .task-bubble {
   height: 10px;
   width: 10px;
   border-radius: 10px;
   box-shadow: 0 0 3px 1px #442a4d;
-  margin-left: 10%;
+  margin-left: 5%;
   float: left;
   align-self: center;
 }
@@ -160,6 +166,7 @@
   justify-content: space-around;
   width: 15%;
   visibility: hidden;
+  float: right;
 }
 
 .task-controls > img {

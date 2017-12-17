@@ -27,6 +27,7 @@ class Tasks extends React.Component {
   renderTask(task) {
     const completed = task.completed ? 'completed' : '';
     const style = !task.completed ? { background: task.bubbleColor } : null;
+    const check = `${task.completed ? 'un' : ''}check.png`;
     let time = getTime(task.startTime) || '';
     if (time && task.endTime) {
       time += ' - ' + getTime(task.endTime);
@@ -45,7 +46,7 @@ class Tasks extends React.Component {
         </div>
         <div className="task-controls">
           <img
-            src={require(`../styles/${task.completed?'un':''}check.png`)}
+            src={require(`../styles/${check}`)}
             alt="complete"
             onClick={() => this.props.completeTask(task.id, task.completed)}
           />
