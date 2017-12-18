@@ -6,7 +6,6 @@ export default ({ task, completeTask, deleteTask, enabled, close }) => {
   if (!task.id) return null;
   const completed = task.completed ? 'success-color' : 'failure-color';
   const uncompleted = !task.completed ? 'success-color' : 'failure-color';
-  const check = `${task.completed ? 'un' : ''}check.png`;
   return (
     <Modal
       isOpen={enabled}
