@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/taskActions';
-import { getTime } from '../util/date';
+import Task from './task';
 
 class Tasks extends React.Component {
   static orderByTime(t1, t2) {
@@ -20,44 +20,7 @@ class Tasks extends React.Component {
   constructor(props) {
     super(props);
 
-    this.renderTask = this.renderTask.bind(this);
     this.filterTasks = this.filterTasks.bind(this);
-  }
-
-  renderTask(task) {
-    const completed = task.completed ? 'completed' : '';
-    const style = !task.completed ? { background: task.bubbleColor } : null;
-    const check = `${task.completed ? 'un' : ''}check.png`;
-    let time = getTime(task.startTime) || '';
-    if (time && task.endTime) {
-      time += ' - ' + getTime(task.endTime);
-    }
-
-    return (
-      <div className={`task ${completed}`} key={task.id}>
-        <div className="task-bubble" style={style}></div>
-        <div className="task-content">
-          <div className="task-title">
-            {task.title}
-          </div>
-          <div className="task-time">
-            {time}
-          </div>
-        </div>
-        <div className="task-controls">
-          <img
-            src={require(`../styles/${check}`)}
-            alt="complete"
-            onClick={() => this.props.completeTask(task.id, task.completed)}
-          />
-          <img
-            src={require('../styles/trashcan.png')}
-            alt="delete"
-            onClick={() => this.props.deleteTask(task.id)}
-          />
-        </div>
-      </div>
-    );
   }
 
   filterTasks(task) {
@@ -73,7 +36,13 @@ class Tasks extends React.Component {
         {this.props.tasks
           .filter(this.filterTasks)
           .sort(Tasks.orderByTime)
-          .map(this.renderTask)}
+          .map(t =>
+            <Task
+              task={t}
+              completeTask={this.props.completeTask}
+              deleteTask={this.props.deleteTask}
+            />)
+        }
       </div>
     );
   }
