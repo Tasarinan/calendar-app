@@ -1,7 +1,7 @@
 import React from 'react';
 import { getTime } from '../util/date';
 
-export default ({ task, completeTask, deleteTask }) => {
+export default ({ task, completeTask, deleteTask, viewDetails }) => {
   const completed = task.completed ? 'completed' : '';
   const style = !task.completed ? { background: task.bubbleColor } : null;
   const check = `${task.completed ? 'un' : ''}check.png`;
@@ -11,9 +11,9 @@ export default ({ task, completeTask, deleteTask }) => {
   }
 
   return (
-    <div className={`task ${completed}`} key={task.id}>
+    <div className={`task ${completed}`}>
       <div className="task-bubble" style={style}></div>
-      <div className="task-content">
+      <div className="task-content" onClick={() => viewDetails(task.id)}>
         <div className="task-title">
           {task.title}
         </div>
