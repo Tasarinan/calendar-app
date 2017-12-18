@@ -2,7 +2,7 @@ const initialState = {
   items:[
     /* Mocked tasks */
     {
-      id: 0,
+      id: 1,
       title: "TEDx Talk (2016 web design trends)",
       description: "I'm going to TEDx talk",
       completed: false,
@@ -13,7 +13,7 @@ const initialState = {
       category: "Social",
     },
     {
-      id: 1,
+      id: 2,
       title: "Buy a new telescope",
       completed: true,
       date: new Date(2017,11,17),
@@ -23,7 +23,7 @@ const initialState = {
     {
       id: 3,
       title: "Dinner at the restaurant",
-      description: "Get dressed not like a hobo",
+      description: "Get dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hobo",
       completed: false,
       date: new Date(2017,11,17),
       startTime: new Date(2017,11,17,19,0,0),

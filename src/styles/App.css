@@ -179,6 +179,79 @@
   visibility: visible;
 }
 
+.modal-close {
+  height: 7vh;
+  width: 100%;
+}
+
+.modal-close > img {
+  cursor: pointer;
+  height: 100%;
+  width: auto;
+  float: right;
+}
+
+.ReactModal__Content {
+  background: #373C4F !important;
+  color: white;
+  width: 50% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.task-details {
+  flex-flow: column;
+}
+
+.task-details > div {
+  margin-bottom: 10px;
+}
+
+.task-details-controls {
+  display: flex;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid #dbdada;
+  border-bottom: 1px solid #dbdada;
+  position: absolute;
+  bottom: 10px;
+  width: 90%;
+  align-self: center;
+}
+
+.task-details-controls > div {
+  width: 25%;
+  text-align: center;
+  border-left: 1px solid #dbdada;
+  cursor: pointer;
+}
+
+.task-details-controls > div:first-child {
+  border-left: none;
+}
+
+
+
+
 .flex {
   display: flex;
+}
+
+.success-color {
+  color: #3cda49 !important;
+}
+
+.failure-color {
+  color: #ff4b4b !important;
+}
+
+@media all and (max-width: 700px) {
+  .ReactModal__Content {
+    left: 0px !important;
+    right: 0px !important;
+    width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }
