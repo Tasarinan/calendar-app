@@ -53,11 +53,7 @@ export const resolveMonthChange = (year, month, add) => {
 
 export const isToday = (year, month, day) => {
   const date = new Date();
-  return (
-    date.getDate() === day &&
-    date.getMonth() === month - 1 &&
-    date.getFullYear() === year
-  );
+  return dateEquals(date, year, month, day);
 }
 
 export const getExt = day => {
