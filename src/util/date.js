@@ -3,7 +3,7 @@ import c from 'calendar';
 export const getDays = (year, month, weekStart) => {
   const cal = new c.Calendar(weekStart);
   let days = cal.monthDays(year, month-1);
-  
+
   let changed = resolveMonthChange(year, month, false);
 
   //change 0's with last month's days
@@ -77,6 +77,15 @@ export const getTime = date => {
   if (!date) return null;
   const mins = date.getMinutes();
   return `${date.getHours()}:${mins < 10 ? '0' + mins : mins}`
+}
+
+export const dateEquals = (date, year, month, day) => {
+  if (!date) return false;
+  return (
+    date.getDate() === day &&
+    date.getMonth() === month - 1 &&
+    date.getFullYear() === year
+  );
 }
 
 export const getMonthName = month => monthNames[month-1];

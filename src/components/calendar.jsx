@@ -40,6 +40,10 @@ class Calendar extends React.Component {
                         today={dateUtil.isToday(year, month, d)}
                         focused={year === fYear && month === fMonth && d === fDay}
                         onClick={() => this.changeFocusedDay(year, month, d)}
+                        taskColors={this.props.tasks
+                          .filter(t => dateUtil.dateEquals(t.date, year, month, d))
+                          .map(t => t.completed ? null : t.bubbleColor)
+                        }
                       />)}
       </div>
     );
@@ -65,7 +69,7 @@ class Calendar extends React.Component {
     );
     this.props.changeDate(changed.year, changed.month + 1);
   }
-  
+
   render() {
     const {year, month} = this.props;
     return (
@@ -87,6 +91,7 @@ const mapStateToProps = state => ({
   fYear: state.sidepanel.year,
   fMonth: state.sidepanel.month,
   fDay: state.sidepanel.day,
+  tasks: state.tasks.items,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
