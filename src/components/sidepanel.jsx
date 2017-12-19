@@ -19,6 +19,10 @@ class Sidepanel extends React.Component {
           month={month}
           day={day}
         />
+        <div className="sidepanel-controls">
+          <img src={require('../styles/settings.ico')} alt="Settings"/>
+          <img src={require('../styles/add.png')} alt="New task"/>
+        </div>
       </div>
     );
   }

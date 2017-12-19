@@ -142,6 +142,23 @@
   color: #7781a3;
 }
 
+.sidepanel-controls {
+  position: absolute;
+  bottom: 10px;
+  width: 38%;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidepanel-controls > img {
+  height: 100%;
+  width: auto;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
 .task:nth-child(odd) {
   background: linear-gradient(to right, rgb(83, 92, 116), #373C4F)
 }
