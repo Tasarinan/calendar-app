@@ -287,12 +287,18 @@
   color: #ff4b4b !important;
 }
 
-@media all and (max-width: 700px) {
+@media all and (max-width: 1000px) {
   .ReactModal__Content {
     left: 0px !important;
     right: 0px !important;
-    width: 80% !important;
+    width: 65% !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+}
+
+@media all and (max-width: 700px) {
+  .ReactModal__Content {
+    width: 80% !important;
   }
 }
