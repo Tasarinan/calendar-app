@@ -3,6 +3,28 @@
   src: url('angeltoes.ttf');
 }
 
+textarea {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+  border-image: none;
+  border-radius: 3px;
+  border-style: none solid solid none;
+  border-width: medium 1px 1px medium;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+  color: #555555;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 1em;
+  line-height: 1.4em;
+  padding: 5px 8px;
+  transition: background-color 0.2s ease 0s;
+}
+
+
+textarea:focus {
+    background: none repeat scroll 0 0 #FFFFFF;
+    outline-width: 0;
+}
+
 .App {
   text-align: center;
   display: flex;
@@ -272,6 +294,72 @@
   border-left: none;
 }
 
+.new-task-form {
+  font-family: angeltoes;
+  font-weight: bold;
+  font-size: large;
+  display: flex;
+  flex-flow: column;
+}
+
+.new-task-form > div {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.new-task-form > div > span {
+  width: 100px;
+}
+
+.new-task-form > div > input,
+.new-task-form > div > textarea,
+.new-task-form > div > div,
+.new-task-form > div > select{
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.new-task-category > div {
+  height: 1.5rem;
+  margin: 0px !important;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.new-task-category > div > img {
+  height: 100%;
+  cursor: pointer;
+}
+
+.new-task-form > div > textarea {
+  height: 25vh;
+  resize: none;
+  overflow-y: auto;
+  overflow-x: none;
+  flex-grow: 1;
+}
+
+.new-task-controls {
+  border-top: 1px solid #dbdada;
+  border-bottom: 1px solid #dbdada;
+  position: absolute;
+  bottom: 10px;
+  align-self: center;
+  width: 100%;
+}
+
+.new-task-controls > div {
+  text-align: center;
+  font-size: x-large;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.new-task-controls > div:first-child {
+  border-right: 1px solid #dbdada;
+}
 
 
 
