@@ -11,27 +11,49 @@ import TimePicker from './timepicker';
 class TaskModal extends React.Component {
   constructor (props) {
     super(props);
+
     this.state = {
       date: moment(),
       startTime: null,
       endTime: null,
-      category: props.categories[0]
+      category: 1
     };
 
     this.createTask = this.createTask.bind(this);
+    this.changeDefaultDate = this.changeDefaultDate.bind(this);
+  }
+
+  changeDefaultDate(props) {
+    const date = moment();
+    if (props.date) {
+      date.year(props.date.year);
+      date.month(props.date.month-1);
+      date.date(props.date.day);
+    }
+    this.setState({ date });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.changeDefaultDate(nextProps);
   }
 
   createTask() {
     if (!this.title.value) return;
     const task = {
       ...this.state,
+      completed: false,
       date: this.state.date.toDate(),
-      category: this.props.categories.find(c => c.id === this.state.category.id),
+      category: this.props.categories.find(c => c.id === this.state.category),
       title: this.title.value,
       description: this.description.value,
     };
     this.props.insertTask(task);
     this.props.onRequestClose();
+    this.setState({
+      startTime: null,
+      endTime: null,
+      category: 1,
+    });
   }
 
   renderCategories() {

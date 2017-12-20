@@ -9,7 +9,7 @@ import NewTask from './task-new';
 class Sidepanel extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { isModalOpen: true };
+    this.state = { isModalOpen: false };
 
     this.toggleNewTaskModal = this.toggleNewTaskModal.bind(this);
   }
@@ -27,6 +27,7 @@ class Sidepanel extends React.Component {
         <NewTask
           isOpen={this.state.isModalOpen}
           onRequestClose={this.toggleNewTaskModal}
+          date={{year, month, day}}
         />
         <div className="sidepanel-info">
           <div>{getDaysName(weekDay)}</div>
