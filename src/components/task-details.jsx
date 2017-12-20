@@ -3,7 +3,7 @@ import Modal from './modal';
 import { getTime } from '../util/date';
 
 export default ({ task, completeTask, deleteTask, enabled, close }) => {
-  if (!task.id) return null;
+  if (!task._id) return null;
   const completed = task.completed ? 'success-color' : 'failure-color';
   const uncompleted = !task.completed ? 'success-color' : 'failure-color';
   return (
@@ -34,12 +34,12 @@ export default ({ task, completeTask, deleteTask, enabled, close }) => {
         <div className="task-details-controls">
           <div
             className={`button ${uncompleted}`}
-            onClick={() => completeTask(task.id, task.completed)}
+            onClick={() => completeTask(task._id, task.completed)}
           >
             {`${!task.completed ? 'C' : 'Unc'}omplete`}
           </div>
           <div style={{color: '#eae85c'}}>Edit</div>
-          <div className="failure-color" onClick={() => deleteTask(task.id)}>Remove</div>
+          <div className="failure-color" onClick={() => deleteTask(task._id)}>Remove</div>
           <div onClick={close}>Close</div>
         </div>
       </div>

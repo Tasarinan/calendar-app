@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/taskActions';
 import TaskDetails from './task-details';
 import Task from './task';
+import { taskCategory } from '../util/mappings';
 
 class Tasks extends React.Component {
   static orderByTime(t1, t2) {
@@ -29,6 +30,11 @@ class Tasks extends React.Component {
     this.viewDetails = this.viewDetails.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    if (props.loading) return;
+    this.tasks = props.tasks.map(taskCategory(props.categories));
+  }
+
   filterTasks(task) {
     const { day, month, year } = this.props;
     return task.date.getDate() === day &&
@@ -38,12 +44,13 @@ class Tasks extends React.Component {
 
   viewDetails(id) {
     this.setState({
-      taskToView: !this.state.isModalOpen ? this.props.tasks.find(t => t.id === id) : {},
+      taskToView: !this.state.isModalOpen ? this.tasks.find(t => t._id === id) : {},
       isModalOpen: !this.state.isModalOpen,
     });
   }
 
   render() {
+    if (this.props.loading) return null;
     return (
       <div className="sidepanel-tasks">
         <TaskDetails
@@ -64,12 +71,12 @@ class Tasks extends React.Component {
             this.setState({ isModalOpen: false });
           }}
         />
-        {this.props.tasks
+        {this.tasks
           .filter(this.filterTasks)
           .sort(Tasks.orderByTime)
           .map(t =>
             <Task
-              key={t.id}
+              key={t._id}
               task={t}
               completeTask={this.props.completeTask}
               deleteTask={this.props.deleteTask}
@@ -81,7 +88,11 @@ class Tasks extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ tasks: state.tasks.items });
+const mapStateToProps = state => ({
+  tasks: state.tasks.items,
+  categories: state.tasks.categories,
+  loading: state.app.loading,
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
 

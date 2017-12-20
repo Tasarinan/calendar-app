@@ -16,7 +16,7 @@ class TaskModal extends React.Component {
       date: moment(),
       startTime: null,
       endTime: null,
-      category: 1
+      category: this.props.categories[0]._id,
     };
 
     this.createTask = this.createTask.bind(this);
@@ -43,26 +43,25 @@ class TaskModal extends React.Component {
       ...this.state,
       completed: false,
       date: this.state.date.toDate(),
-      category: this.props.categories.find(c => c.id === this.state.category),
       title: this.title.value,
       description: this.description.value,
     };
-    this.props.insertTask(task);
+    this.props.createTask(task);
     this.props.onRequestClose();
     this.setState({
       startTime: null,
       endTime: null,
-      category: 1,
+      category: this.props.categories[0]._id,
     });
   }
 
   renderCategories() {
     const onChange = (e) => this.setState({
-      category: parseInt(e.target.options[e.target.selectedIndex].value, 10)
+      category: e.target.options[e.target.selectedIndex].value
     });
     return (
       <select onChange={onChange} name="category">
-        {this.props.categories.map(c => <option value={c.id} key={c.id}>{c.name}</option>)}
+        {this.props.categories.map(c => <option value={c._id} key={c._id}>{c.name}</option>)}
       </select>
     );
   }
@@ -81,7 +80,7 @@ class TaskModal extends React.Component {
               ref={(r) => { this.title = r; } }
               type="text"
               placeholder="Title"
-              maxLength={140}
+              maxLength={100}
               name="title"
               required
             />
