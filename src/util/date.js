@@ -71,8 +71,8 @@ export const getExt = day => {
 
 export const getTime = date => {
   if (!date) return null;
-  const mins = date.getMinutes();
-  return `${date.getHours()}:${mins < 10 ? '0' + mins : mins}`
+  const mins = date.minutes;
+  return `${date.hours}:${mins < 10 ? '0' + mins : mins}`
 }
 
 export const dateEquals = (date, year, month, day) => {

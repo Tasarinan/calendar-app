@@ -4,12 +4,31 @@ import { connect } from 'react-redux';
 // import * as actionCreators from '../redux/actions/calendarActions';
 import { getDaysName, getMonthName, getExt } from '../util/date';
 import Tasks from './sidepanel-tasks';
+import NewTask from './task-new';
 
 class Sidepanel extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = { isModalOpen: false };
+
+    this.toggleNewTaskModal = this.toggleNewTaskModal.bind(this);
+  }
+
+  toggleNewTaskModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen
+    })
+  }
+
   render() {
     const {weekDay, year, month, day} = this.props;
     return (
       <div className="sidepanel">
+        <NewTask
+          isOpen={this.state.isModalOpen}
+          onRequestClose={this.toggleNewTaskModal}
+          date={{year, month, day}}
+        />
         <div className="sidepanel-info">
           <div>{getDaysName(weekDay)}</div>
           <div>{day}{getExt(day)} {getMonthName(month)} {year}</div>
@@ -19,6 +38,14 @@ class Sidepanel extends React.Component {
           month={month}
           day={day}
         />
+        <div className="sidepanel-controls">
+          <img src={require('../styles/settings.ico')} alt="Settings"/>
+          <img
+            src={require('../styles/add.png')}
+            alt="New task"
+            onClick={this.toggleNewTaskModal}
+          />
+        </div>
       </div>
     );
   }

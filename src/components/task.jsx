@@ -3,7 +3,7 @@ import { getTime } from '../util/date';
 
 export default ({ task, completeTask, deleteTask, viewDetails }) => {
   const completed = task.completed ? 'completed' : '';
-  const style = !task.completed ? { background: task.bubbleColor } : null;
+  const style = !task.completed ? { background: task.category.color } : null;
   const check = `${task.completed ? 'un' : ''}check.png`;
   let time = getTime(task.startTime) || '';
   if (time && task.endTime) {

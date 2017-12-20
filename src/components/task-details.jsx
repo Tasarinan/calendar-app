@@ -26,7 +26,7 @@ export default ({ task, completeTask, deleteTask, enabled, close }) => {
           </div> :
           null
         }
-        <div><i>Category:</i> <span style={{ color: task.bubbleColor }}>{task.category}</span></div>
+        <div><i>Category:</i> <span style={{ color: task.category.color }}>{task.category.name}</span></div>
         <div><i>Date:</i> {task.date.toDateString()}</div>
         <div><i>Start time:</i> {task.startTime ? getTime(task.startTime) : '-'}</div>
         <div><i>End time:</i> {task.endTime ? getTime(task.endTime) : '-'}</div>
