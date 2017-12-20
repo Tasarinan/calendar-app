@@ -42,7 +42,7 @@ class Calendar extends React.Component {
                         onClick={() => this.changeFocusedDay(year, month, d)}
                         taskColors={this.props.tasks
                           .filter(t => dateUtil.dateEquals(t.date, year, month, d))
-                          .map(t => t.completed ? null : t.bubbleColor)
+                          .map(t => t.completed ? null : t.category.color)
                         }
                       />)}
       </div>

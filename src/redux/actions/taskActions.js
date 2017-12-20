@@ -6,5 +6,10 @@ export const completeTask = (id, reverse) => ({
 
 export const deleteTask = id => ({
   type: 'DELETE_TASK',
-  id
+  id,
+});
+
+export const insertTask = task => ({
+  type: 'INSERT_TASK',
+  task,
 });
