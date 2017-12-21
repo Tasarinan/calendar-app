@@ -213,17 +213,13 @@ textarea:focus {
 }
 
 .task-content {
-  width: 70%;
+  width: 80%;
   height: 100%;
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
   text-align: left;
   padding-left: 5%;
-}
-
-.task-content > div {
-  text-overflow: ellipsis;
 }
 
 .task-bubble {
@@ -240,11 +236,18 @@ textarea:focus {
   text-decoration: line-through;
 }
 
+.task-title {
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
 .task-controls {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 15%;
+  width: 5%;
   visibility: hidden;
   float: right;
 }
