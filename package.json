@@ -1,10 +1,31 @@
 {
   "name": "calendar-app",
   "version": "0.1.0",
+  "description": "Simple app to help you keep track of your tasks",
+  "author": {
+    "name": "Nerijus Dulke",
+    "email": "dnerijus72@gmail.com"
+  },
   "private": true,
-  "main": "src/main.js",
+  "homepage": "./",
+  "main": "public/electron.js",
+  "build": {
+    "appId": "com.nerijusdu.calendar",
+    "linux": {
+      "categotry": "calendar.app"
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories":{
+      "buildResources": "assets"
+    }
+  },
   "dependencies": {
     "calendar": "^0.1.0",
+    "concurrently": "^3.5.1",
+    "electron-is-dev": "^0.3.0",
     "moment": "^2.20.1",
     "pouchdb": "^6.4.1",
     "react": "^16.2.0",
@@ -17,16 +38,21 @@
     "react-timepicker": "^2.0.2",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "shortid": "^2.2.8"
+    "shortid": "^2.2.8",
+    "wait-on": "^2.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "electron .",
+    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "build --em.main=build/electron.js",
+    "preelectron-pack": "npm run build"
   },
   "devDependencies": {
+    "electron-builder": "^19.49.0",
     "electron": "^1.7.9"
   }
 }
