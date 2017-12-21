@@ -26,12 +26,12 @@ class Tasks extends React.Component {
       taskToView: {},
     };
 
+    this.componentWillReceiveProps(props);
     this.filterTasks = this.filterTasks.bind(this);
     this.viewDetails = this.viewDetails.bind(this);
   }
 
   componentWillReceiveProps(props) {
-    if (props.loading) return;
     this.tasks = props.tasks.map(taskCategory(props.categories));
   }
 
@@ -50,7 +50,6 @@ class Tasks extends React.Component {
   }
 
   render() {
-    if (this.props.loading) return null;
     return (
       <div className="sidepanel-tasks">
         <TaskDetails
@@ -91,7 +90,6 @@ class Tasks extends React.Component {
 const mapStateToProps = state => ({
   tasks: state.tasks.items,
   categories: state.tasks.categories,
-  loading: state.app.loading,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

@@ -35,6 +35,16 @@ textarea:focus {
   overflow-y: hidden;
 }
 
+.App-loading {
+  width: 100%;
+  text-align: center;
+  font-family: angeltoes;
+  font-weight: bold;
+  font-size: xx-large;
+  margin-top: 40vh;
+  color: rgb(37, 42, 61);
+}
+
 .calendar {
   width: 60%;
   height: 100%;

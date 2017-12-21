@@ -26,36 +26,43 @@ class TimePicker extends React.Component {
     this.setState(state);
   }
 
-  render() {
+  getHours() {
     const hours = [<option value={-1} key={'-'}>-</option>];
+    for (let i = 0; i < 24; i ++) {
+      hours.push(
+        <option value={i} key={i}>
+          {i < 10 ? '0' + i : i}
+        </option>);
+    }
+    return hours;
+  }
+
+  getMinutes() {
     const minutes = [<option value={-1} key={'-'}>-</option>];
-    for (let i = 0; i < 59; i ++) {
-      if (i < 24) {
-        hours.push(
-          <option value={i} key={i}>
-            {i < 10 ? '0' + i : i}
-          </option>);
-      }
+    for (let i = 0; i < 60; i += 5) {
       minutes.push(
         <option value={i} key={i}>
           {i < 10 ? '0' + i : i}
         </option>);
     }
+    return minutes;
+  }
 
+  render() {
     return (
       <div>
         <select
           onChange={(e) => this.onChange(e, true)}
           value={this.state.hours === undefined ? -1 : this.state.hours}
         >
-          {hours}
+          {this.getHours()}
         </select>
         :
         <select
           onChange={(e) => this.onChange(e, false)}
           value={this.state.minutes === undefined ? -1 : this.state.minutes}
         >
-          {minutes}
+          {this.getMinutes()}
         </select>
       </div>
     );
