@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from './modal';
 import TimePicker from './timepicker';
+import Img from './image';
 
 class TaskModal extends React.Component {
   constructor (props) {
@@ -95,7 +96,7 @@ class TaskModal extends React.Component {
           </div>
           <div className="new-task-category">
             <span>Category:</span> {this.renderCategories()}
-            <div><img src={require('../styles/add.png')} alt="Add category"/></div>
+            <div><Img src="add.png" alt="Add category"/></div>
           </div>
           <div className="new-task-date">
             <span>Date:</span>

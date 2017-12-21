@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getDaysName, getMonthName, getExt } from '../util/date';
 import Tasks from './sidepanel-tasks';
 import NewTask from './task-new';
+import Img from './image';
 
 class Sidepanel extends React.Component {
   constructor (props) {
@@ -39,9 +40,9 @@ class Sidepanel extends React.Component {
           day={day}
         />
         <div className="sidepanel-controls">
-          <img src={require('../styles/settings.ico')} alt="Settings"/>
-          <img
-            src={require('../styles/add.png')}
+          <Img src="settings.ico" alt="Settings"/>
+          <Img
+            src="add.png"
             alt="New task"
             onClick={this.toggleNewTaskModal}
           />
