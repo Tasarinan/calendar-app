@@ -9,7 +9,17 @@ export const deleteTask = id => ({
   id,
 });
 
-export const insertTask = task => ({
-  type: 'INSERT_TASK',
+export const createTask = task => ({
+  type: 'CREATE_TASK',
   task,
 });
+
+export const insertTasks = tasks => ({
+  type: 'INSERT_TASKS',
+  tasks
+});
+
+export const insertCategories = categories => ({
+  type: 'INSERT_CATEGORIES',
+  categories
+})

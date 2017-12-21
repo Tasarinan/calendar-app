@@ -7,6 +7,7 @@ import * as actionCreators2 from '../redux/actions/sidepanelActions';
 import Day from './calendar-day';
 import MonthSelector from './calendar-month-selector';
 import * as dateUtil from '../util/date';
+import { taskCategory } from '../util/mappings';
 
 const actionCreators = {
   ...actionCreators1,
@@ -14,11 +15,17 @@ const actionCreators = {
 };
 
 class Calendar extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
+    this.componentWillReceiveProps(props);
     this.changeMonth = this.changeMonth.bind(this);
     this.changeFocusedDay = this.changeFocusedDay.bind(this);
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.loading) return;
+    this.tasks = props.tasks.map(taskCategory(props.categories));
   }
 
   changeFocusedDay(y, m, d) {
@@ -40,7 +47,7 @@ class Calendar extends React.Component {
                         today={dateUtil.isToday(year, month, d)}
                         focused={year === fYear && month === fMonth && d === fDay}
                         onClick={() => this.changeFocusedDay(year, month, d)}
-                        taskColors={this.props.tasks
+                        taskColors={this.tasks
                           .filter(t => dateUtil.dateEquals(t.date, year, month, d))
                           .map(t => t.completed ? null : t.category.color)
                         }
@@ -71,6 +78,7 @@ class Calendar extends React.Component {
   }
 
   render() {
+    if (this.props.loading) return null;
     const {year, month} = this.props;
     return (
       <div className="calendar">
@@ -92,6 +100,8 @@ const mapStateToProps = state => ({
   fMonth: state.sidepanel.month,
   fDay: state.sidepanel.day,
   tasks: state.tasks.items,
+  categories: state.tasks.categories,
+  loading: state.app.loading,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

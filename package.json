@@ -6,6 +6,7 @@
   "dependencies": {
     "calendar": "^0.1.0",
     "moment": "^2.20.1",
+    "pouchdb": "^6.4.1",
     "react": "^16.2.0",
     "react-addons-shallow-compare": "^15.6.2",
     "react-datepicker": "^0.64.0",

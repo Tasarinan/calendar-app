@@ -13,7 +13,7 @@ export default ({ task, completeTask, deleteTask, viewDetails }) => {
   return (
     <div className={`task ${completed}`}>
       <div className="task-bubble" style={style}></div>
-      <div className="task-content" onClick={() => viewDetails(task.id)}>
+      <div className="task-content" onClick={() => viewDetails(task._id)}>
         <div className="task-title">
           {task.title}
         </div>
@@ -25,12 +25,12 @@ export default ({ task, completeTask, deleteTask, viewDetails }) => {
         <img
           src={require(`../styles/${check}`)}
           alt="complete"
-          onClick={() => completeTask(task.id, task.completed)}
+          onClick={() => completeTask(task._id, task.completed)}
         />
         <img
           src={require('../styles/trashcan.png')}
           alt="delete"
-          onClick={() => deleteTask(task.id)}
+          onClick={() => deleteTask(task._id)}
         />
       </div>
     </div>

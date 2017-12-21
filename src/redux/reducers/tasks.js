@@ -1,69 +1,14 @@
+import db from '../db';
+
+const taskTable = db.table('tasks');
+
 const initialState = {
-  items:[
-    /* Mocked tasks */
-    {
-      id: 1,
-      title: "TEDx Talk (2016 web design trends)",
-      description: "I'm going to TEDx talk",
-      completed: false,
-      date: new Date(2017,11,17),
-      startTime: { hours: 14, minutes: 0 },
-      endTime: { hours: 16, minutes: 30 },
-      category: {
-        id: 1,
-        color: "#B287DD",
-        name: "Social",
-      },
-    },
-    {
-      id: 2,
-      title: "Buy a new telescope",
-      completed: true,
-      date: new Date(2017,11,17),
-      category: {
-        id: 2,
-        color: "#de0f17",
-        name: "Shopping",
-      },
-    },
-    {
-      id: 3,
-      title: "Dinner at the restaurant",
-      description: "Get dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hoboGet dressed not like a hobo",
-      completed: false,
-      date: new Date(2017,11,17),
-      startTime: { hours: 19, minutes: 0 },
-      category: {
-        id: 1,
-        color: "#B287DD",
-        name: "Social",
-      },
-    },
-    {
-      id: 4,
-      title: "Buy milk",
-      completed: false,
-      date: new Date(2017,11,18),
-      startTime: { hours: 19, minutes: 0 },
-      category: {
-        id: 2,
-        color: "#de0f17",
-        name: "Shopping",
-      },
-    }
-  ],
-  categories: [
-    {
-      id: 1,
-      name: 'Social',
-      color: '#B287DD',
-    },
-    {
-      id: 2,
-      name: 'Shopping',
-      color: '#de0f17',
-    }
-  ]
+  items: [],
+  categories: [{
+    _id: 'default_category',
+    name: '',
+    color: 'white',
+  }],
 };
 
 export default (state = initialState, action) => {
@@ -72,25 +17,21 @@ export default (state = initialState, action) => {
       return completeTask(state, action);
     case 'DELETE_TASK':
       return deleteTask(state, action);
-    case 'INSERT_TASK':
-      return {
-        ...state,
-        items: [
-          ...state.items,
-          {
-            ...action.task,
-            id: state.items.length+1
-          }
-        ],
-      };
+    case 'CREATE_TASK':
+      return createTask(state, action);
+    case 'INSERT_TASKS':
+      return insertTasks(state, action);
+    case 'INSERT_CATEGORIES':
+      return insertCategories(state, action);
     default:
       return state;
   }
 }
 
 const completeTask = (state, action) => {
-  const index = state.items.findIndex(t => t.id === action.id);
+  const index = state.items.findIndex(t => t._id === action.id);
   const task = state.items[index];
+  taskTable.put({ ...task, completed: action.completed });
   return {
     ...state,
     items: [
@@ -105,12 +46,49 @@ const completeTask = (state, action) => {
 }
 
 const deleteTask = (state, action) => {
-  const index = state.items.findIndex(t => t.id === action.id);
+  const index = state.items.findIndex(t => t._id === action.id);
+  const { _id, _rev } = state.items[index];
+  taskTable.remove(_id, _rev);
   return {
     ...state,
     items: [
       ...state.items.slice(0, index),
       ...state.items.slice(index+1),
     ]
+  };
+}
+
+const createTask = (state, action) => {
+  const task = {
+    _id: new Date().toISOString(),
+    ...action.task,
+  };
+  taskTable.put(task);
+  return {
+    ...state,
+    items: [
+      ...state.items,
+      task,
+    ],
+  };
+}
+
+const insertTasks = (state, action) => {
+  return {
+    ...state,
+    items: [
+      ...state.items,
+      ...action.tasks,
+    ],
+  };
+}
+
+const insertCategories = (state, action) => {
+  return {
+    ...state,
+    categories: [
+      ...state.categories,
+      ...action.categories,
+    ],
   };
 }
