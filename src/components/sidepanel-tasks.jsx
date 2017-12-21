@@ -27,19 +27,11 @@ class Tasks extends React.Component {
     };
 
     this.componentWillReceiveProps(props);
-    this.filterTasks = this.filterTasks.bind(this);
     this.viewDetails = this.viewDetails.bind(this);
   }
 
   componentWillReceiveProps(props) {
     this.tasks = props.tasks.map(taskCategory(props.categories));
-  }
-
-  filterTasks(task) {
-    const { day, month, year } = this.props;
-    return task.date.getDate() === day &&
-      task.date.getMonth() + 1 === month &&
-      task.date.getFullYear() === year;
   }
 
   viewDetails(id) {
@@ -50,6 +42,7 @@ class Tasks extends React.Component {
   }
 
   render() {
+    const { date } = this.props;
     return (
       <div className="sidepanel-tasks">
         <TaskDetails
@@ -71,7 +64,7 @@ class Tasks extends React.Component {
           }}
         />
         {this.tasks
-          .filter(this.filterTasks)
+          .filter(t => t.date.isSame(date, 'day'))
           .sort(Tasks.orderByTime)
           .map(t =>
             <Task

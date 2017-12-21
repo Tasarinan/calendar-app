@@ -27,7 +27,7 @@ export default ({ task, completeTask, deleteTask, enabled, close }) => {
           null
         }
         <div><i>Category:</i> <span style={{ color: task.category.color }}>{task.category.name}</span></div>
-        <div><i>Date:</i> {task.date.toDateString()}</div>
+        <div><i>Date:</i> {task.date.format('dddd, MMMM Do, YYYY')}</div>
         <div><i>Start time:</i> {task.startTime ? getTime(task.startTime) : '-'}</div>
         <div><i>End time:</i> {task.endTime ? getTime(task.endTime) : '-'}</div>
         <div className={completed}><b>{`${task.completed ? 'C' : 'Not c'}ompleted`}</b></div>

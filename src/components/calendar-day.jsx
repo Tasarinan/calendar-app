@@ -4,11 +4,7 @@ export default (props) => {
   const today = props.today ? 'calendar-today' : '';
   const focused = props.focused ? 'calendar-day-focused' : '';
   let number = props.number;
-  let disabled = '';
-  if (props.number <= 0) {
-    number = props.number * -1;
-    disabled = 'disabled';
-  }
+  const disabled = props.disabled ? 'disabled' : '';
 
   const tasks = props.taskColors && props.taskColors.length > 0 ?
     props.taskColors.sort().map((c, i) => <div style={{ background: c }} key={i} />) :

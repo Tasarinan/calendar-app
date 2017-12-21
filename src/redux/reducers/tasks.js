@@ -61,9 +61,12 @@ const deleteTask = (state, action) => {
 const createTask = (state, action) => {
   const task = {
     _id: new Date().toISOString(),
-    ...action.task,
+    ...action.task
   };
-  taskTable.put(task);
+  taskTable.put({
+    ...task,
+    date: action.task.date.valueOf(),
+  });
   return {
     ...state,
     items: [

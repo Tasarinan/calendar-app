@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import moment from 'moment';
 import store from './redux/store';
 import db from './redux/db';
 import { insertTasks, insertCategories } from './redux/actions/taskActions';
@@ -42,7 +43,7 @@ export default class App extends React.Component {
 const loadTasks = () => {
   return db.getAllDocs('tasks', res => {
     store.dispatch(insertTasks(
-      res.rows.map(r => ({...r.doc, date: new Date(r.doc.date)}))
+      res.rows.map(r => ({...r.doc, date: moment(r.doc.date)}))
     ));
   });
 }

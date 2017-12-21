@@ -1,8 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
-// import * as actionCreators from '../redux/actions/calendarActions';
-import { getDaysName, getMonthName, getExt } from '../util/date';
 import Tasks from './sidepanel-tasks';
 import NewTask from './task-new';
 import Img from './image';
@@ -22,23 +19,19 @@ class Sidepanel extends React.Component {
   }
 
   render() {
-    const {weekDay, year, month, day} = this.props;
+    const {date} = this.props;
     return (
       <div className="sidepanel">
         <NewTask
           isOpen={this.state.isModalOpen}
           onRequestClose={this.toggleNewTaskModal}
-          date={{year, month, day}}
+          date={date}
         />
         <div className="sidepanel-info">
-          <div>{getDaysName(weekDay)}</div>
-          <div>{day}{getExt(day)} {getMonthName(month)} {year}</div>
+          <div>{date.format('dddd')}</div>
+          <div>{date.format('Do MMMM YYYY')}</div>
         </div>
-        <Tasks
-          year={year}
-          month={month}
-          day={day}
-        />
+        <Tasks date={date}/>
         <div className="sidepanel-controls">
           <Img src="settings.ico" alt="Settings"/>
           <Img
@@ -53,12 +46,7 @@ class Sidepanel extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  year: state.sidepanel.year,
-  month: state.sidepanel.month,
-  day: state.sidepanel.day,
-  weekDay: state.sidepanel.weekDay,
+  date: state.calendar.focusedDate
 });
-
-// const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
 
 export default connect(mapStateToProps)(Sidepanel);
