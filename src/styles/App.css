@@ -33,6 +33,7 @@ textarea:focus {
   font-weight: bold;
   font-size: large;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .App-loading {
@@ -151,7 +152,7 @@ textarea:focus {
   height: 100%;
   background: #373C4F;
   color: white;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   white-space: nowrap;
 }
@@ -174,11 +175,17 @@ textarea:focus {
   color: #7781a3;
 }
 
+.sidepanel-tasks {
+  height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .sidepanel-controls {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   width: 38%;
-  height: 40px;
+  height: 6vh;
   display: flex;
   justify-content: space-between;
 }
@@ -206,17 +213,13 @@ textarea:focus {
 }
 
 .task-content {
-  width: 70%;
+  width: 80%;
   height: 100%;
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
   text-align: left;
   padding-left: 5%;
-}
-
-.task-content > div {
-  text-overflow: ellipsis;
 }
 
 .task-bubble {
@@ -233,11 +236,18 @@ textarea:focus {
   text-decoration: line-through;
 }
 
+.task-title {
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
 .task-controls {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 15%;
+  width: 5%;
   visibility: hidden;
   float: right;
 }
@@ -395,8 +405,24 @@ textarea:focus {
   }
 }
 
-@media all and (max-width: 700px) {
+@media all and (max-width: 720px) {
   .ReactModal__Content {
     width: 80% !important;
+  }
+
+  .App {
+    flex-direction: column;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .calendar,
+  .sidepanel,
+  .sidepanel-controls {
+    width: 100%;
+  }
+
+  .sidepanel {
+    height: 100vh;
   }
 }
