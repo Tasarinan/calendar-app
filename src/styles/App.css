@@ -33,6 +33,7 @@ textarea:focus {
   font-weight: bold;
   font-size: large;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .App-loading {
@@ -151,7 +152,7 @@ textarea:focus {
   height: 100%;
   background: #373C4F;
   color: white;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   white-space: nowrap;
 }
@@ -174,11 +175,17 @@ textarea:focus {
   color: #7781a3;
 }
 
+.sidepanel-tasks {
+  height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .sidepanel-controls {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   width: 38%;
-  height: 40px;
+  height: 6vh;
   display: flex;
   justify-content: space-between;
 }
@@ -395,8 +402,24 @@ textarea:focus {
   }
 }
 
-@media all and (max-width: 700px) {
+@media all and (max-width: 720px) {
   .ReactModal__Content {
     width: 80% !important;
+  }
+
+  .App {
+    flex-direction: column;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .calendar,
+  .sidepanel,
+  .sidepanel-controls {
+    width: 100%;
+  }
+
+  .sidepanel {
+    height: 100vh;
   }
 }
