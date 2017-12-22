@@ -5,7 +5,7 @@ import * as actionCreators from '../redux/actions/taskActions';
 import TaskDetails from './task-details';
 import Task from './task';
 import { taskCategory } from '../util/mappings';
-import * as compare from '../util/compare';
+import compareBy from '../util/compare';
 
 class Tasks extends React.Component {
   constructor(props) {
@@ -31,7 +31,8 @@ class Tasks extends React.Component {
   }
 
   render() {
-    const { date, taskDateFormat } = this.props;
+    const { date, taskDateFormat, taskOrder } = this.props;
+    const orderFunc = compareBy(taskOrder);
     return (
       <div className="sidepanel-tasks">
         <TaskDetails
@@ -55,7 +56,7 @@ class Tasks extends React.Component {
         />
         {this.tasks
           .filter(t => t.date.isSame(date, 'day'))
-          .sort(compare.tasksByTime)
+          .sort(orderFunc)
           .map(t =>
             <Task
               key={t._id}
@@ -74,6 +75,7 @@ const mapStateToProps = state => ({
   tasks: state.tasks.items,
   categories: state.tasks.categories,
   taskDateFormat: state.app.settings.taskDateFormat,
+  taskOrder: state.app.settings.taskOrder,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

@@ -373,7 +373,8 @@ textarea:focus {
   flex-grow: 1;
 }
 
-.new-task-controls {
+.new-task-controls,
+.settings-controls {
   border-top: 1px solid #dbdada;
   border-bottom: 1px solid #dbdada;
   position: absolute;
@@ -382,19 +383,49 @@ textarea:focus {
   width: 100%;
 }
 
-.new-task-controls > div {
+.new-task-controls > div,
+.settings-controls > div {
   text-align: center;
   font-size: x-large;
   margin-top: 10px;
   margin-bottom: 10px;
   cursor: pointer;
-}
-
-.new-task-controls > div:first-child {
   border-right: 1px solid #dbdada;
+  flex-grow: 1;
 }
 
+.new-task-controls > div:last-child,
+.settings-controls > div:last-child {
+  border-right: none;
+}
 
+.settings {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.settings-title {
+  align-self: center;
+  margin-bottom: 10px;
+}
+
+.settings-items > div {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.settings-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.settings-items > div > span {
+  width: 30%;
+}
 
 .flex {
   display: flex;

@@ -4,6 +4,7 @@ import moment from 'moment';
 import store from './redux/store';
 import db from './redux/db';
 import { insertTasks, insertCategories } from './redux/actions/taskActions';
+import { saveSettings } from "./redux/actions/appActions";
 import './styles/App.css';
 
 import Calendar from './components/calendar';
@@ -56,6 +57,14 @@ const loadCategories = () => {
   });
 }
 
+const loadSettings = () => {
+  return db.table('settings').get('settings_bundle').then(res => {
+    store.dispatch(saveSettings(res, true));
+  }).catch(e => {
+    store.dispatch(saveSettings({}));
+  });
+}
+
 const updateMomentJs = () => {
   moment.updateLocale('en', {
     week: {
@@ -66,6 +75,7 @@ const updateMomentJs = () => {
 
 loadTasks()
   .then(loadCategories)
+  .then(loadSettings)
   .then(updateMomentJs)
   .then(() => store.dispatch({ type: 'LOADING_STOP' }));
 /* End initialization */

@@ -1,10 +1,19 @@
+import { orderOptions } from "../../util/constants";
+import db from '../db';
+
+const settingsTable = db.table('settings');
+
+const defaultSettings = {
+  weekStart: 1,
+  sidepanelDateFormat: 'Do MMMM YYYY',
+  taskDateFormat: 'dddd, MMMM Do, YYYY',
+  taskOrder: orderOptions.TIME,
+};
+
 const initialState = {
   loading: true,
-  settings: {
-    weekStart: 1,
-    sidepanelDateFormat: 'Do MMMM YYYY',
-    taskDateFormat: 'dddd, MMMM Do, YYYY',
-  }
+  settings: defaultSettings,
+  defaultSettings, // Save defaults in state, NO CHANGES
 };
 
 export default (state = initialState, action) => {
@@ -19,7 +28,26 @@ export default (state = initialState, action) => {
         ...state,
         loading: true,
       };
+    case 'SAVE_SETTINGS':
+      return saveSettings(state, action);
     default:
       return state;
   }
+}
+
+const saveSettings = (state, action) => {
+  if (!action.dontSaveToDb) {
+    settingsTable.put({
+      ...state.settings,
+      ...action.settings,
+      _id: 'settings_bundle',
+    });
+  }
+  return {
+    ...state,
+    settings: {
+      ...state.settings,
+      ...action.settings,
+    }
+  };
 }

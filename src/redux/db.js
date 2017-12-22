@@ -3,6 +3,7 @@ import Pouchdb from 'pouchdb';
 const databaseNames = [
   'tasks',
   'categories',
+  'settings',
 ];
 
 class Database {
