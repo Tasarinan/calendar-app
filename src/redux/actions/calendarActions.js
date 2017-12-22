@@ -1,6 +1,9 @@
-export const changeDate = (year, month, day) => ({
-  type: 'CALENDAR_CHANGE_DATE',
-  year,
-  month,
-  day,
-})
+export const changeDate = (date) => ({
+  type: 'CHANGE_DATE',
+  date
+});
+
+export const changeFocusedDay = (date) => ({
+  type: 'CHANGE_FOCUSED_DATE',
+  date
+});

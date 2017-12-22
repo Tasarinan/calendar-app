@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Img from './image';
 
 class Selector extends React.Component {
   render() {
     const {month, year, changeMonth} = this.props;
     return (
       <div className="month-selector">
-        <img
-          src={require('../styles/arrow-l.png')}
+        <Img
+          src="arrow-l.png"
           alt="Back"
           onClick={() => changeMonth(false)}
         />
         <div>{`${month} ${year}`}</div>
-        <img
-          src={require('../styles/arrow-r.png')}
+        <Img
+          src="arrow-r.png"
           alt="Forward"
           onClick={() => changeMonth(true)}
         />

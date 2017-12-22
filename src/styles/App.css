@@ -115,6 +115,10 @@ textarea:focus {
   border-bottom-left-radius: 2px;
 }
 
+.calendar-day-task-shadow {
+  box-shadow: 0 0 2px 1px #442a4d;
+}
+
 .calendar-today {
   background: #B287DD;
   color: white;
@@ -290,6 +294,15 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
+.task-details-title {
+  text-align: center;
+}
+
+.task-details-description > div {
+  max-height: 35vh;
+  overflow-y: auto;
+}
+
 .task-details-controls {
   display: flex;
   margin-top: 10px;
@@ -360,7 +373,8 @@ textarea:focus {
   flex-grow: 1;
 }
 
-.new-task-controls {
+.new-task-controls,
+.settings-controls {
   border-top: 1px solid #dbdada;
   border-bottom: 1px solid #dbdada;
   position: absolute;
@@ -369,19 +383,49 @@ textarea:focus {
   width: 100%;
 }
 
-.new-task-controls > div {
+.new-task-controls > div,
+.settings-controls > div {
   text-align: center;
   font-size: x-large;
   margin-top: 10px;
   margin-bottom: 10px;
   cursor: pointer;
-}
-
-.new-task-controls > div:first-child {
   border-right: 1px solid #dbdada;
+  flex-grow: 1;
 }
 
+.new-task-controls > div:last-child,
+.settings-controls > div:last-child {
+  border-right: none;
+}
 
+.settings {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.settings-title {
+  align-self: center;
+  margin-bottom: 10px;
+}
+
+.settings-items > div {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.settings-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.settings-items > div > span {
+  width: 30%;
+}
 
 .flex {
   display: flex;
@@ -393,6 +437,10 @@ textarea:focus {
 
 .failure-color {
   color: #ff4b4b !important;
+}
+
+.edit-color {
+  color: #eae85c;
 }
 
 @media all and (max-width: 1000px) {

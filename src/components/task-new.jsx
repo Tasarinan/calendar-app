@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from './modal';
 import TimePicker from './timepicker';
+import Img from './image';
 
 class TaskModal extends React.Component {
   constructor (props) {
@@ -20,21 +21,10 @@ class TaskModal extends React.Component {
     };
 
     this.createTask = this.createTask.bind(this);
-    this.changeDefaultDate = this.changeDefaultDate.bind(this);
   }
 
-  changeDefaultDate(props) {
-    const date = moment();
-    if (props.date) {
-      date.year(props.date.year);
-      date.month(props.date.month-1);
-      date.date(props.date.day);
-    }
-    this.setState({ date });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.changeDefaultDate(nextProps);
+  componentWillReceiveProps(props) {
+    this.setState({ date: props.date || moment() });
   }
 
   createTask() {
@@ -42,7 +32,6 @@ class TaskModal extends React.Component {
     const task = {
       ...this.state,
       completed: false,
-      date: this.state.date.toDate(),
       title: this.title.value,
       description: this.description.value,
     };
@@ -69,10 +58,7 @@ class TaskModal extends React.Component {
   render() {
     const { isOpen, onRequestClose } = this.props;
     return (
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={onRequestClose}
-      >
+      <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
         <form className="new-task-form">
           <div className="new-task-title">
             <span>Title:</span>
@@ -95,7 +81,7 @@ class TaskModal extends React.Component {
           </div>
           <div className="new-task-category">
             <span>Category:</span> {this.renderCategories()}
-            <div><img src={require('../styles/add.png')} alt="Add category"/></div>
+            <div><Img src="add.png" alt="Add category"/></div>
           </div>
           <div className="new-task-date">
             <span>Date:</span>

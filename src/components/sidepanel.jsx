@@ -1,49 +1,62 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
-// import * as actionCreators from '../redux/actions/calendarActions';
-import { getDaysName, getMonthName, getExt } from '../util/date';
 import Tasks from './sidepanel-tasks';
 import NewTask from './task-new';
+import Settings from './settings';
+import Img from './image';
 
 class Sidepanel extends React.Component {
   constructor (props) {
     super(props);
-    this.state = { isModalOpen: false };
+    this.state = {
+      isNewTaskOpen: false,
+      isSettingsOpen: false,
+    };
 
-    this.toggleNewTaskModal = this.toggleNewTaskModal.bind(this);
+    this.toggleNewTask = this.toggleNewTask.bind(this);
+    this.toggleSettings = this.toggleSettings.bind(this);
   }
 
-  toggleNewTaskModal() {
+  toggleNewTask() {
     this.setState({
-      isModalOpen: !this.state.isModalOpen
+      isNewTaskOpen: !this.state.isNewTaskOpen
+    })
+  }
+
+  toggleSettings() {
+    this.setState({
+      isSettingsOpen: !this.state.isSettingsOpen
     })
   }
 
   render() {
-    const {weekDay, year, month, day} = this.props;
+    const {date} = this.props;
     return (
       <div className="sidepanel">
         <NewTask
-          isOpen={this.state.isModalOpen}
-          onRequestClose={this.toggleNewTaskModal}
-          date={{year, month, day}}
+          isOpen={this.state.isNewTaskOpen}
+          onRequestClose={this.toggleNewTask}
+          date={date}
+        />
+        <Settings
+          isOpen={this.state.isSettingsOpen}
+          onRequestClose={this.toggleSettings}
         />
         <div className="sidepanel-info">
-          <div>{getDaysName(weekDay)}</div>
-          <div>{day}{getExt(day)} {getMonthName(month)} {year}</div>
+          <div>{date.format('dddd')}</div>
+          <div>{date.format(this.props.dateFormat)}</div>
         </div>
-        <Tasks
-          year={year}
-          month={month}
-          day={day}
-        />
+        <Tasks date={date}/>
         <div className="sidepanel-controls">
-          <img src={require('../styles/settings.ico')} alt="Settings"/>
-          <img
-            src={require('../styles/add.png')}
+          <Img
+            src="settings.ico"
+            alt="Settings"
+            onClick={this.toggleSettings}
+          />
+          <Img
+            src="add.png"
             alt="New task"
-            onClick={this.toggleNewTaskModal}
+            onClick={this.toggleNewTask}
           />
         </div>
       </div>
@@ -52,12 +65,8 @@ class Sidepanel extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  year: state.sidepanel.year,
-  month: state.sidepanel.month,
-  day: state.sidepanel.day,
-  weekDay: state.sidepanel.weekDay,
+  date: state.calendar.focusedDate,
+  dateFormat: state.app.settings.sidepanelDateFormat,
 });
-
-// const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
 
 export default connect(mapStateToProps)(Sidepanel);

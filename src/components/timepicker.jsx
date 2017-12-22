@@ -12,14 +12,15 @@ class TimePicker extends React.Component {
   }
 
   onChange(e, hours) {
-    const value = parseInt(e.target.options[e.target.selectedIndex].value, 10);
+    const val = e.target.options[e.target.selectedIndex].value;
+    const value = parseInt(val, 10);
     const state = hours ?
       {
         hours: value,
-        minutes: this.state.minutes || 0,
+        minutes: value === -1 ? -1 : this.state.minutes || 0,
       } :
       {
-        hours: this.state.hours || 0,
+        hours: value === -1 ? -1 : this.state.hours || 0,
         minutes: value,
       };
     this.props.onChange({...state});

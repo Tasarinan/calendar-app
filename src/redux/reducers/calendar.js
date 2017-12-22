@@ -1,20 +1,22 @@
-const date = new Date();
+import moment from 'moment';
 
 const initialState = {
-  year: date.getFullYear(),
-  month: date.getMonth() + 1,
-  day: date.getDate(),
+  date: moment(),
+  focusedDate: moment(),
 };
 
 export default (state = initialState, action) => {
   switch(action.type) {
-    case 'CALENDAR_CHANGE_DATE':
+    case 'CHANGE_DATE':
+    return {
+      ...state,
+      date: action.date,
+    }
+    case 'CHANGE_FOCUSED_DATE':
       return {
         ...state,
-        year: action.year || state.year,
-        month: action.month || state.month,
-        day: action.day || state.day,
-      };
+        focusedDate: action.date,
+      }
     default:
       return state;
   }

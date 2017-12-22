@@ -3,6 +3,7 @@ import Pouchdb from 'pouchdb';
 const databaseNames = [
   'tasks',
   'categories',
+  'settings',
 ];
 
 class Database {
@@ -16,10 +17,7 @@ class Database {
 
   getAllDocs(name, callback) {
     const promise = this.table(name).allDocs({include_docs: true});
-    if (!callback) {
-      return promise;
-    }
-    return promise.then(callback);
+    return !callback ? promise : promise.then(callback);
   }
 }
 

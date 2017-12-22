@@ -31,7 +31,11 @@ export default (state = initialState, action) => {
 const completeTask = (state, action) => {
   const index = state.items.findIndex(t => t._id === action.id);
   const task = state.items[index];
-  taskTable.put({ ...task, completed: action.completed });
+  taskTable.put({
+    ...task,
+    completed: action.completed,
+    date: task.date.valueOf()
+  });
   return {
     ...state,
     items: [
@@ -61,9 +65,12 @@ const deleteTask = (state, action) => {
 const createTask = (state, action) => {
   const task = {
     _id: new Date().toISOString(),
-    ...action.task,
+    ...action.task
   };
-  taskTable.put(task);
+  taskTable.put({
+    ...task,
+    date: action.task.date.valueOf(),
+  });
   return {
     ...state,
     items: [
