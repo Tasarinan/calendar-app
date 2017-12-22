@@ -14,7 +14,7 @@ export const getDays = (date, weekStart) => {
   //change 0's with next month's days
   i = date.daysInMonth();
   days[days.length-1] = days[days.length-1]
-    .map(d => d === 0 ? i++ : d);
+    .map(d => d === 0 ? ++i : d);
 
   return days;
 };

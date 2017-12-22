@@ -58,10 +58,7 @@ class TaskModal extends React.Component {
   render() {
     const { isOpen, onRequestClose } = this.props;
     return (
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={onRequestClose}
-      >
+      <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
         <form className="new-task-form">
           <div className="new-task-title">
             <span>Title:</span>

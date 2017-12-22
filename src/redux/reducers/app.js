@@ -1,5 +1,10 @@
 const initialState = {
   loading: true,
+  settings: {
+    weekStart: 1,
+    sidepanelDateFormat: 'Do MMMM YYYY',
+    taskDateFormat: 'dddd, MMMM Do, YYYY',
+  }
 };
 
 export default (state = initialState, action) => {

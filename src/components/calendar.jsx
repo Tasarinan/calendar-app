@@ -16,6 +16,8 @@ class Calendar extends React.Component {
     this.componentWillReceiveProps(props);
     this.changeMonth = this.changeMonth.bind(this);
     this.changeFocusedDay = this.changeFocusedDay.bind(this);
+    this.getDays = this.getDays.bind(this);
+    this.mapRowDays = this.mapRowDays.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -29,45 +31,51 @@ class Calendar extends React.Component {
     this.props.changeFocusedDay(date);
   }
 
-  getDays() {
-    const {date, focusedDate} = this.props;
-    const mapFunc = row => (
-      <div className="calendar-row flex" key={shortId.generate()}>
-        {row.map(d => {
-          const thisDate = moment(date).date(d);
-          return <Day
-              number={thisDate.date()}
-              disabled={d <= 0 || d > date.daysInMonth()}
-              key={shortId.generate()}
-              today={moment().isSame(thisDate, 'day')}
-              focused={focusedDate.isSame(thisDate, 'day')}
-              onClick={() => this.changeFocusedDay(thisDate)}
-              taskColors={this.tasks
-                .filter(t => t.date.isSame(thisDate, 'day'))
-                .map(t => t.completed ? null : t.category.color)
-              }
-            />
-        })}
-      </div>
-    );
-
-    const names = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
-      .map(n => (
-        <div
-          className="calendar-day-name"
-          key={shortId.generate()}
-        >{n}</div>
-      ));
-    const nameRow = <div className="flex" key={shortId.generate()}>{names}</div>;
-    const days = getDays(date, 1); //Week starts on monday
-
-    return [nameRow, ...days.map(mapFunc)];
-  }
-
   changeMonth(forward) {
     const m = moment(this.props.date);
     forward ? m.add(1, 'month') : m.subtract(1, 'month');
     this.props.changeDate(m);
+  }
+
+  getDays() {
+    const mapFunc = row => (
+      <div className="calendar-row flex" key={shortId.generate()}>
+        {row.map(this.mapRowDays)}
+      </div>
+    );
+
+    let names = moment.weekdaysShort();
+    if (this.props.weekStart === 1) {
+      names.push(names.shift());
+    }
+    names = names.map(n => (
+      <div
+        className="calendar-day-name"
+        key={shortId.generate()}
+      >{n}</div>
+    ));
+
+    const nameRow = <div className="flex" key={shortId.generate()}>{names}</div>;
+    const days = getDays(this.props.date, this.props.weekStart);
+
+    return [nameRow, ...days.map(mapFunc)];
+  }
+
+  mapRowDays(d) {
+    const {date, focusedDate} = this.props;
+    const thisDate = moment(date).date(d);
+    return <Day
+        number={thisDate.date()}
+        disabled={d <= 0 || d > date.daysInMonth()}
+        key={shortId.generate()}
+        today={moment().isSame(thisDate, 'day')}
+        focused={focusedDate.isSame(thisDate, 'day')}
+        onClick={() => this.changeFocusedDay(thisDate)}
+        taskColors={this.tasks
+          .filter(t => t.date.isSame(thisDate, 'day'))
+          .map(t => t.completed ? null : t.category.color)
+        }
+      />
   }
 
   render() {
@@ -90,6 +98,7 @@ const mapStateToProps = state => ({
   focusedDate: state.calendar.focusedDate,
   tasks: state.tasks.items,
   categories: state.tasks.categories,
+  weekStart: state.app.settings.weekStart,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

@@ -5,20 +5,9 @@ import * as actionCreators from '../redux/actions/taskActions';
 import TaskDetails from './task-details';
 import Task from './task';
 import { taskCategory } from '../util/mappings';
+import * as compare from '../util/compare';
 
 class Tasks extends React.Component {
-  static orderByTime(t1, t2) {
-    if (t1.startTime && !t2.startTime)
-      return -1;
-    else if (!t1.startTime && t2.startTime)
-      return 1;
-    else if (t1.startTime > t2.startTime)
-      return 1;
-    else if (t1.startTime < t2.startTime)
-      return -1;
-    return 0;
-  }
-
   constructor(props) {
     super(props);
     this.state = {
@@ -42,13 +31,14 @@ class Tasks extends React.Component {
   }
 
   render() {
-    const { date } = this.props;
+    const { date, taskDateFormat } = this.props;
     return (
       <div className="sidepanel-tasks">
         <TaskDetails
           task={this.state.taskToView}
           enabled={this.state.isModalOpen}
           close={this.viewDetails}
+          dateFormat={taskDateFormat}
           completeTask={(...args) => {
             this.props.completeTask(...args);
             this.setState({
@@ -65,7 +55,7 @@ class Tasks extends React.Component {
         />
         {this.tasks
           .filter(t => t.date.isSame(date, 'day'))
-          .sort(Tasks.orderByTime)
+          .sort(compare.tasksByTime)
           .map(t =>
             <Task
               key={t._id}
@@ -83,6 +73,7 @@ class Tasks extends React.Component {
 const mapStateToProps = state => ({
   tasks: state.tasks.items,
   categories: state.tasks.categories,
+  taskDateFormat: state.app.settings.taskDateFormat,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

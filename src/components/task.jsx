@@ -5,6 +5,7 @@ import Img from './image';
 export default ({ task, completeTask, deleteTask, viewDetails }) => {
   const completed = task.completed ? 'completed' : '';
   const style = !task.completed ? { background: task.category.color } : null;
+
   let time = getTime(task.startTime) || '';
   if (time && task.endTime) {
     time += ' - ' + getTime(task.endTime);
@@ -14,12 +15,8 @@ export default ({ task, completeTask, deleteTask, viewDetails }) => {
     <div className={`task ${completed}`}>
       <div className="task-bubble" style={style}></div>
       <div className="task-content" onClick={() => viewDetails(task._id)}>
-        <div className="task-title">
-          {task.title}
-        </div>
-        <div className="task-time">
-          {time}
-        </div>
+        <div className="task-title">{task.title}</div>
+        <div className="task-time">{time}</div>
       </div>
       <div className="task-controls">
         <Img

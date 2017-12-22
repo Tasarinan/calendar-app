@@ -9,11 +9,11 @@ export default (props) => {
   const tasks = props.taskColors && props.taskColors.length > 0 ?
     props.taskColors.sort().map((c, i) => <div style={{ background: c }} key={i} />) :
     null;
-  const style = tasks ? { boxShadow : '0 0 2px 1px #442a4d' } : null;
+  const shadow = tasks ? 'calendar-day-task-shadow' : '';
   return (
     <div className={`calendar-day ${disabled} ${today} ${focused}`} onClick={props.onClick}>
       <div>{number}</div>
-      <div className="calendar-day-tasks" style={style}>
+      <div className={`calendar-day-tasks ${shadow}`}>
         {tasks}
       </div>
     </div>

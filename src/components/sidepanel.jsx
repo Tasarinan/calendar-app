@@ -29,7 +29,7 @@ class Sidepanel extends React.Component {
         />
         <div className="sidepanel-info">
           <div>{date.format('dddd')}</div>
-          <div>{date.format('Do MMMM YYYY')}</div>
+          <div>{date.format(this.props.dateFormat)}</div>
         </div>
         <Tasks date={date}/>
         <div className="sidepanel-controls">
@@ -46,7 +46,8 @@ class Sidepanel extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  date: state.calendar.focusedDate
+  date: state.calendar.focusedDate,
+  dateFormat: state.app.settings.sidepanelDateFormat,
 });
 
 export default connect(mapStateToProps)(Sidepanel);

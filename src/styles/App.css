@@ -115,6 +115,10 @@ textarea:focus {
   border-bottom-left-radius: 2px;
 }
 
+.calendar-day-task-shadow {
+  box-shadow: 0 0 2px 1px #442a4d;
+}
+
 .calendar-today {
   background: #B287DD;
   color: white;
@@ -290,6 +294,15 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
+.task-details-title {
+  text-align: center;
+}
+
+.task-details-description > div {
+  max-height: 35vh;
+  overflow-y: auto;
+}
+
 .task-details-controls {
   display: flex;
   margin-top: 10px;
@@ -393,6 +406,10 @@ textarea:focus {
 
 .failure-color {
   color: #ff4b4b !important;
+}
+
+.edit-color {
+  color: #eae85c;
 }
 
 @media all and (max-width: 1000px) {

@@ -49,13 +49,23 @@ const loadTasks = () => {
 }
 
 const loadCategories = () => {
-  db.getAllDocs('categories', res => {
+  return db.getAllDocs('categories', res => {
     store.dispatch(insertCategories(
       res.rows.map(r => r.doc)
     ));
-    store.dispatch({ type: 'LOADING_STOP' });
   });
 }
 
-loadTasks().then(loadCategories);
+const updateMomentJs = () => {
+  moment.updateLocale('en', {
+    week: {
+      dow: store.getState().app.settings.weekStart,
+    },
+  });
+}
+
+loadTasks()
+  .then(loadCategories)
+  .then(updateMomentJs)
+  .then(() => store.dispatch({ type: 'LOADING_STOP' }));
 /* End initialization */

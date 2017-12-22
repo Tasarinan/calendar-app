@@ -11,14 +11,12 @@ class Selector extends React.Component {
           src="arrow-l.png"
           alt="Back"
           onClick={() => changeMonth(false)}
-          asset
         />
         <div>{`${month} ${year}`}</div>
         <Img
           src="arrow-r.png"
           alt="Forward"
           onClick={() => changeMonth(true)}
-          asset
         />
       </div>
     );
