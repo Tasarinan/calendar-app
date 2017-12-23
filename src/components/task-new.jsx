@@ -24,7 +24,16 @@ class TaskModal extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ date: props.date || moment() });
+    let state = { date: props.date || moment() };
+    if (props.task) {
+      state = {
+        date: props.task.date,
+        startTime: props.task.startTime,
+        endTime: props.task.endTime,
+        category: props.task.category._id,
+      };
+    }
+    this.setState(state);
   }
 
   createTask() {
@@ -35,7 +44,9 @@ class TaskModal extends React.Component {
       title: this.title.value,
       description: this.description.value,
     };
-    this.props.createTask(task);
+    const id = this.props.task ? this.props.task._id : null;
+    const rev = this.props.task ? this.props.task._rev : null;
+    this.props.putTask(task, id, rev);
     this.props.onRequestClose();
     this.setState({
       startTime: null,
@@ -44,12 +55,17 @@ class TaskModal extends React.Component {
     });
   }
 
-  renderCategories() {
+  renderCategories(cat) {
     const onChange = (e) => this.setState({
       category: e.target.options[e.target.selectedIndex].value
     });
+    const defaultValue = cat ? cat._id : 'default_category';
     return (
-      <select onChange={onChange} name="category">
+      <select
+        onChange={onChange}
+        name="category"
+        defaultValue={defaultValue}
+      >
         {this.props.categories.map(c => <option value={c._id} key={c._id}>{c.name}</option>)}
       </select>
     );
@@ -57,6 +73,7 @@ class TaskModal extends React.Component {
 
   render() {
     const { isOpen, onRequestClose } = this.props;
+    const task = this.props.task || {};
     return (
       <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
         <form className="new-task-form">
@@ -68,6 +85,7 @@ class TaskModal extends React.Component {
               placeholder="Title"
               maxLength={100}
               name="title"
+              defaultValue={task.title || ''}
               required
             />
           </div>
@@ -77,17 +95,18 @@ class TaskModal extends React.Component {
               ref={(r) => { this.description = r; } }
               placeholder="Description"
               name="description"
+              defaultValue={task.description || ''}
             ></textarea>
           </div>
           <div className="new-task-category">
-            <span>Category:</span> {this.renderCategories()}
+            <span>Category:</span> {this.renderCategories(task.category)}
             <div><Img src="add.png" alt="Add category"/></div>
           </div>
           <div className="new-task-date">
             <span>Date:</span>
             <DatePicker
               name="date"
-              selected={this.state.date}
+              selected={task.date || this.state.date}
               onChange={(date) => this.setState({ date })}
             />
           </div>
@@ -95,14 +114,16 @@ class TaskModal extends React.Component {
             <span>Start time:</span>
             <TimePicker
               onChange={(time) => this.setState({startTime: time})}
-              noInitialization
+              initialState={task.startTime}
+              noInitialization={!task.startTime}
             />
           </div>
           <div>
             <span>End time:</span>
             <TimePicker
               onChange={(time) => this.setState({endTime: time})}
-              noInitialization
+              initialState={task.endTime}
+              noInitialization={!task.endTime}
             />
           </div>
           <div className="new-task-controls">

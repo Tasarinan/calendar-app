@@ -9,9 +9,11 @@ export const deleteTask = id => ({
   id,
 });
 
-export const createTask = task => ({
-  type: 'CREATE_TASK',
+export const putTask = (task, id, rev) => ({
+  type: 'PUT_TASK',
   task,
+  id,
+  rev,
 });
 
 export const insertTasks = tasks => ({
