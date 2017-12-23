@@ -3,6 +3,8 @@ import { getTime } from '../util/date';
 import Img from './image';
 
 export default ({ task, completeTask, deleteTask, viewDetails }) => {
+  if (!task || !task._id) return null;
+
   const completed = task.completed ? 'completed' : '';
   const style = !task.completed ? { background: task.category.color } : null;
 

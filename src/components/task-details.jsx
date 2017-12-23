@@ -18,7 +18,7 @@ export default class TaskDetails extends React.Component {
 
   render() {
     const { task, completeTask, deleteTask, enabled, close, dateFormat } = this.props;
-    if (!task) return null;
+    if (!enabled) return null;
 
     const completed = task.completed ? 'success-color' : 'failure-color';
     const uncompleted = !task.completed ? 'success-color' : 'failure-color';

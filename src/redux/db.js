@@ -19,6 +19,10 @@ class Database {
     const promise = this.table(name).allDocs({include_docs: true});
     return !callback ? promise : promise.then(callback);
   }
+
+  deleteAllTables() {
+    this.tables.forEach(table => table.destroy());
+  }
 }
 
 const base = new Database();
