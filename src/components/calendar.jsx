@@ -38,19 +38,28 @@ class Calendar extends React.Component {
   }
 
   getDays() {
-    const mapFunc = row => (
-      <div className="calendar-row flex" key={shortId.generate()}>
-        {row.map(this.mapRowDays)}
-      </div>
-    );
+    const weekClass = this.props.showWeeks ? 'weeks' : '';
+    const mapFunc = row => {
+      const day = row[0];
+      const week = moment(this.props.date).date(day).week();
+      return (
+        <div className={`calendar-row flex ${weekClass}`} key={shortId.generate()}>
+          <div className="week-number">{week}</div>
+          {row.map(this.mapRowDays)}
+        </div>
+      )
+    };
 
     let names = moment.weekdaysShort();
     if (this.props.weekStart === 1) {
       names.push(names.shift());
     }
+    if (this.props.showWeeks) {
+      names.unshift('W');
+    }
     names = names.map(n => (
       <div
-        className="calendar-day-name"
+        className={`calendar-day-name ${weekClass}`}
         key={shortId.generate()}
       >{n}</div>
     ));
@@ -99,6 +108,8 @@ const mapStateToProps = state => ({
   tasks: state.tasks.items,
   categories: state.tasks.categories,
   weekStart: state.app.settings.weekStart,
+  showWeeks: state.app.settings.showWeeks,
+  weekNumberStart: state.app.settings.weekNumberStart,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
