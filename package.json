@@ -18,7 +18,7 @@
       "build/**/*",
       "node_modules/**/*"
     ],
-    "directories":{
+    "directories": {
       "buildResources": "assets"
     }
   },
@@ -52,7 +52,7 @@
     "preelectron-pack": "npm run build"
   },
   "devDependencies": {
-    "electron-builder": "^19.49.0",
-    "electron": "^1.7.9"
+    "electron": "^1.7.9",
+    "electron-builder": "^19.49.0"
   }
 }
