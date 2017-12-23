@@ -48,4 +48,4 @@ it('Sidepanel', withStore(<Sidepanel />));
 
 it('Calendar', withStore(<Calendar />));
 
-db.tables.forEach(table => table.destroy());
+db.deleteAllTables();
