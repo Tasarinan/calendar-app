@@ -12,7 +12,7 @@
   "build": {
     "appId": "com.nerijusdu.calendar",
     "linux": {
-      "categotry": "calendar.app"
+      "category": "Utility"
     },
     "files": [
       "build/**/*",
