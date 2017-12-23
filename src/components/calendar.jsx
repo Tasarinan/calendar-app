@@ -41,7 +41,10 @@ class Calendar extends React.Component {
     const weekClass = this.props.showWeeks ? 'weeks' : '';
     const mapFunc = row => {
       const day = row[0];
-      const week = moment(this.props.date).date(day).week();
+      let week = moment(this.props.date).date(day).week() - (this.props.weekNumberStart - 1);
+      if (week < 1) {
+        week += 52;
+      }
       return (
         <div className={`calendar-row flex ${weekClass}`} key={shortId.generate()}>
           <div className="week-number">{week}</div>

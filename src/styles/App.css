@@ -456,9 +456,16 @@ textarea:focus {
   align-items: center;
 }
 
-.settings-items > div > span {
-  width: 30%;
+.settings-items > div > * {
+  padding: 0;
+  margin: 0;
+  align-self: center;
 }
+
+.settings-items > div > span {
+  width: 40%;
+}
+
 
 .flex {
   display: flex;

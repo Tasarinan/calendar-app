@@ -13,6 +13,7 @@ class Settings extends React.Component {
     this.save = this.save.bind(this);
     this.cancel = this.cancel.bind(this);
     this.changeTaskOrder = this.changeTaskOrder.bind(this);
+    this.changeShowWeeks = this.changeShowWeeks.bind(this);
     this.loadDefaults = this.loadDefaults.bind(this);
   }
 
@@ -35,6 +36,11 @@ class Settings extends React.Component {
     this.setState({ taskOrder: val });
   }
 
+  changeShowWeeks(e) {
+    const val = e.target.checked;
+    this.setState({ showWeeks: val });
+  }
+
   render() {
     const { isOpen, onRequestClose } = this.props;
     return (
@@ -51,6 +57,27 @@ class Settings extends React.Component {
                 }
               </select>
             </div>
+            <div>
+              <span>Show week numbers:</span>
+              <input
+                type="checkbox"
+                checked={this.state.showWeeks}
+                onChange={this.changeShowWeeks}
+              />
+            </div>
+            {
+              this.state.showWeeks ?
+              <div>
+                <span>Start week numbering from:</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={52}
+                  value={this.state.weekNumberStart}
+                  onChange={(e) => this.setState({ weekNumberStart: e.target.value})}
+                />
+              </div> : null
+            }
           </div>
           <div className="settings-controls">
             <div className="success-color" onClick={this.save}>Save</div>

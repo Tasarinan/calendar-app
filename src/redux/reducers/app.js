@@ -8,7 +8,7 @@ const defaultSettings = {
   sidepanelDateFormat: 'Do MMMM YYYY',
   taskDateFormat: 'dddd, MMMM Do, YYYY',
   taskOrder: orderOptions.TIME,
-  weekNumberStart: 1,
+  weekNumberStart: 36,
   showWeeks: true,
 };
 
