@@ -85,7 +85,16 @@ textarea:focus {
 
 .calendar-day-name {
   width: 14%;
-  height: 5vh;
+  height: 6vh;
+  border-left: 1px solid #dbdada;
+  background: radial-gradient(#e0e0e0, #FFFFFF 55%);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.calendar-day-name:last-child {
+  border-right: 1px solid #dbdada;
 }
 
 .calendar-day-focused {
@@ -123,6 +132,30 @@ textarea:focus {
   background: #B287DD;
   color: white;
   font-size: xx-large;
+}
+
+.week-number {
+  width: 10%;
+  height: 10vh;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  display: none;
+}
+
+.calendar-row.weeks > .week-number {
+  display: flex;
+}
+
+.calendar-row.weeks > .calendar-day,
+.calendar-day-name.weeks {
+  width: 13%;
+}
+
+.calendar-day-name.weeks:first-child {
+  width: 10%;
+  border-left: none;
+  background: none;
 }
 
 .month-selector {
@@ -423,9 +456,16 @@ textarea:focus {
   align-items: center;
 }
 
-.settings-items > div > span {
-  width: 30%;
+.settings-items > div > * {
+  padding: 0;
+  margin: 0;
+  align-self: center;
 }
+
+.settings-items > div > span {
+  width: 40%;
+}
+
 
 .flex {
   display: flex;
