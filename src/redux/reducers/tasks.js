@@ -17,8 +17,8 @@ export default (state = initialState, action) => {
       return completeTask(state, action);
     case 'DELETE_TASK':
       return deleteTask(state, action);
-    case 'CREATE_TASK':
-      return createTask(state, action);
+    case 'PUT_TASK':
+      return putTask(state, action);
     case 'INSERT_TASKS':
       return insertTasks(state, action);
     case 'INSERT_CATEGORIES':
@@ -62,21 +62,28 @@ const deleteTask = (state, action) => {
   };
 }
 
-const createTask = (state, action) => {
+const putTask = (state, action) => {
   const task = {
-    _id: new Date().toISOString(),
-    ...action.task
+    ...action.task,
+    _id: action.id || new Date().toISOString(),
+    _rev: action.rev || null,
   };
   taskTable.put({
     ...task,
     date: action.task.date.valueOf(),
   });
+
+  const i = state.items.findIndex(t => t._id === task._id);
+  let items = i ?
+  [
+    ...state.items.slice(0, i),
+    task,
+    ...state.items.slice(i+1),
+  ]
+  : [ ...state.items, task ]
   return {
     ...state,
-    items: [
-      ...state.items,
-      task,
-    ],
+    items,
   };
 }
 

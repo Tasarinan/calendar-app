@@ -12,7 +12,7 @@ class Tasks extends React.Component {
     super(props);
     this.state = {
       isModalOpen: false,
-      taskToView: {},
+      taskToView: null,
     };
 
     this.componentWillReceiveProps(props);
@@ -25,7 +25,7 @@ class Tasks extends React.Component {
 
   viewDetails(id) {
     this.setState({
-      taskToView: !this.state.isModalOpen ? this.tasks.find(t => t._id === id) : {},
+      taskToView: !this.state.isModalOpen ? this.tasks.findIndex(t => t._id === id) : null,
       isModalOpen: !this.state.isModalOpen,
     });
   }
@@ -36,19 +36,11 @@ class Tasks extends React.Component {
     return (
       <div className="sidepanel-tasks">
         <TaskDetails
-          task={this.state.taskToView}
+          task={this.tasks[this.state.taskToView]}
           enabled={this.state.isModalOpen}
           close={this.viewDetails}
           dateFormat={taskDateFormat}
-          completeTask={(...args) => {
-            this.props.completeTask(...args);
-            this.setState({
-              taskToView: {
-                ...this.state.taskToView,
-                completed: !this.state.taskToView.completed
-              }
-            });
-          }}
+          completeTask={this.props.completeTask}
           deleteTask={(id) => {
             this.props.deleteTask(id);
             this.setState({ isModalOpen: false });
