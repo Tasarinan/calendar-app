@@ -360,7 +360,8 @@ textarea:focus {
   border-left: none;
 }
 
-.new-task-form {
+.new-task-form,
+.settings {
   font-family: angeltoes;
   font-weight: bold;
   font-size: large;
@@ -383,7 +384,6 @@ textarea:focus {
 .new-task-form > div > div,
 .new-task-form > div > select{
   flex-grow: 1;
-  margin-left: 10px;
 }
 
 .new-task-category > div {
@@ -391,6 +391,11 @@ textarea:focus {
   margin: 0px !important;
   display: flex;
   justify-content: flex-end;
+}
+
+.new-task-new-category {
+  display: flex;
+  justify-content: flex-start !important;
 }
 
 .new-task-category > div > img {
