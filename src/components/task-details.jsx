@@ -1,4 +1,5 @@
 import React from 'react';
+import Markdown from 'react-markdown';
 import Modal from './modal';
 import { getTime } from '../util/date';
 import EditTask from './task-new';
@@ -34,7 +35,7 @@ export default class TaskDetails extends React.Component {
           {task.description ?
             <div className="task-details-description">
               <i>Description:</i><br />
-              <div>{task.description}</div>
+              <div><Markdown source={task.description}/></div>
             </div> : null
           }
           <div><i>Category:</i> <span style={{ color: task.category.color }}>{task.category.name}</span></div>
