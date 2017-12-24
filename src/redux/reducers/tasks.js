@@ -1,6 +1,7 @@
 import db from '../db';
 
 const taskTable = db.table('tasks');
+const categoryTable = db.table('categories');
 
 const initialState = {
   items: [],
@@ -67,6 +68,7 @@ const putTask = (state, action) => {
     ...action.task,
     _id: action.id || new Date().toISOString(),
     _rev: action.rev || null,
+    category: action.task.category._id || action.task.category,
   };
   taskTable.put({
     ...task,
@@ -74,7 +76,7 @@ const putTask = (state, action) => {
   });
 
   const i = state.items.findIndex(t => t._id === task._id);
-  let items = i ?
+  let items = action.id ?
   [
     ...state.items.slice(0, i),
     task,
@@ -84,8 +86,20 @@ const putTask = (state, action) => {
   return {
     ...state,
     items,
+    categories: createCategory(state, action.task.category),
   };
 }
+
+const createCategory = (state, category) => {
+  if (category.name) {
+    categoryTable.put(category);
+    return [
+      ...state.categories,
+      category,
+    ];
+  }
+  return state.categories;
+};
 
 const insertTasks = (state, action) => {
   return {

@@ -18,9 +18,11 @@ class TaskModal extends React.Component {
       startTime: null,
       endTime: null,
       category: this.props.categories[0]._id,
+      editCategory: false,
     };
 
     this.createTask = this.createTask.bind(this);
+    this.toggleCategoryEdit = this.toggleCategoryEdit.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -44,6 +46,15 @@ class TaskModal extends React.Component {
       title: this.title.value,
       description: this.description.value,
     };
+    delete task.editCategory;
+    if (this.state.editCategory) {
+      task.category = {
+        _id: new Date().toISOString(),
+        name: this.category.value,
+        color: this.color.value,
+      };
+    }
+
     const id = this.props.task ? this.props.task._id : null;
     const rev = this.props.task ? this.props.task._rev : null;
     this.props.putTask(task, id, rev);
@@ -52,6 +63,7 @@ class TaskModal extends React.Component {
       startTime: null,
       endTime: null,
       category: this.props.categories[0]._id,
+      editCategory: false,
     });
   }
 
@@ -69,6 +81,12 @@ class TaskModal extends React.Component {
         {this.props.categories.map(c => <option value={c._id} key={c._id}>{c.name}</option>)}
       </select>
     );
+  }
+
+  toggleCategoryEdit() {
+    this.setState({
+      editCategory: !this.state.editCategory
+    });
   }
 
   render() {
@@ -99,8 +117,15 @@ class TaskModal extends React.Component {
             ></textarea>
           </div>
           <div className="new-task-category">
-            <span>Category:</span> {this.renderCategories(task.category)}
-            <div><Img src="add.png" alt="Add category"/></div>
+            <span>Category:</span>
+            {this.state.editCategory ?
+              <div className="new-task-new-category">
+                <input type="text" ref={r => { this.category = r; }} required/>
+                <input type="color" ref={r => { this.color = r; }}/>
+              </div> :
+              this.renderCategories(task.category)
+            }
+            <div><Img src={this.state.editCategory ? 'subtract.png' : 'add.png'} alt="Add category" onClick={this.toggleCategoryEdit}/></div>
           </div>
           <div className="new-task-date">
             <span>Date:</span>
