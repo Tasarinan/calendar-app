@@ -41,11 +41,25 @@ export default class App extends React.Component {
 }
 
 /* Initialize */
+let tasksToDelete = [];
+
 const loadTasks = () => {
+  const del = store.getState().app.settings.deleteOldTasks;
+  const delInfo = store.getState().app.settings.deleteTasksAfter;
   return db.getAllDocs('tasks', res => {
-    store.dispatch(insertTasks(
-      res.rows.map(r => ({...r.doc, date: moment(r.doc.date)}))
-    ));
+    let tasks = res.rows.map(r => ({...r.doc, date: moment(r.doc.date)}));
+    if (del) {
+      const delDate = moment().subtract(delInfo.count, delInfo.name);
+
+      tasks = tasks.filter(t => {
+        const toDelete = t.date.isBefore(delDate, 'day');
+        if (toDelete) {
+          tasksToDelete.push({id: t._id, rev: t._rev});
+        }
+        return !toDelete;
+      });
+    }
+    store.dispatch(insertTasks(tasks));
   });
 }
 
@@ -73,9 +87,14 @@ const updateMomentJs = () => {
   });
 }
 
-loadTasks()
+loadSettings()
   .then(loadCategories)
-  .then(loadSettings)
+  .then(loadTasks)
   .then(updateMomentJs)
-  .then(() => store.dispatch({ type: 'LOADING_STOP' }));
+  .then(() => {
+    if (tasksToDelete.length > 0) {
+      db.deleteItems('tasks', tasksToDelete);
+    }
+    store.dispatch({ type: 'LOADING_STOP' });
+  });
 /* End initialization */

@@ -14,6 +14,7 @@ class Settings extends React.Component {
     this.cancel = this.cancel.bind(this);
     this.changeTaskOrder = this.changeTaskOrder.bind(this);
     this.changeShowWeeks = this.changeShowWeeks.bind(this);
+    this.changeTaskAutoDelete = this.changeTaskAutoDelete.bind(this);
     this.loadDefaults = this.loadDefaults.bind(this);
   }
 
@@ -39,6 +40,19 @@ class Settings extends React.Component {
   changeShowWeeks(e) {
     const val = e.target.checked;
     this.setState({ showWeeks: val });
+  }
+
+  changeTaskAutoDelete(e, isCount) {
+    const value = isCount ?
+      e.target.value :
+      e.target.options[e.target.selectedIndex].value;
+
+    this.setState({
+      deleteTasksAfter: {
+        count: isCount ? value : this.state.deleteTasksAfter.count,
+        name: !isCount ? value : this.state.deleteTasksAfter.name,
+      }
+    })
   }
 
   render() {
@@ -76,6 +90,35 @@ class Settings extends React.Component {
                   value={this.state.weekNumberStart}
                   onChange={(e) => this.setState({ weekNumberStart: e.target.value})}
                 />
+              </div> : null
+            }
+            <div>
+              <span>Delete old tasks:</span>
+              <input
+                type="checkbox"
+                value={this.state.deleteOldTasks}
+                onClick={() => this.setState({deleteOldTasks: !this.state.deleteOldTasks})}
+              />
+            </div>
+            {
+              this.state.deleteOldTasks ?
+              <div>
+                <span>Delete tasks after:</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={this.state.deleteTasksAfter.count}
+                  onChange={(e) => this.changeTaskAutoDelete(e, true)}
+                />&nbsp;
+                <select
+                  value={this.state.deleteTasksAfter.name}
+                  onChange={(e) => this.changeTaskAutoDelete(e, false)}
+                >
+                  <option value='day'>Days</option>
+                  <option value='month'>Months</option>
+                  <option value='year'>Years</option>
+                </select>
               </div> : null
             }
           </div>

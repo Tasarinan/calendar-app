@@ -23,6 +23,17 @@ class Database {
   deleteAllTables() {
     this.tables.forEach(table => table.destroy());
   }
+
+  deleteItems(name, items) {
+    const table = this.table(name);
+    try {
+      items.forEach(async item => {
+        await table.remove(item.id, item.rev);
+      });
+    } catch (e) {
+      console.log('Error while deleting old tasks');
+    }
+  }
 }
 
 const base = new Database();
