@@ -331,11 +331,6 @@ textarea:focus {
   text-align: center;
 }
 
-.task-details-description > div {
-  max-height: 35vh;
-  overflow-y: auto;
-}
-
 .task-details-controls {
   display: flex;
   margin-top: 10px;
