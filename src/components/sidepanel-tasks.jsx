@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/taskActions';
 import TaskDetails from './task-details';
 import Task from './task';
+import ScrollBar from 'react-custom-scrollbars';
 import { taskCategory } from '../util/mappings';
 import compareBy from '../util/compare';
 
@@ -46,6 +47,7 @@ class Tasks extends React.Component {
             this.setState({ isModalOpen: false });
           }}
         />
+        <ScrollBar>
         {this.tasks
           .filter(t => t.date.isSame(date, 'day'))
           .sort(orderFunc)
@@ -58,6 +60,7 @@ class Tasks extends React.Component {
               viewDetails={this.viewDetails}
             />)
         }
+        </ScrollBar>
       </div>
     );
   }

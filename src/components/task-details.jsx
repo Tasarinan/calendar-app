@@ -3,6 +3,7 @@ import Markdown from 'react-markdown';
 import Modal from './modal';
 import { getTime } from '../util/date';
 import EditTask from './task-new';
+import ScrollBar from 'react-custom-scrollbars';
 
 export default class TaskDetails extends React.Component {
   constructor(props) {
@@ -35,7 +36,11 @@ export default class TaskDetails extends React.Component {
           {task.description ?
             <div className="task-details-description">
               <i>Description:</i><br />
-              <div><Markdown source={task.description}/></div>
+              <div>
+                <ScrollBar style={{height: '35vh'}}>
+                  <Markdown source={task.description}/>
+                </ScrollBar>
+              </div>
             </div> : null
           }
           <div><i>Category:</i> <span style={{ color: task.category.color }}>{task.category.name}</span></div>
