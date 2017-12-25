@@ -10,6 +10,7 @@ const defaultSettings = {
   taskOrder: orderOptions.TIME,
   weekNumberStart: 36,
   showWeeks: true,
+  deleteOldTasks: true,
   deleteTasksAfter: {
     count: 1,
     name: 'month',

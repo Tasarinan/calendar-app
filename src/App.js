@@ -44,11 +44,12 @@ export default class App extends React.Component {
 let tasksToDelete = [];
 
 const loadTasks = () => {
-  const del = store.getState().app.settings.deleteTasksAfter;
+  const del = store.getState().app.settings.deleteOldTasks;
+  const delInfo = store.getState().app.settings.deleteTasksAfter;
   return db.getAllDocs('tasks', res => {
     let tasks = res.rows.map(r => ({...r.doc, date: moment(r.doc.date)}));
     if (del) {
-      const delDate = moment().subtract(del.count, del.name);
+      const delDate = moment().subtract(delInfo.count, delInfo.name);
 
       tasks = tasks.filter(t => {
         const toDelete = t.date.isBefore(delDate, 'day');
