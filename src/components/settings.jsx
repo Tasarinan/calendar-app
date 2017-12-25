@@ -96,8 +96,8 @@ class Settings extends React.Component {
               <span>Delete old tasks:</span>
               <input
                 type="checkbox"
-                value={this.state.deleteOldTasks}
-                onClick={() => this.setState({deleteOldTasks: !this.state.deleteOldTasks})}
+                checked={this.state.deleteOldTasks}
+                onChange={() => this.setState({deleteOldTasks: !this.state.deleteOldTasks})}
               />
             </div>
             {
