@@ -27,6 +27,7 @@
     "concurrently": "^3.5.1",
     "electron-is-dev": "^0.3.0",
     "moment": "^2.20.1",
+    "node-schedule": "^1.2.5",
     "pouchdb": "^6.4.1",
     "react": "^16.2.0",
     "react-addons-shallow-compare": "^15.6.2",

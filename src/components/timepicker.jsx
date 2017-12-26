@@ -40,7 +40,7 @@ class TimePicker extends React.Component {
 
   getMinutes() {
     const minutes = [<option value={-1} key={'-'}>-</option>];
-    for (let i = 0; i < 60; i += 5) {
+    for (let i = 0; i < 60; i += 1) {
       minutes.push(
         <option value={i} key={i}>
           {i < 10 ? '0' + i : i}

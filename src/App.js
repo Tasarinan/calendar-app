@@ -1,14 +1,21 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import moment from 'moment';
+import schedule from 'node-schedule';
+import './styles/App.css';
 import store from './redux/store';
 import db from './redux/db';
+
 import { insertTasks, insertCategories } from './redux/actions/taskActions';
+import { changeDate, changeFocusedDay } from './redux/actions/calendarActions';
 import { saveSettings } from "./redux/actions/appActions";
-import './styles/App.css';
 
 import Calendar from './components/calendar';
 import Sidepanel from './components/sidepanel';
+let ipcRenderer;
+if (window.require) {
+  ipcRenderer = window.require('electron').ipcRenderer;
+}
 
 export default class App extends React.Component {
   constructor() {
@@ -59,6 +66,7 @@ const loadTasks = () => {
         return !toDelete;
       });
     }
+    createNotifications(tasks);
     store.dispatch(insertTasks(tasks));
   });
 }
@@ -87,6 +95,27 @@ const updateMomentJs = () => {
   });
 }
 
+const createNotifications = (tasks) => {
+  const now = moment();
+  tasks.forEach(t => {
+    if (!t.completed && t.startTime) {
+      const date = moment(t.date)
+          .hour(t.startTime.hours)
+          .minute(t.startTime.minutes);
+      if (date.isAfter(now)) {
+        schedule.scheduleJob(date.toDate(), () => {
+          new Notification(t.title, {
+            body: 'Its time to start this task'
+          }).onclick = () => {
+            ipcRenderer.send('focusWindow', 1);
+            store.dispatch(changeDate(date));
+            store.dispatch(changeFocusedDay(date));
+          };
+        });
+      }
+    }
+  });
+}
 loadSettings()
   .then(loadCategories)
   .then(loadTasks)

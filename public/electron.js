@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcRenderer, ipcMain} = require('electron');
 const electron = require('electron');
 const path = require('path');
 const url = require('url');
@@ -9,11 +9,9 @@ let win;
 function createWindow() {
   const screen = electron.screen.getPrimaryDisplay().size;
   win = new BrowserWindow({width: screen.width, height: screen.height});
-
   win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
 
-  //win.webContents.openDevTools();
-
+  // win.webContents.openDevTools();
   win.on('closed', () => { win = null; });
 }
 
@@ -29,4 +27,9 @@ app.on('active', () => {
   if (win == null) {
     createWindow();
   }
+});
+
+ipcMain.on('focusWindow', (e, args) => {
+  app.focus();
+  win.focus();
 });
