@@ -17,6 +17,7 @@ class Calendar extends React.Component {
     this.changeMonth = this.changeMonth.bind(this);
     this.changeFocusedDay = this.changeFocusedDay.bind(this);
     this.getDays = this.getDays.bind(this);
+    this.getDayNames = this.getDayNames.bind(this);
     this.mapRowDays = this.mapRowDays.bind(this);
   }
 
@@ -53,6 +54,13 @@ class Calendar extends React.Component {
       )
     };
 
+    const nameRow = this.getDayNames(weekClass);
+    const days = getDays(this.props.date, this.props.weekStart);
+
+    return [nameRow, ...days.map(mapFunc)];
+  }
+
+  getDayNames(weekClass) {
     let names = moment.weekdaysShort();
     if (this.props.weekStart === 1) {
       names.push(names.shift());
@@ -67,10 +75,7 @@ class Calendar extends React.Component {
       >{n}</div>
     ));
 
-    const nameRow = <div className="flex" key={shortId.generate()}>{names}</div>;
-    const days = getDays(this.props.date, this.props.weekStart);
-
-    return [nameRow, ...days.map(mapFunc)];
+    return <div className="flex" key={shortId.generate()}>{names}</div>;
   }
 
   mapRowDays(d) {
