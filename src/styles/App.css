@@ -83,6 +83,33 @@ textarea:focus {
   border-bottom: 1px solid #dbdada;
 }
 
+.task-count {
+  position: absolute;
+  align-self: flex-end;
+  height: 10vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.task-count > div {
+  font-size: medium;
+  background: #e6717b;
+  color: white;
+  margin: 3px;
+  border-radius: 10px;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  vertical-align: middle;
+  box-shadow: inset 0 0 3px 1px #692b2b;
+}
+
+.week-number > .task-count > div {
+  background: #7881d4;
+  box-shadow: inset 0 0 3px 1px #645faf;
+}
+
 .calendar-day-name {
   width: 14%;
   height: 6vh;
