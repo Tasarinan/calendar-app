@@ -8,18 +8,22 @@ import { orderOptions } from "../util/constants";
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = props.settings;
+    this.state = {...props.settings};
 
     this.save = this.save.bind(this);
     this.cancel = this.cancel.bind(this);
     this.changeTaskOrder = this.changeTaskOrder.bind(this);
     this.changeShowWeeks = this.changeShowWeeks.bind(this);
     this.changeTaskAutoDelete = this.changeTaskAutoDelete.bind(this);
+    this.changeWeekStart = this.changeWeekStart.bind(this);
     this.loadDefaults = this.loadDefaults.bind(this);
   }
 
   save() {
-    this.props.saveSettings(this.state);
+    this.props.saveSettings({
+      ...this.state,
+      weekStart: parseInt(this.state.weekStart, 10)
+    });
     this.props.onRequestClose();
   }
 
@@ -55,6 +59,11 @@ class Settings extends React.Component {
     })
   }
 
+  changeWeekStart(e) {
+    const value = e.target.options[e.target.selectedIndex].value;
+    this.setState({ weekStart: value });
+  }
+
   render() {
     const { isOpen, onRequestClose } = this.props;
     return (
@@ -69,6 +78,13 @@ class Settings extends React.Component {
                   .values(orderOptions)
                   .map(p => <option value={p} key={p}>{p}</option>)
                 }
+              </select>
+            </div>
+            <div>
+              <span>Week starts on:</span>
+              <select value={this.state.weekStart} onChange={this.changeWeekStart}>
+                <option value={1}>Monday</option>
+                <option value={0}>Sunday</option>
               </select>
             </div>
             <div>
