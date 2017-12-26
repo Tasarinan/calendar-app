@@ -14,7 +14,9 @@ const defaultSettings = {
   deleteTasksAfter: {
     count: 1,
     name: 'month',
-  }
+  },
+  showTaskCount: true,
+  showWeekTaskCount: true,
 };
 
 const initialState = {

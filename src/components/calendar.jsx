@@ -19,6 +19,7 @@ class Calendar extends React.Component {
     this.getDays = this.getDays.bind(this);
     this.getDayNames = this.getDayNames.bind(this);
     this.mapRowDays = this.mapRowDays.bind(this);
+    this.countWeekTasks = this.countWeekTasks.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -38,17 +39,30 @@ class Calendar extends React.Component {
     this.props.changeDate(m);
   }
 
+  countWeekTasks(date) {
+    if (this.props.showWeekTaskCount && this.props.showWeeks) {
+      const start = moment(date).startOf('week').add(this.props.weekStart, 'day');
+      const end = moment(date).endOf('week').add(this.props.weekStart, 'day');
+      const count = this.tasks.filter(t => t.date.isBetween(start, end)).length;
+      return count > 0 ? <div className="task-count"><div>{count}</div></div> : null;
+    }
+    return null;
+  }
+
   getDays() {
     const weekClass = this.props.showWeeks ? 'weeks' : '';
     const mapFunc = row => {
-      const day = row[0];
-      let week = moment(this.props.date).date(day).week() - (this.props.weekNumberStart - 1);
+      const day = moment(this.props.date).date(row[0]);
+      let week = day.week() - (this.props.weekNumberStart - 1);
       if (week < 1) {
         week += 52;
       }
       return (
         <div className={`calendar-row flex ${weekClass}`} key={shortId.generate()}>
-          <div className="week-number">{week}</div>
+          <div className="week-number">
+            {this.countWeekTasks(day)}
+            {week}
+          </div>
           {row.map(this.mapRowDays)}
         </div>
       )
@@ -92,6 +106,7 @@ class Calendar extends React.Component {
           .filter(t => t.date.isSame(thisDate, 'day'))
           .map(t => t.completed ? null : t.category.color)
         }
+        showCount={this.props.showTaskCount}
       />
   }
 
@@ -118,6 +133,8 @@ const mapStateToProps = state => ({
   weekStart: state.app.settings.weekStart,
   showWeeks: state.app.settings.showWeeks,
   weekNumberStart: state.app.settings.weekNumberStart,
+  showTaskCount: state.app.settings.showTaskCount,
+  showWeekTaskCount: state.app.settings.showWeekTaskCount,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
