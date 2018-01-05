@@ -122,9 +122,17 @@ class Settings extends React.Component {
             <div>
               <span>Show days task count:</span>
               <input
+                type="checkbox"
+                checked={this.state.showTaskCount}
+                onChange={(e) => this.setState({ showTaskCount: e.target.checked})}
+              />
+            </div>
+            <div>
+              <span>Count completed tasks:</span>
+                <input
                   type="checkbox"
-                  checked={this.state.showTaskCount}
-                  onChange={(e) => this.setState({ showTaskCount: e.target.checked})}
+                  checked={this.state.countCompletedTasks}
+                  onChange={(e) => this.setState({ countCompletedTasks: e.target.checked})}
                 />
             </div>
             <div>

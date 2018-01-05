@@ -41,9 +41,19 @@ class Calendar extends React.Component {
 
   countWeekTasks(date) {
     if (this.props.showWeekTaskCount && this.props.showWeeks) {
+      const countCompleted = (t) => {
+        if (!this.props.countCompletedTasks && t.completed){
+          return false;
+        }
+        return true;
+      };
+
       const start = moment(date).startOf('week').add(this.props.weekStart, 'day');
       const end = moment(date).endOf('week').add(this.props.weekStart, 'day');
-      const count = this.tasks.filter(t => t.date.isBetween(start, end)).length;
+      const count = this.tasks.filter(t => 
+        t.date.isBetween(start, end) &&
+        countCompleted(t)
+      ).length;
       return count > 0 ? <div className="task-count"><div>{count}</div></div> : null;
     }
     return null;
@@ -107,6 +117,7 @@ class Calendar extends React.Component {
           .map(t => t.completed ? null : t.category.color)
         }
         showCount={this.props.showTaskCount}
+        countCompleted={this.props.countCompletedTasks}
       />
   }
 
@@ -135,6 +146,7 @@ const mapStateToProps = state => ({
   weekNumberStart: state.app.settings.weekNumberStart,
   showTaskCount: state.app.settings.showTaskCount,
   showWeekTaskCount: state.app.settings.showWeekTaskCount,
+  countCompletedTasks: state.app.settings.countCompletedTasks,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

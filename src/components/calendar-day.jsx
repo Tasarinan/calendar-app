@@ -10,12 +10,19 @@ export default (props) => {
     props.taskColors.sort().map((c, i) => <div style={{ background: c }} key={i} />) :
     null;
   const shadow = tasks ? 'calendar-day-task-shadow' : '';
-  const taskCount = tasks && props.showCount ?
-    <div className="task-count"><div>{tasks.length}</div></div> 
-    : null;
+  
+  let taskCountNumber = null;
+  if (tasks && props.showCount) {
+    const taskCount = props.countCompleted ? 
+      tasks.length :
+      props.taskColors.filter((t) => !!t).length;
+    taskCountNumber = taskCount ? 
+      <div className="task-count"><div>{taskCount}</div></div>
+      : null;
+  }
   return (
     <div className={`calendar-day ${disabled} ${today} ${focused}`} onClick={props.onClick}>
-      {taskCount}
+      {taskCountNumber}
       <div>{number}</div>
       <div className={`calendar-day-tasks ${shadow}`}>
         {tasks}

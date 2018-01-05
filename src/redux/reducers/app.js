@@ -17,6 +17,7 @@ const defaultSettings = {
   },
   showTaskCount: true,
   showWeekTaskCount: true,
+  countCompletedTasks: true,
 };
 
 const initialState = {
