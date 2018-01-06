@@ -22,6 +22,8 @@ class Settings extends React.Component {
     this.changeWeekStart = this.changeWeekStart.bind(this);
     this.loadDefaults = this.loadDefaults.bind(this);
     this.editCategories = this.editCategories.bind(this);
+    this.renderCategories = this.renderCategories.bind(this);
+    this.changeCategory = this.changeCategory.bind(this);
   }
 
   save() {
@@ -74,6 +76,20 @@ class Settings extends React.Component {
   editCategories() {
     this.setState({
       isEditCatOpen: !this.state.isEditCatOpen
+    });
+  }
+
+  renderCategories() {
+    return this
+      .props
+      .categories
+      .map(c => <option value={c._id} key={c._id}>{c.name}</option>);
+  }
+
+  changeCategory(e) {
+    const id = e.target.options[e.target.selectedIndex].value;
+    this.setState({
+      taskCountCategory: id,
     });
   }
 
@@ -150,6 +166,13 @@ class Settings extends React.Component {
                 />
             </div>
             <div>
+              <span>Couont tasks with category:</span>
+              <select onChange={this.changeCategory} value={this.state.taskCountCategory}>
+                <option value="*">All</option>
+                {this.renderCategories()}
+              </select>
+            </div>
+            <div>
               <span>Delete old tasks:</span>
               <input
                 type="checkbox"
@@ -196,6 +219,7 @@ class Settings extends React.Component {
 const mapStateToProps = state => ({
   settings: state.app.settings,
   defaultSettings: state.app.defaultSettings,
+  categories: state.tasks.categories
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
