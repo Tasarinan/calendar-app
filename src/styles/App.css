@@ -433,8 +433,19 @@ textarea:focus {
   flex-grow: 1;
 }
 
+.edit-categories {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.edit-categories > * {
+  margin-bottom: 10px;
+}
+
 .new-task-controls,
-.settings-controls {
+.settings-controls,
+.categories-controls {
   border-top: 1px solid #dbdada;
   border-bottom: 1px solid #dbdada;
   position: absolute;
@@ -444,7 +455,8 @@ textarea:focus {
 }
 
 .new-task-controls > div,
-.settings-controls > div {
+.settings-controls > div,
+.categories-controls > div {
   text-align: center;
   font-size: x-large;
   margin-top: 10px;
@@ -455,7 +467,8 @@ textarea:focus {
 }
 
 .new-task-controls > div:last-child,
-.settings-controls > div:last-child {
+.settings-controls > div:last-child,
+.categories-controls > div:last-child {
   border-right: none;
 }
 
@@ -477,7 +490,8 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
-.settings-controls {
+.settings-controls,
+.categories-controls {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -491,6 +505,20 @@ textarea:focus {
 
 .settings-items > div > span {
   width: 40%;
+}
+
+.small-modal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 200px;
+  font-family: angeltoes;
+  font-weight: bold;
+  font-size: large;
+  padding: 20px;
 }
 
 
