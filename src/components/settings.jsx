@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/appActions';
 import Modal from './modal';
+import EditCategories from './edit-categories';
 import { orderOptions } from "../util/constants";
 
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {...props.settings};
+    this.state = {
+      ...props.settings,
+      isEditCatOpen: false,
+    };
 
     this.save = this.save.bind(this);
     this.cancel = this.cancel.bind(this);
@@ -17,13 +21,16 @@ class Settings extends React.Component {
     this.changeTaskAutoDelete = this.changeTaskAutoDelete.bind(this);
     this.changeWeekStart = this.changeWeekStart.bind(this);
     this.loadDefaults = this.loadDefaults.bind(this);
+    this.editCategories = this.editCategories.bind(this);
   }
 
   save() {
-    this.props.saveSettings({
+    const settings = {
       ...this.state,
       weekStart: parseInt(this.state.weekStart, 10)
-    });
+    };
+    delete settings.isEditCatOpen;
+    this.props.saveSettings(settings);
     this.props.onRequestClose();
   }
 
@@ -64,10 +71,17 @@ class Settings extends React.Component {
     this.setState({ weekStart: value });
   }
 
+  editCategories() {
+    this.setState({
+      isEditCatOpen: !this.state.isEditCatOpen
+    });
+  }
+
   render() {
     const { isOpen, onRequestClose } = this.props;
     return (
       <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+        <EditCategories isOpen={this.state.isEditCatOpen} onRequestClose={this.editCategories} />
         <div className="settings">
           <div className="settings-title">Settings</div>
           <div className="settings-items">
@@ -164,6 +178,9 @@ class Settings extends React.Component {
                 </select>
               </div> : null
             }
+            <div>
+              <button onClick={this.editCategories}>Edit categories</button>
+            </div>
           </div>
           <div className="settings-controls">
             <div className="success-color" onClick={this.save}>Save</div>

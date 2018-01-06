@@ -8,7 +8,7 @@ const initialState = {
   categories: [{
     _id: 'default_category',
     name: '',
-    color: 'white',
+    color: '#ffffff',
   }],
 };
 
@@ -24,8 +24,23 @@ export default (state = initialState, action) => {
       return insertTasks(state, action);
     case 'INSERT_CATEGORIES':
       return insertCategories(state, action);
+    case 'UPDATE_CATEGORY':
+      return updateCategory(state, action);
     default:
       return state;
+  }
+}
+
+const updateCategory = (state, action) => {
+  categoryTable.put(action.category);
+  const index = state.categories.findIndex(c => c._id === action.category._id);
+  return {
+    ...state,
+    categories: [
+      ...state.categories.slice(0, index),
+      action.category,
+      ...state.categories.slice(index + 1),
+    ]
   }
 }
 
@@ -112,11 +127,14 @@ const insertTasks = (state, action) => {
 }
 
 const insertCategories = (state, action) => {
-  return {
-    ...state,
-    categories: [
+  const cats = action.categories.find(c => c._id === 'default_category') ?
+    action.categories :
+    [
       ...state.categories,
       ...action.categories,
-    ],
+    ];
+  return {
+    ...state,
+    categories: cats,
   };
 }

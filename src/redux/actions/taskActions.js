@@ -24,4 +24,9 @@ export const insertTasks = tasks => ({
 export const insertCategories = categories => ({
   type: 'INSERT_CATEGORIES',
   categories
-})
+});
+
+export const updateCategory = category => ({
+  type: 'UPDATE_CATEGORY',
+  category
+});
