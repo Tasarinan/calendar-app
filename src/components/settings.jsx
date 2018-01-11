@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/appActions';
 import Modal from './modal';
 import EditCategories from './edit-categories';
+import Login from './login';
 import { orderOptions } from "../util/constants";
 
 class Settings extends React.Component {
@@ -204,6 +205,13 @@ class Settings extends React.Component {
             <div>
               <button onClick={this.editCategories}>Edit categories</button>
             </div>
+            <div>
+              <Login
+                logout={this.props.loggedIn}
+                action={this.props.loggedIn ? this.props.logout : this.props.login}
+                email={this.props.user ? this.props.user.email : null}
+              />
+            </div>
           </div>
           <div className="settings-controls">
             <div className="success-color" onClick={this.save}>Save</div>
@@ -219,7 +227,9 @@ class Settings extends React.Component {
 const mapStateToProps = state => ({
   settings: state.app.settings,
   defaultSettings: state.app.defaultSettings,
-  categories: state.tasks.categories
+  categories: state.tasks.categories,
+  loggedIn: state.app.loggedIn,
+  user: state.app.user
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);

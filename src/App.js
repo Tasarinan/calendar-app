@@ -8,7 +8,7 @@ import db from './redux/db';
 
 import { insertTasks, insertCategories } from './redux/actions/taskActions';
 import { changeDate, changeFocusedDay } from './redux/actions/calendarActions';
-import { saveSettings } from "./redux/actions/appActions";
+import { saveSettings, login } from "./redux/actions/appActions";
 
 import Calendar from './components/calendar';
 import Sidepanel from './components/sidepanel';
@@ -87,6 +87,18 @@ const loadSettings = () => {
   });
 }
 
+const loadUser = () => {
+  return db.getAllDocs('user_data').then(res => {
+    if(res.total_rows === 0) return;
+
+    store.dispatch(login(
+      res.rows.find(r => r.id === 'user').doc,
+      res.rows.find(r => r.id === 'token').doc,
+      true
+    ));
+  });
+}
+
 const updateMomentJs = () => {
   moment.updateLocale('en', {
     week: {
@@ -116,11 +128,13 @@ const createNotifications = (tasks) => {
     }
   });
 }
+
 loadSettings()
+  .then(loadUser)
   .then(loadCategories)
   .then(loadTasks)
-  .then(updateMomentJs)
   .then(() => {
+    updateMomentJs()
     if (tasksToDelete.length > 0) {
       db.deleteItems('tasks', tasksToDelete);
     }

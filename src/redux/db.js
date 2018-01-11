@@ -4,6 +4,7 @@ const databaseNames = [
   'tasks',
   'categories',
   'settings',
+  'user_data',
 ];
 
 class Database {
