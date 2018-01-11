@@ -1,6 +1,8 @@
 import { formatTask } from '../util/mappings';
 
-export default class Api {
+let instance = null;
+
+class Api {
   constructor(token) {
     this.token = token.token;
     this.calendarId = '3gp6uljioccr1j99hdvdkqoed4@group.calendar.google.com';
@@ -32,3 +34,13 @@ const callApi = (url, token, init) => {
     headers,
   });
 }
+
+export const createApi = (token) => {
+  instance = new Api(token);
+};
+
+export const deleteApi = () => {
+  instance = null;
+};
+
+export default () => instance;
