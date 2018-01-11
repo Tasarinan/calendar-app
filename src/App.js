@@ -5,6 +5,7 @@ import schedule from 'node-schedule';
 import './styles/App.css';
 import store from './redux/store';
 import db from './redux/db';
+import Api from './services/api';
 
 import { insertTasks, insertCategories } from './redux/actions/taskActions';
 import { changeDate, changeFocusedDay } from './redux/actions/calendarActions';
@@ -71,6 +72,13 @@ const loadTasks = () => {
   });
 }
 
+const loadTaskFromApi = () => {
+  const api = new Api(store.getState().app.token);
+  return api.getTasks().then(res => {
+    store.dispatch(insertTasks(res));
+  });
+}
+
 const loadCategories = () => {
   return db.getAllDocs('categories', res => {
     store.dispatch(insertCategories(
@@ -133,6 +141,7 @@ loadSettings()
   .then(loadUser)
   .then(loadCategories)
   .then(loadTasks)
+  .then(loadTaskFromApi)
   .then(() => {
     updateMomentJs()
     if (tasksToDelete.length > 0) {
