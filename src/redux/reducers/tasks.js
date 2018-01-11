@@ -47,11 +47,13 @@ const updateCategory = (state, action) => {
 const completeTask = (state, action) => {
   const index = state.items.findIndex(t => t._id === action.id);
   const task = state.items[index];
-  taskTable.put({
-    ...task,
-    completed: action.completed,
-    date: task.date.valueOf()
-  });
+  if (!task.fromGoogle) {
+    taskTable.put({
+      ...task,
+      completed: action.completed,
+      date: task.date.valueOf()
+    });
+  }
   return {
     ...state,
     items: [
@@ -85,10 +87,12 @@ const putTask = (state, action) => {
     _rev: action.rev || null,
     category: action.task.category._id || action.task.category,
   };
-  taskTable.put({
-    ...task,
-    date: action.task.date.valueOf(),
-  });
+  if (!task.fromGoogle) {
+    taskTable.put({
+      ...task,
+      date: action.task.date.valueOf(),
+    });
+  }
 
   const i = state.items.findIndex(t => t._id === task._id);
   let items = action.id ?

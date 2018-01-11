@@ -1,4 +1,4 @@
-import { formatTask } from '../util/format';
+import { formatTask } from '../util/mappings';
 
 export default class Api {
   constructor(token) {
