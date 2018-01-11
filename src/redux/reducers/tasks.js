@@ -1,4 +1,5 @@
 import db from '../db';
+import Api from '../../services/api';
 
 const taskTable = db.table('tasks');
 const categoryTable = db.table('categories');
@@ -49,6 +50,12 @@ const completeTask = (state, action) => {
   const task = state.items[index];
   if (!task.fromGoogle) {
     taskTable.put({
+      ...task,
+      completed: action.completed,
+      date: task.date.valueOf()
+    });
+  } else {
+    Api().updateTask({
       ...task,
       completed: action.completed,
       date: task.date.valueOf()

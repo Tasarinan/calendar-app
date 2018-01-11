@@ -2,6 +2,7 @@ import { orderOptions } from "../../util/constants";
 import { login as loginAction } from '../actions/appActions';
 import store from '../store';
 import db from '../db';
+import { createApi, deleteApi } from '../../services/api';
 
 const settingsTable = db.table('settings');
 const userDataTable = db.table('user_data');
@@ -71,6 +72,7 @@ const login = (state, action) => {
   let userRev = {};
   let tokenRev = {};
   if (!action.dontSaveToDb) {
+    createApi(action.token);
     userDataTable.put({
       ...action.user,
       _id: 'user',
@@ -101,6 +103,7 @@ const login = (state, action) => {
 const logout = (state) => {
   userDataTable.remove('user', state.user._rev)
   userDataTable.remove('token', state.token._rev);
+  deleteApi();
   return { 
     ...state,
     user: null,
