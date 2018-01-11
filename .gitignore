@@ -9,6 +9,7 @@
 # production
 /build
 /dist
+/src/.credentials
 
 # misc
 .DS_Store

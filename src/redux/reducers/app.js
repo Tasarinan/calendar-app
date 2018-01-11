@@ -1,7 +1,10 @@
 import { orderOptions } from "../../util/constants";
+import { login as loginAction } from '../actions/appActions';
+import store from '../store';
 import db from '../db';
 
 const settingsTable = db.table('settings');
+const userDataTable = db.table('user_data');
 
 const defaultSettings = {
   weekStart: 1,
@@ -22,6 +25,9 @@ const defaultSettings = {
 };
 
 const initialState = {
+  loggedIn: false,
+  user: null,
+  token: null,
   loading: true,
   settings: defaultSettings,
   defaultSettings, // Save defaults in state, NO CHANGES
@@ -30,17 +36,15 @@ const initialState = {
 export default (state = initialState, action) => {
   switch(action.type) {
     case 'LOADING_STOP':
-      return {
-        ...state,
-        loading: false,
-      };
+      return { ...state, loading: false };
     case 'LOADING_START':
-      return {
-        ...state,
-        loading: true,
-      };
+      return { ...state, loading: true };
     case 'SAVE_SETTINGS':
       return saveSettings(state, action);
+    case 'LOGIN':
+      return login(state, action);
+    case 'LOGOUT':
+      return logout(state);
     default:
       return state;
   }
@@ -60,5 +64,47 @@ const saveSettings = (state, action) => {
       ...state.settings,
       ...action.settings,
     }
+  };
+}
+
+const login = (state, action) => {
+  let userRev = {};
+  let tokenRev = {};
+  if (!action.dontSaveToDb) {
+    userDataTable.put({
+      ...action.user,
+      _id: 'user',
+    }).then(r => {
+      userRev = r.rev;
+      return userDataTable.put({
+        ...action.token,
+        _id: 'token',
+      });
+    }).then(r => {
+      tokenRev = r.rev;
+      store.dispatch(loginAction(
+        { ...action.user, _rev: userRev },
+        { ...action.token, _rev: tokenRev },
+        true,
+      ));
+    });
+    return { ...state };
+  }
+  return { 
+    ...state,
+    user: { ...action.user },
+    token:{ ...action.token },
+    loggedIn: true
+  };
+}
+
+const logout = (state) => {
+  userDataTable.remove('user', state.user._rev)
+  userDataTable.remove('token', state.token._rev);
+  return { 
+    ...state,
+    user: null,
+    token: null,
+    loggedIn: false
   };
 }
