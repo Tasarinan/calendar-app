@@ -3,11 +3,12 @@ import { formatTask } from '../util/format';
 export default class Api {
   constructor(token) {
     this.token = token.token;
+    this.calendarId = '3gp6uljioccr1j99hdvdkqoed4@group.calendar.google.com';
   }
 
   getTasks = () => {
     return callApi(
-      'calendars/primary/events',
+      `calendars/${this.calendarId}/events`,
       this.token,
       { method: 'GET' }
     )
@@ -19,7 +20,7 @@ export default class Api {
   }
 }
 
-const toJson = (res) => res.status === 200 ? res.json() : {};
+const toJson = (res) => res.status === 200 ? res.json() : null;
 
 const callApi = (url, token, init) => {
   const headers = new Headers({

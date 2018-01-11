@@ -75,7 +75,9 @@ const loadTasks = () => {
 const loadTaskFromApi = () => {
   const api = new Api(store.getState().app.token);
   return api.getTasks().then(res => {
-    store.dispatch(insertTasks(res));
+    if (res) {
+      store.dispatch(insertTasks(res));
+    }
   });
 }
 
