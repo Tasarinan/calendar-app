@@ -100,7 +100,7 @@ const putTask = (state, action) => {
       date: action.task.date.valueOf(),
     });
   } else {
-    Api().updateTask(task);
+    action.id ? Api().updateTask(task) : Api().createTask(task);
   }
 
   const i = state.items.findIndex(t => t._id === task._id);
