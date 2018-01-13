@@ -59,8 +59,8 @@ const makeDateObject = (t) => {
   const date = moment(t.date);
   if (!t.startTime && !t.endTime) {
     return {
-      start: date,
-      end: date,
+      start: makeTimeObject({hours: 0, minutes: 0}, date),
+      end: makeTimeObject({hours: 0, minutes: 0}, date),
     }
   }
   if (t.startTime && !t.endTime){

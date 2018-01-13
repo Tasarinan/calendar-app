@@ -1,3 +1,4 @@
+import store from '../store';
 import db from '../db';
 import Api from '../../services/api';
 
@@ -23,6 +24,8 @@ export default (state = initialState, action) => {
       return putTask(state, action);
     case 'INSERT_TASKS':
       return insertTasks(state, action);
+    case 'UPDATE_TASK_ID':
+      return updateTaskId(state, action);
     case 'INSERT_CATEGORIES':
       return insertCategories(state, action);
     case 'UPDATE_CATEGORY':
@@ -100,7 +103,13 @@ const putTask = (state, action) => {
       date: action.task.date.valueOf(),
     });
   } else {
-    action.id ? Api().updateTask(task) : Api().createTask(task);
+    const updateId = (id) => store.dispatch({
+      type: 'UPDATE_TASK_ID',
+      currentId: task._id,
+      newId: id,
+    });
+    
+    action.id ? Api().updateTask(task) : Api().createTask(task, updateId);
   }
 
   const i = state.items.findIndex(t => t._id === task._id);
@@ -115,6 +124,21 @@ const putTask = (state, action) => {
     ...state,
     items,
     categories: createCategory(state, action.task.category),
+  };
+}
+
+const updateTaskId = (state, action) => {
+  const index = state.items.findIndex(t => t._id === action.currentId);
+  return {
+    ...state,
+    items: [
+      ...state.items.slice(0, index),
+      {
+        ...state.items[index],
+        _id: action.newId,
+      },
+      ...state.items.slice(index + 1),
+    ]
   };
 }
 

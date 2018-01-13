@@ -17,7 +17,7 @@ class TaskModal extends React.Component {
       date: moment(),
       startTime: null,
       endTime: null,
-      category: this.props.categories[0]._id,
+      category: 'default_category',
       fromGoogle: true,
       editCategory: false,
     };
@@ -64,8 +64,8 @@ class TaskModal extends React.Component {
     this.setState({
       startTime: null,
       endTime: null,
-      category: this.props.categories[0]._id,
-      fromGoogle: false,
+      category: 'default_category',
+      fromGoogle: true,
       editCategory: false,
     });
   }
