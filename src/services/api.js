@@ -32,13 +32,14 @@ class Api {
   }
 
   updateTask = (task) => {
+    console.log(JSON.stringify(taskToApi(task)));
     return this.callApi(
       `calendars/${this.calendarId}/events/${task._id}`,
       {
         method: 'PATCH',
         body: JSON.stringify(taskToApi(task))
       }
-    );
+    ).then(r => console.log(r));
   }
 }
 

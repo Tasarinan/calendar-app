@@ -17,15 +17,14 @@ export const taskToLocal = (t) => {
   const otherProps = t.extendedProperties ? t.extendedProperties.private : {};
   const keys = Object.keys(otherProps);
   keys.forEach(k => {
-    try { otherProps[k] = JSON.parse(otherProps[k]); }
-    catch (e) {}
+    otherProps[k] = JSON.parse(otherProps[k]);
   })
   return {
     fromGoogle: true,
     _id: t.id,
     title: t.summary,
     description: t.description,
-    date: moment(t.start.date),
+    date: moment(t.start.dateTime),
     startTime: noTime ? null : {
       hours: sTime.hours(),
       minutes: sTime.minutes(),
@@ -34,6 +33,7 @@ export const taskToLocal = (t) => {
       hours: eTime.hours(),
       minutes: eTime.minutes(),
     },
+    category: 'default_category',
     completed: false,
     ...otherProps,
   };
@@ -50,7 +50,8 @@ export const taskToApi = (t) => {
     end: makeTimeObject(t.endTime, date, tz),
     extendedProperties: {
       private: {
-        completed: JSON.stringify(t.completed)
+        completed: JSON.stringify(t.completed),
+        category: JSON.stringify(t.category),
       }
     }
   };
@@ -58,8 +59,5 @@ export const taskToApi = (t) => {
 
 const makeTimeObject = (time, date, tz) => {
   const startTime = time ? date.hour(time.hours).minute(time.minutes) : null;
-  return startTime ? {
-    date,
-    dateTime: startTime.format(),
-  } : undefined;
+  return startTime ? { dateTime: startTime.format(), date: null } : undefined;
 }

@@ -18,6 +18,7 @@ class TaskModal extends React.Component {
       startTime: null,
       endTime: null,
       category: this.props.categories[0]._id,
+      fromGoogle: false,
       editCategory: false,
     };
 
@@ -33,6 +34,7 @@ class TaskModal extends React.Component {
         startTime: props.task.startTime,
         endTime: props.task.endTime,
         category: props.task.category._id,
+        fromGoogle: props.task.fromGoogle,
       };
     }
     this.setState(state);
@@ -63,6 +65,7 @@ class TaskModal extends React.Component {
       startTime: null,
       endTime: null,
       category: this.props.categories[0]._id,
+      fromGoogle: false,
       editCategory: false,
     });
   }
@@ -131,7 +134,7 @@ class TaskModal extends React.Component {
             <span>Date:</span>
             <DatePicker
               name="date"
-              selected={task.date || this.state.date}
+              selected={this.state.date}
               onChange={(date) => this.setState({ date })}
             />
           </div>
