@@ -42,7 +42,6 @@ class Api {
   }
 
   createTask = (task, updateId) => {
-    console.log(JSON.stringify(taskToApi(task, true)));
     return this.callApi(
       `calendars/${this.calendarId}/events`,
       {
@@ -51,9 +50,14 @@ class Api {
       }
     )
     .then(toJson)
-    .then(r => { 
-      updateId(r.id);
-    });
+    .then(r => updateId(r.id));
+  }
+
+  deleteTask = (id) => {
+    return this.callApi(
+      `calendars/${this.calendarId}/events/${id}`,
+      { method: 'DELETE' }
+    );
   }
 }
 

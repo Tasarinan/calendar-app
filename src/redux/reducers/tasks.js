@@ -80,7 +80,11 @@ const completeTask = (state, action) => {
 const deleteTask = (state, action) => {
   const index = state.items.findIndex(t => t._id === action.id);
   const { _id, _rev } = state.items[index];
-  taskTable.remove(_id, _rev);
+  if (!state.items[index].fromGoogle) {
+    taskTable.remove(_id, _rev);
+  } else {
+    Api().deleteTask(action.id);
+  }
   return {
     ...state,
     items: [
