@@ -4,9 +4,8 @@ export const saveSettings = (settings, dontSaveToDb) => ({
   dontSaveToDb
 });
 
-export const login = (user, token, dontSaveToDb) => ({
+export const login = (token, dontSaveToDb) => ({
   type: 'LOGIN',
-  user,
   token,
   dontSaveToDb,
 });

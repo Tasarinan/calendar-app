@@ -1,14 +1,39 @@
+import moment from 'moment';
+import auth from './authentication';
+import store from '../redux/store';
 import { taskToLocal, taskToApi } from '../util/mappings';
 
 let instance = null;
 
 class Api {
   constructor(token) {
-    this.token = token.token;
+    this.setupToken(token);
     this.calendarId = '3gp6uljioccr1j99hdvdkqoed4@group.calendar.google.com';
   }
 
+  setupToken = (token) => {
+    this.token = token.token;
+    this.expiresAt = token.expiresAt;
+    this.refreshToken = token.refreshToken;
+  }
+
+  getNewToken = async () => {
+    const r = await auth.refreshToken(this.refreshToken);
+    const token = {
+      token: r.access_token, 
+      refreshToken: this.refreshToken,
+      expiresAt: moment().add(r.expires_in, 'seconds').toJSON(),
+    };
+
+    this.setupToken(token);
+    store.dispatch({ type: 'LOGIN', token });
+  }
+
   callApi = (url, init) => {
+    if (moment().utc().isAfter(this.expiresAt)) {
+      this.getNewToken();
+    }
+
     const headers = new Headers({
       'content-type': 'application/json',
       'Authorization': `Bearer ${this.token}`
@@ -63,7 +88,7 @@ class Api {
 
 const toJson = (res) => res.status === 200 ? res.json() : null;
 
-export const createApi = (token) => { instance = new Api(token); };
+export const createApi = (token) => { if (instance === null) instance = new Api(token); };
 
 export const deleteApi = () => { instance = null; };
 

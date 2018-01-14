@@ -26,8 +26,6 @@
     "calendar": "^0.1.0",
     "concurrently": "^3.5.1",
     "electron-is-dev": "^0.3.0",
-    "google-auth-library": "^1.0.0",
-    "googleapis": "^23.0.0",
     "moment": "^2.20.1",
     "node-schedule": "^1.2.5",
     "pouchdb": "^6.4.1",

@@ -27,7 +27,6 @@ const defaultSettings = {
 
 const initialState = {
   loggedIn: false,
-  user: null,
   token: null,
   loading: true,
   settings: defaultSettings,
@@ -69,44 +68,30 @@ const saveSettings = (state, action) => {
 }
 
 const login = (state, action) => {
-  let userRev = {};
-  let tokenRev = {};
   if (!action.dontSaveToDb) {
-    createApi(action.token);
-    userDataTable.put({
-      ...action.user,
-      _id: 'user',
-    }).then(r => {
-      userRev = r.rev;
-      return userDataTable.put({
-        ...action.token,
-        _id: 'token',
-      });
-    }).then(r => {
-      tokenRev = r.rev;
-      store.dispatch(loginAction(
-        { ...action.user, _rev: userRev },
-        { ...action.token, _rev: tokenRev },
-        true,
-      ));
-    });
-    return { ...state };
+    if (!state.token) {
+      createApi(action.token);
+
+      userDataTable.put({ ...action.token, _id: 'token' })
+        .then(r => store.dispatch(
+          loginAction({ ...action.token, _rev: r.rev }, true)
+        ));
+      return { ...state };
+    }
+    userDataTable.put({ ...state.token, ...action.token }).catch(e => console.log(e));
   }
   return { 
     ...state,
-    user: { ...action.user },
-    token:{ ...action.token },
+    token: { ...state.token, ...action.token },
     loggedIn: true
   };
 }
 
 const logout = (state) => {
-  userDataTable.remove('user', state.user._rev)
   userDataTable.remove('token', state.token._rev);
   deleteApi();
   return { 
     ...state,
-    user: null,
     token: null,
     loggedIn: false
   };

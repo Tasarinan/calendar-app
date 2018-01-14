@@ -1,12 +1,21 @@
 import React from 'react';
+import moment from 'moment';
 import { GoogleLogin } from 'react-google-login';
 import creds from '../.credentials/api-client-secret.json';
+import auth from '../services/authentication';
 
 class Login extends React.Component {
   onSuccess = (res) => {
     if (res) {
-      // console.log(res);
-      this.props.action(res.profileObj, { token: res.accessToken });
+      auth
+        .getToken(res.code)
+        .then(r => {
+          this.props.action({
+            token: r.access_token, 
+            refreshToken: r.refresh_token,
+            expiresAt: moment().add(r.expires_in, 'seconds').toJSON(),
+          });
+        })
       return;
     }
     this.props.action();
@@ -25,6 +34,8 @@ class Login extends React.Component {
         scope={'https://www.googleapis.com/auth/calendar'}
         onSuccess={this.onSuccess}
         onFailure={() => null}
+        prompt="consent"
+        responseType="code"
       />;
   }
 }

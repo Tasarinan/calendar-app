@@ -73,6 +73,9 @@ const loadTasks = () => {
 }
 
 const loadTasksFromApi = () => {
+  if (!store.getState().app.loggedIn) {
+    return;
+  }
   if (!Api()) {
     createApi(store.getState().app.token); 
   };
@@ -101,13 +104,10 @@ const loadSettings = () => {
 
 const loadUser = () => {
   return db.getAllDocs('user_data').then(res => {
-    if(res.total_rows === 0) return;
-
-    store.dispatch(login(
-      res.rows.find(r => r.id === 'user').doc,
-      res.rows.find(r => r.id === 'token').doc,
-      true
-    ));
+    const token = res.rows.find(r => r.id === 'token')
+    if(token) {
+      store.dispatch(login(token.doc, true));
+    }
   });
 }
 
