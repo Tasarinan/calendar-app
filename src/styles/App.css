@@ -521,6 +521,20 @@ textarea:focus {
   padding: 20px;
 }
 
+.error {
+  background: #c72f2f;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: #000000 1px 1px 5px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  cursor: pointer;
+  max-width: 55%;
+  max-height: 100px;
+}
+
 
 .flex {
   display: flex;
@@ -536,6 +550,10 @@ textarea:focus {
 
 .edit-color {
   color: #eae85c;
+}
+
+.hidden {
+  display: none !important;
 }
 
 @media all and (max-width: 1000px) {
