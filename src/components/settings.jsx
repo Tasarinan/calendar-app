@@ -77,10 +77,10 @@ class Settings extends React.Component {
   }
 
   renderCalendars = () => {
-    if (this.props.calendars === null) {
-      this.props.loadCalendars();
-    }
-    if (!this.props.calendars || this.props.calendars.length > 0) {
+    if (this.props.calendars === null || this.props.calendars.length === 0) {
+      if (this.props.calendars === null) {
+        this.props.loadCalendars();
+      }
       return <option value="primary" key="primary">Primary</option>;
     }
     return this

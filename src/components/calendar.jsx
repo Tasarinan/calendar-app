@@ -125,7 +125,6 @@ class Calendar extends React.Component {
 
   render() {
     const {date} = this.props;
-    console.log(this.props.error);
     return (
       <div className="calendar">
         <ErrorPopup

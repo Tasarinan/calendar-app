@@ -109,7 +109,7 @@ class Api {
 const toJson = (res) => res.status === 200 ? res.json() : null;
 
 const catchErrors = (res) => {
-  if (res.status !== 200) {
+  if (res.status < 200 && res.status >= 300) {
     store.dispatch({
       type: 'SHOW_ERROR',
       error: `Google API error: ${res.statusText}`,
