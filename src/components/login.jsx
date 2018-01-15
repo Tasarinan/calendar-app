@@ -25,8 +25,9 @@ class Login extends React.Component {
     return this.props.logout ?
       (
         <div>
-          <button onClick={() => this.onSuccess()}>Logout</button>
-          <span>&nbsp;&nbsp;(Logged in as: {this.props.email})</span>
+          <button onClick={() => this.onSuccess()}>
+            Logout from Google
+          </button>
         </div>
       ) :
       <GoogleLogin
@@ -34,6 +35,7 @@ class Login extends React.Component {
         scope={'https://www.googleapis.com/auth/calendar'}
         onSuccess={this.onSuccess}
         onFailure={() => null}
+        className="button"
         prompt="consent"
         responseType="code"
       />;

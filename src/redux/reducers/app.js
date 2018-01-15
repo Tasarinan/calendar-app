@@ -1,6 +1,4 @@
 import { orderOptions } from "../../util/constants";
-import { login as loginAction } from '../actions/appActions';
-import store from '../store';
 import db from '../db';
 import { createApi, deleteApi } from '../../services/api';
 
@@ -72,13 +70,14 @@ const login = (state, action) => {
     if (!state.token) {
       createApi(action.token);
 
-      userDataTable.put({ ...action.token, _id: 'token' })
-        .then(r => store.dispatch(
-          loginAction({ ...action.token, _rev: r.rev }, true)
-        ));
-      return { ...state };
+      userDataTable
+        .put({ ...action.token, _id: 'token' })
+        .then(() => window.location.reload());
+      return state;
     }
-    userDataTable.put({ ...state.token, ...action.token }).catch(e => console.log(e));
+    userDataTable
+      .put({ ...state.token, ...action.token })
+      .catch(e => console.log(e));
   }
   return { 
     ...state,
@@ -88,11 +87,9 @@ const login = (state, action) => {
 }
 
 const logout = (state) => {
-  userDataTable.remove('token', state.token._rev);
   deleteApi();
-  return { 
-    ...state,
-    token: null,
-    loggedIn: false
-  };
+  userDataTable
+    .remove('token', state.token._rev)
+    .then(() => window.location.reload());
+  return state;
 }
