@@ -12,18 +12,15 @@ class Sidepanel extends React.Component {
       isNewTaskOpen: false,
       isSettingsOpen: false,
     };
-
-    this.toggleNewTask = this.toggleNewTask.bind(this);
-    this.toggleSettings = this.toggleSettings.bind(this);
   }
 
-  toggleNewTask() {
+  toggleNewTask = () => {
     this.setState({
       isNewTaskOpen: !this.state.isNewTaskOpen
     })
   }
 
-  toggleSettings() {
+  toggleSettings = () => {
     this.setState({
       isSettingsOpen: !this.state.isSettingsOpen
     })

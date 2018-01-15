@@ -21,9 +21,6 @@ class TaskModal extends React.Component {
       fromGoogle: true,
       editCategory: false,
     };
-
-    this.createTask = this.createTask.bind(this);
-    this.toggleCategoryEdit = this.toggleCategoryEdit.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -40,7 +37,7 @@ class TaskModal extends React.Component {
     this.setState(state);
   }
 
-  createTask() {
+  createTask = () => {
     if (!this.title.value) return;
     const task = {
       ...this.state,
@@ -70,7 +67,7 @@ class TaskModal extends React.Component {
     });
   }
 
-  renderCategories(cat) {
+  renderCategories = (cat) => {
     const onChange = (e) => this.setState({
       category: e.target.options[e.target.selectedIndex].value
     });
@@ -86,7 +83,7 @@ class TaskModal extends React.Component {
     );
   }
 
-  toggleCategoryEdit() {
+  toggleCategoryEdit = () => {
     this.setState({
       editCategory: !this.state.editCategory
     });
