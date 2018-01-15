@@ -527,12 +527,13 @@ textarea:focus {
   padding: 10px;
   border-radius: 5px;
   box-shadow: #000000 1px 1px 5px;
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   left: 20px;
   cursor: pointer;
   max-width: 55%;
   max-height: 100px;
+  z-index: 10;
 }
 
 
@@ -585,5 +586,12 @@ textarea:focus {
 
   .sidepanel {
     height: 100vh;
+  }
+
+  .error {
+    left: 60px;
+    right: 60px;
+    max-width: 90%;
+    text-align: center;
   }
 }
