@@ -5,10 +5,11 @@ import schedule from 'node-schedule';
 import './styles/App.css';
 import store from './redux/store';
 import db from './redux/db';
+import Api, { createApi } from './services/api';
 
 import { insertTasks, insertCategories } from './redux/actions/taskActions';
 import { changeDate, changeFocusedDay } from './redux/actions/calendarActions';
-import { saveSettings } from "./redux/actions/appActions";
+import { saveSettings, login } from "./redux/actions/appActions";
 
 import Calendar from './components/calendar';
 import Sidepanel from './components/sidepanel';
@@ -71,6 +72,23 @@ const loadTasks = () => {
   });
 }
 
+const loadTasksFromApi = () => {
+  if (!store.getState().app.loggedIn) {
+    return;
+  }
+  if (!Api()) {
+    createApi(
+      store.getState().app.token,
+      store.getState().app.settings.selectedCalendar,
+    ); 
+  };
+  return Api().getTasks().then(res => {
+    if (res) {
+      store.dispatch(insertTasks(res));
+    }
+  });
+}
+
 const loadCategories = () => {
   return db.getAllDocs('categories', res => {
     store.dispatch(insertCategories(
@@ -84,6 +102,15 @@ const loadSettings = () => {
     store.dispatch(saveSettings(res, true));
   }).catch(e => {
     store.dispatch(saveSettings({}));
+  });
+}
+
+const loadUser = () => {
+  return db.getAllDocs('user_data').then(res => {
+    const token = res.rows.find(r => r.id === 'token');
+    if(token) {
+      store.dispatch(login(token.doc, true));
+    }
   });
 }
 
@@ -116,11 +143,14 @@ const createNotifications = (tasks) => {
     }
   });
 }
+
 loadSettings()
+  .then(loadUser)
   .then(loadCategories)
   .then(loadTasks)
-  .then(updateMomentJs)
+  .then(loadTasksFromApi)
   .then(() => {
+    updateMomentJs()
     if (tasksToDelete.length > 0) {
       db.deleteItems('tasks', tasksToDelete);
     }

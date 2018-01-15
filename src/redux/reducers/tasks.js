@@ -1,4 +1,6 @@
+import store from '../store';
 import db from '../db';
+import Api from '../../services/api';
 
 const taskTable = db.table('tasks');
 const categoryTable = db.table('categories');
@@ -22,6 +24,8 @@ export default (state = initialState, action) => {
       return putTask(state, action);
     case 'INSERT_TASKS':
       return insertTasks(state, action);
+    case 'UPDATE_TASK_ID':
+      return updateTaskId(state, action);
     case 'INSERT_CATEGORIES':
       return insertCategories(state, action);
     case 'UPDATE_CATEGORY':
@@ -47,11 +51,19 @@ const updateCategory = (state, action) => {
 const completeTask = (state, action) => {
   const index = state.items.findIndex(t => t._id === action.id);
   const task = state.items[index];
-  taskTable.put({
-    ...task,
-    completed: action.completed,
-    date: task.date.valueOf()
-  });
+  if (!task.fromGoogle) {
+    taskTable.put({
+      ...task,
+      completed: action.completed,
+      date: task.date.valueOf()
+    });
+  } else {
+    Api().updateTask({
+      ...task,
+      completed: action.completed,
+      date: task.date.valueOf()
+    });
+  }
   return {
     ...state,
     items: [
@@ -68,7 +80,11 @@ const completeTask = (state, action) => {
 const deleteTask = (state, action) => {
   const index = state.items.findIndex(t => t._id === action.id);
   const { _id, _rev } = state.items[index];
-  taskTable.remove(_id, _rev);
+  if (!state.items[index].fromGoogle) {
+    taskTable.remove(_id, _rev);
+  } else {
+    Api().deleteTask(action.id);
+  }
   return {
     ...state,
     items: [
@@ -85,10 +101,20 @@ const putTask = (state, action) => {
     _rev: action.rev || null,
     category: action.task.category._id || action.task.category,
   };
-  taskTable.put({
-    ...task,
-    date: action.task.date.valueOf(),
-  });
+  if (!task.fromGoogle) {
+    taskTable.put({
+      ...task,
+      date: action.task.date.valueOf(),
+    });
+  } else {
+    const updateId = (id) => store.dispatch({
+      type: 'UPDATE_TASK_ID',
+      currentId: task._id,
+      newId: id,
+    });
+    
+    action.id ? Api().updateTask(task) : Api().createTask(task, updateId);
+  }
 
   const i = state.items.findIndex(t => t._id === task._id);
   let items = action.id ?
@@ -102,6 +128,21 @@ const putTask = (state, action) => {
     ...state,
     items,
     categories: createCategory(state, action.task.category),
+  };
+}
+
+const updateTaskId = (state, action) => {
+  const index = state.items.findIndex(t => t._id === action.currentId);
+  return {
+    ...state,
+    items: [
+      ...state.items.slice(0, index),
+      {
+        ...state.items[index],
+        _id: action.newId,
+      },
+      ...state.items.slice(index + 1),
+    ]
   };
 }
 

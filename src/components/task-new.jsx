@@ -17,7 +17,8 @@ class TaskModal extends React.Component {
       date: moment(),
       startTime: null,
       endTime: null,
-      category: this.props.categories[0]._id,
+      category: 'default_category',
+      fromGoogle: true,
       editCategory: false,
     };
 
@@ -33,6 +34,7 @@ class TaskModal extends React.Component {
         startTime: props.task.startTime,
         endTime: props.task.endTime,
         category: props.task.category._id,
+        fromGoogle: props.task.fromGoogle,
       };
     }
     this.setState(state);
@@ -62,7 +64,8 @@ class TaskModal extends React.Component {
     this.setState({
       startTime: null,
       endTime: null,
-      category: this.props.categories[0]._id,
+      category: 'default_category',
+      fromGoogle: true,
       editCategory: false,
     });
   }
@@ -131,7 +134,7 @@ class TaskModal extends React.Component {
             <span>Date:</span>
             <DatePicker
               name="date"
-              selected={task.date || this.state.date}
+              selected={this.state.date}
               onChange={(date) => this.setState({ date })}
             />
           </div>
@@ -151,6 +154,17 @@ class TaskModal extends React.Component {
               noInitialization={!task.endTime}
             />
           </div>
+          {this.props.loggedIn && ((this.props.task && !this.props.task.fromGoogle) || !this.props.task) ?
+            <div>
+              <span>Save in google calendar:</span>
+              <div><input
+                type="checkbox"
+                checked={this.state.fromGoogle}
+                onChange={(e) => this.setState({ fromGoogle: e.target.checked})}
+              /></div>
+            </div>
+            : null
+          }
           <div className="new-task-controls">
             <div className="success-color" onClick={this.createTask}>Save</div>
             <div className="failure-color" onClick={onRequestClose}>Cancel</div>
@@ -163,6 +177,7 @@ class TaskModal extends React.Component {
 
 const mapStateToProps = state => ({
   categories: state.tasks.categories,
+  loggedIn: state.app.loggedIn,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
