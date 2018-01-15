@@ -8,7 +8,7 @@ let instance = null;
 class Api {
   constructor(token, calendar) {
     this.setupToken(token);
-    this.calendarId = calendar || 'primary';// '3gp6uljioccr1j99hdvdkqoed4@group.calendar.google.com';
+    this.calendarId = calendar || 'primary';
   }
 
   setupToken = (token) => {
