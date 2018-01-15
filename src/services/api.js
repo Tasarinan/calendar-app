@@ -6,9 +6,9 @@ import { taskToLocal, taskToApi } from '../util/mappings';
 let instance = null;
 
 class Api {
-  constructor(token) {
+  constructor(token, calendar) {
     this.setupToken(token);
-    this.calendarId = '3gp6uljioccr1j99hdvdkqoed4@group.calendar.google.com';
+    this.calendarId = calendar || 'primary';// '3gp6uljioccr1j99hdvdkqoed4@group.calendar.google.com';
   }
 
   setupToken = (token) => {
@@ -84,11 +84,27 @@ class Api {
       { method: 'DELETE' }
     );
   }
+
+  getCalendars = () => {
+    return this
+      .callApi('users/me/calendarList', { method: 'GET' })
+      .then(toJson)
+      .then(res => {
+        return res.items
+          .filter(c => c.accessRole === 'owner')
+          .map(c => c.primary ? { ...c, summary: 'Primary' } : c)
+          .map(c => ({
+            id: c.id,
+            name: c.summary,
+            description: c.description
+          }));
+      });
+  }
 }
 
 const toJson = (res) => res.status === 200 ? res.json() : null;
 
-export const createApi = (token) => { if (instance === null) instance = new Api(token); };
+export const createApi = (token, calendar) => { if (instance === null) instance = new Api(token, calendar); };
 
 export const deleteApi = () => { instance = null; };
 

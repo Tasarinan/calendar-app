@@ -77,7 +77,10 @@ const loadTasksFromApi = () => {
     return;
   }
   if (!Api()) {
-    createApi(store.getState().app.token); 
+    createApi(
+      store.getState().app.token,
+      store.getState().app.settings.selectedCalendar,
+    ); 
   };
   return Api().getTasks().then(res => {
     if (res) {
@@ -104,7 +107,7 @@ const loadSettings = () => {
 
 const loadUser = () => {
   return db.getAllDocs('user_data').then(res => {
-    const token = res.rows.find(r => r.id === 'token')
+    const token = res.rows.find(r => r.id === 'token');
     if(token) {
       store.dispatch(login(token.doc, true));
     }

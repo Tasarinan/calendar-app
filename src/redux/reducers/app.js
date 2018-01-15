@@ -21,11 +21,13 @@ const defaultSettings = {
   showWeekTaskCount: true,
   countCompletedTasks: true,
   taskCountCategory: '*',
+  selectedCalendar: 'primary',
 };
 
 const initialState = {
   loggedIn: false,
   token: null,
+  calendars: [],
   loading: true,
   settings: defaultSettings,
   defaultSettings, // Save defaults in state, NO CHANGES
@@ -43,6 +45,11 @@ export default (state = initialState, action) => {
       return login(state, action);
     case 'LOGOUT':
       return logout(state);
+    case 'LOAD_CALENDARS':
+      return {
+        ...state,
+        calendars: action.calendars,
+      };
     default:
       return state;
   }
@@ -54,7 +61,8 @@ const saveSettings = (state, action) => {
       ...state.settings,
       ...action.settings,
       _id: 'settings_bundle',
-    });
+    })
+    .then(() => window.location.reload());
   }
   return {
     ...state,
@@ -68,7 +76,7 @@ const saveSettings = (state, action) => {
 const login = (state, action) => {
   if (!action.dontSaveToDb) {
     if (!state.token) {
-      createApi(action.token);
+      createApi(action.token, state.settings.selectedCalendar);
 
       userDataTable
         .put({ ...action.token, _id: 'token' })

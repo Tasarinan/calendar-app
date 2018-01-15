@@ -14,20 +14,9 @@ class Settings extends React.Component {
       ...props.settings,
       isEditCatOpen: false,
     };
-
-    this.save = this.save.bind(this);
-    this.cancel = this.cancel.bind(this);
-    this.changeTaskOrder = this.changeTaskOrder.bind(this);
-    this.changeShowWeeks = this.changeShowWeeks.bind(this);
-    this.changeTaskAutoDelete = this.changeTaskAutoDelete.bind(this);
-    this.changeWeekStart = this.changeWeekStart.bind(this);
-    this.loadDefaults = this.loadDefaults.bind(this);
-    this.editCategories = this.editCategories.bind(this);
-    this.renderCategories = this.renderCategories.bind(this);
-    this.changeCategory = this.changeCategory.bind(this);
   }
 
-  save() {
+  save = () => {
     const settings = {
       ...this.state,
       weekStart: parseInt(this.state.weekStart, 10)
@@ -37,26 +26,26 @@ class Settings extends React.Component {
     this.props.onRequestClose();
   }
 
-  cancel() {
+  cancel = () => {
     this.setState(this.props.settings);
     this.props.onRequestClose();
   }
 
-  loadDefaults() {
+  loadDefaults = () => {
     this.setState(this.props.defaultSettings);
   }
 
-  changeTaskOrder(e) {
+  changeTaskOrder = (e) => {
     const val = e.target.options[e.target.selectedIndex].value;
     this.setState({ taskOrder: val });
   }
 
-  changeShowWeeks(e) {
+  changeShowWeeks = (e) => {
     const val = e.target.checked;
     this.setState({ showWeeks: val });
   }
 
-  changeTaskAutoDelete(e, isCount) {
+  changeTaskAutoDelete = (e, isCount) => {
     const value = isCount ?
       e.target.value :
       e.target.options[e.target.selectedIndex].value;
@@ -69,29 +58,43 @@ class Settings extends React.Component {
     })
   }
 
-  changeWeekStart(e) {
+  changeWeekStart = (e) => {
     const value = e.target.options[e.target.selectedIndex].value;
     this.setState({ weekStart: value });
   }
 
-  editCategories() {
+  editCategories = () => {
     this.setState({
       isEditCatOpen: !this.state.isEditCatOpen
     });
   }
 
-  renderCategories() {
+  renderCategories = () => {
     return this
       .props
       .categories
       .map(c => <option value={c._id} key={c._id}>{c.name}</option>);
   }
 
-  changeCategory(e) {
+  renderCalendars = () => {
+    if (this.props.calendars.length > 0) {
+      return this
+        .props
+        .calendars
+        .map(c => <option value={c.id} key={c.id}>{c.name}</option>);
+    }
+    this.props.loadCalendars();
+    return <option value="primary" key="primary">Primary</option>;
+  }
+
+  changeCategory = (e) => {
     const id = e.target.options[e.target.selectedIndex].value;
-    this.setState({
-      taskCountCategory: id,
-    });
+    this.setState({ taskCountCategory: id });
+  }
+
+  changeCalendar = (e) => {
+    const id = e.target.options[e.target.selectedIndex].value;
+    this.setState({ selectedCalendar: id });
   }
 
   render() {
@@ -212,6 +215,15 @@ class Settings extends React.Component {
                 email={this.props.user ? this.props.user.email : null}
               />
             </div>
+            {this.props.loggedIn ?
+              <div>
+                <span>Calendar to use:</span>
+                <select onChange={this.changeCalendar} value={this.state.selectedCalendar}>
+                  {this.renderCalendars()}
+                </select>
+              </div>
+              : null
+            }
           </div>
           <div className="settings-controls">
             <div className="success-color" onClick={this.save}>Save</div>
@@ -229,7 +241,7 @@ const mapStateToProps = state => ({
   defaultSettings: state.app.defaultSettings,
   categories: state.tasks.categories,
   loggedIn: state.app.loggedIn,
-  user: state.app.user
+  calendars: state.app.calendars,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
