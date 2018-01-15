@@ -14,32 +14,26 @@ class Calendar extends React.Component {
     super(props);
 
     this.componentWillReceiveProps(props);
-    this.changeMonth = this.changeMonth.bind(this);
-    this.changeFocusedDay = this.changeFocusedDay.bind(this);
-    this.getDays = this.getDays.bind(this);
-    this.getDayNames = this.getDayNames.bind(this);
-    this.mapRowDays = this.mapRowDays.bind(this);
-    this.countWeekTasks = this.countWeekTasks.bind(this);
   }
 
   componentWillReceiveProps(props) {
     this.tasks = props.tasks.map(taskCategory(props.categories));
   }
 
-  changeFocusedDay(date) {
+  changeFocusedDay = (date) => {
     if (!this.props.date.isSame(date, 'month')) {
       this.props.changeDate(date);
     }
     this.props.changeFocusedDay(date);
   }
 
-  changeMonth(forward) {
+  changeMonth = (forward) => {
     const m = moment(this.props.date);
     forward ? m.add(1, 'month') : m.subtract(1, 'month');
     this.props.changeDate(m);
   }
 
-  countWeekTasks(date) {
+  countWeekTasks = (date) => {
     if (this.props.showWeekTaskCount && this.props.showWeeks) {
       const countCompleted = (t) => {
         if (!this.props.countCompletedTasks && t.completed){
@@ -65,7 +59,7 @@ class Calendar extends React.Component {
     return null;
   }
 
-  getDays() {
+  getDays = () => {
     const weekClass = this.props.showWeeks ? 'weeks' : '';
     const mapFunc = row => {
       const day = moment(this.props.date).date(row[0]);
@@ -90,7 +84,7 @@ class Calendar extends React.Component {
     return [nameRow, ...days.map(mapFunc)];
   }
 
-  getDayNames(weekClass) {
+  getDayNames = (weekClass) => {
     let names = moment.weekdaysShort();
     if (this.props.weekStart === 1) {
       names.push(names.shift());
@@ -108,7 +102,7 @@ class Calendar extends React.Component {
     return <div className="flex" key={shortId.generate()}>{names}</div>;
   }
 
-  mapRowDays(d) {
+  mapRowDays = (d) => {
     const {date, focusedDate} = this.props;
     const thisDate = moment(date).date(d);
     return <Day

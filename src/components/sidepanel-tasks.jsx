@@ -17,14 +17,13 @@ class Tasks extends React.Component {
     };
 
     this.componentWillReceiveProps(props);
-    this.viewDetails = this.viewDetails.bind(this);
   }
 
   componentWillReceiveProps(props) {
     this.tasks = props.tasks.map(taskCategory(props.categories));
   }
 
-  viewDetails(id) {
+  viewDetails = (id) => {
     this.setState({
       taskToView: !this.state.isModalOpen ? this.tasks.findIndex(t => t._id === id) : null,
       isModalOpen: !this.state.isModalOpen,

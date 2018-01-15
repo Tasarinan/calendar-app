@@ -8,23 +8,20 @@ class EditCat extends React.Component {
   constructor(props) {
     super(props);
     this.state = { ...props.categories[0] };
-    this.renderCategories = this.renderCategories.bind(this);
-    this.changeSelected = this.changeSelected.bind(this);
-    this.save = this.save.bind(this);
   }
 
-  save() {
+  save = () => {
     this.props.updateCategory({ ...this.state });
     this.props.onRequestClose();
   }
 
-  changeSelected(e) {
+  changeSelected = (e) => {
     const id = e.target.options[e.target.selectedIndex].value;
     const cat = this.props.categories.find(c => c._id === id) || this.props.categories[0];
     this.setState(cat);
   }
 
-  renderCategories(cat) {
+  renderCategories = (cat) => {
     const defaultValue = cat ? cat._id : 'default_category';
     return (
       <select

@@ -7,11 +7,9 @@ class TimePicker extends React.Component {
     super(props);
 
     this.state = props.noInitialization ? {} : props.initialState;
-
-    this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e, hours) {
+  onChange = (e, hours) => {
     const val = e.target.options[e.target.selectedIndex].value;
     const value = parseInt(val, 10);
     const state = hours ?

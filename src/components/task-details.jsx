@@ -11,10 +11,9 @@ export default class TaskDetails extends React.Component {
     this.state = {
       isEditOpen: false
     };
-    this.toggleEdit = this.toggleEdit.bind(this);
   }
 
-  toggleEdit() {
+  toggleEdit = () => {
     this.setState({ isEditOpen: !this.state.isEditOpen });
   }
 
