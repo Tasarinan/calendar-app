@@ -25,3 +25,10 @@ export const loadCalendars = () => (dispatch) =>
         calendars
       })
     );
+
+export const showError = (error) => ({
+  type: 'SHOW_ERROR',
+  error,
+});
+
+export const hideError = () => ({ type: 'HIDE_ERROR' });

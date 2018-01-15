@@ -77,14 +77,16 @@ class Settings extends React.Component {
   }
 
   renderCalendars = () => {
-    if (this.props.calendars.length > 0) {
-      return this
-        .props
-        .calendars
-        .map(c => <option value={c.id} key={c.id}>{c.name}</option>);
+    if (this.props.calendars === null) {
+      this.props.loadCalendars();
     }
-    this.props.loadCalendars();
-    return <option value="primary" key="primary">Primary</option>;
+    if (!this.props.calendars || this.props.calendars.length > 0) {
+      return <option value="primary" key="primary">Primary</option>;
+    }
+    return this
+      .props
+      .calendars
+      .map(c => <option value={c.id} key={c.id}>{c.name}</option>);
   }
 
   changeCategory = (e) => {
@@ -212,6 +214,7 @@ class Settings extends React.Component {
               <Login
                 logout={this.props.loggedIn}
                 action={this.props.loggedIn ? this.props.logout : this.props.login}
+                onError={this.props.showError}
                 email={this.props.user ? this.props.user.email : null}
               />
             </div>

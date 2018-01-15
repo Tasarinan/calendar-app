@@ -4,10 +4,12 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/calendarActions';
+import * as appActionCreators from '../redux/actions/appActions';
 import Day from './calendar-day';
 import MonthSelector from './calendar-month-selector';
 import { getDays } from '../util/date';
 import { taskCategory } from '../util/mappings';
+import ErrorPopup from './error';
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -123,8 +125,13 @@ class Calendar extends React.Component {
 
   render() {
     const {date} = this.props;
+    console.log(this.props.error);
     return (
       <div className="calendar">
+        <ErrorPopup
+          message={this.props.error}
+          onFinishHide={this.props.hideError}
+        />
         <MonthSelector
           month={date.format('MMMM')}
           year={date.year()}
@@ -148,8 +155,9 @@ const mapStateToProps = state => ({
   showWeekTaskCount: state.app.settings.showWeekTaskCount,
   countCompletedTasks: state.app.settings.countCompletedTasks,
   taskCountCategory: state.app.settings.taskCountCategory,
+  error: state.app.error,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ ...actionCreators, ...appActionCreators }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

@@ -16,6 +16,7 @@ class Login extends React.Component {
             expiresAt: moment().add(r.expires_in, 'seconds').toJSON(),
           });
         })
+        .catch(this.props.onError);
       return;
     }
     this.props.action();
@@ -34,7 +35,7 @@ class Login extends React.Component {
         clientId={creds.web.client_id}
         scope={'https://www.googleapis.com/auth/calendar'}
         onSuccess={this.onSuccess}
-        onFailure={() => null}
+        onFailure={() => this.props.onError('Login failed')}
         className="button"
         prompt="consent"
         responseType="code"

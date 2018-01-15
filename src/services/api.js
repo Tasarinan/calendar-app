@@ -41,7 +41,8 @@ class Api {
     return fetch(`https://www.googleapis.com/calendar/v3/${url}`, {
       ...init,
       headers,
-    });
+    })
+    .then(catchErrors);
   }
 
   getTasks = () => {
@@ -90,6 +91,9 @@ class Api {
       .callApi('users/me/calendarList', { method: 'GET' })
       .then(toJson)
       .then(res => {
+        if (!res) {
+          return [];
+        }
         return res.items
           .filter(c => c.accessRole === 'owner')
           .map(c => c.primary ? { ...c, summary: 'Primary' } : c)
@@ -103,6 +107,16 @@ class Api {
 }
 
 const toJson = (res) => res.status === 200 ? res.json() : null;
+
+const catchErrors = (res) => {
+  if (res.status !== 200) {
+    store.dispatch({
+      type: 'SHOW_ERROR',
+      error: `Google API error: ${res.statusText}`,
+    });
+  }
+  return res;
+}
 
 export const createApi = (token, calendar) => { if (instance === null) instance = new Api(token, calendar); };
 

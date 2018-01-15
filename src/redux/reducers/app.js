@@ -27,7 +27,8 @@ const defaultSettings = {
 const initialState = {
   loggedIn: false,
   token: null,
-  calendars: [],
+  calendars: null,
+  error: '',
   loading: true,
   settings: defaultSettings,
   defaultSettings, // Save defaults in state, NO CHANGES
@@ -49,6 +50,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         calendars: action.calendars,
+      };
+    case 'SHOW_ERROR':
+      return {
+        ...state,
+        error: action.error,
+      };
+    case 'HIDE_ERROR':
+      return {
+        ...state,
+        error: '',
       };
     default:
       return state;
