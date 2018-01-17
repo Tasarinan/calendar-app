@@ -1,5 +1,7 @@
 import { orderOptions } from "../../util/constants";
 import db from '../db';
+import store from '../store';
+import { login as updateRev } from '../actions/appActions';
 import { createApi, deleteApi } from '../../services/api';
 
 const settingsTable = db.table('settings');
@@ -85,22 +87,29 @@ const saveSettings = (state, action) => {
 }
 
 const login = (state, action) => {
+  const token = { ...state.token, ...action.token };
   if (!action.dontSaveToDb) {
     if (!state.token) {
-      createApi(action.token, state.settings.selectedCalendar);
-
       userDataTable
         .put({ ...action.token, _id: 'token' })
         .then(() => window.location.reload());
       return state;
     }
+    
     userDataTable
-      .put({ ...state.token, ...action.token })
+      .get('token')
+      .then((r) => {
+        userDataTable.put({ ...token, _rev: r._rev });
+        store.dispatch(updateRev({ ...token, _rev: r._rev }, true));
+      })
       .catch(e => console.log(e));
+    return state;
   }
-  return { 
+  
+  createApi(token, state.settings.selectedCalendar);
+  return {
     ...state,
-    token: { ...state.token, ...action.token },
+    token,
     loggedIn: true
   };
 }
