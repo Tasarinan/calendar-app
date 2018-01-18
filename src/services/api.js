@@ -17,21 +17,24 @@ class Api {
     this.refreshToken = token.refreshToken;
   }
 
-  getNewToken = async () => {
-    const r = await auth.refreshToken(this.refreshToken);
-    const token = {
-      token: r.access_token, 
-      refreshToken: this.refreshToken,
-      expiresAt: moment().add(r.expires_in, 'seconds').toJSON(),
-    };
-
-    this.setupToken(token);
-    store.dispatch({ type: 'LOGIN', token });
+  getNewToken = () => {
+    return auth
+      .refreshToken(this.refreshToken)
+      .then(r => {
+        const token = {
+          token: r.access_token, 
+          refreshToken: this.refreshToken,
+          expiresAt: moment().add(r.expires_in, 'seconds').toJSON(),
+        };
+    
+        this.setupToken(token);
+        store.dispatch({ type: 'LOGIN', token });
+      });
   }
 
-  callApi = (url, init) => {
+  callApi = async (url, init) => {
     if (moment().utc().isAfter(this.expiresAt)) {
-      this.getNewToken();
+      await this.getNewToken();
     }
 
     const headers = new Headers({
