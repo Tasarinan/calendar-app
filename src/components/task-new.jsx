@@ -18,7 +18,7 @@ class TaskModal extends React.Component {
       startTime: null,
       endTime: null,
       category: 'default_category',
-      fromGoogle: true,
+      fromGoogle: false,
       editCategory: false,
     };
   }

@@ -57,7 +57,7 @@ const completeTask = (state, action) => {
       completed: action.completed,
       date: task.date.valueOf()
     });
-  } else {
+  } else if (Api() !== null) {
     Api().updateTask({
       ...task,
       completed: action.completed,
@@ -82,7 +82,7 @@ const deleteTask = (state, action) => {
   const { _id, _rev } = state.items[index];
   if (!state.items[index].fromGoogle) {
     taskTable.remove(_id, _rev);
-  } else {
+  } else if (Api() !== null) {
     Api().deleteTask(action.id);
   }
   return {
@@ -113,7 +113,9 @@ const putTask = (state, action) => {
       newId: id,
     });
     
-    action.id ? Api().updateTask(task) : Api().createTask(task, updateId);
+    if (Api() !== null) {
+      action.id ? Api().updateTask(task) : Api().createTask(task, updateId);
+    }
   }
 
   const i = state.items.findIndex(t => t._id === task._id);
