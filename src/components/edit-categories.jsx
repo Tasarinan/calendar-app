@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Input, Select, MenuItem, Button, InputLabel } from '@material-ui/core';
 import * as actionCreators from '../redux/actions/taskActions';
 import Modal from './modal';
 
@@ -16,21 +17,20 @@ class EditCat extends React.Component {
   }
 
   changeSelected = (e) => {
-    const id = e.target.options[e.target.selectedIndex].value;
+    const id = e.target.value;
     const cat = this.props.categories.find(c => c._id === id) || this.props.categories[0];
     this.setState(cat);
   }
 
-  renderCategories = (cat) => {
-    const defaultValue = cat ? cat._id : 'default_category';
+  renderCategories = () => {
+    const defaultValue = this.state._id || 'default_category';
     return (
-      <select
+      <Select
         onChange={this.changeSelected}
-        name="category"
-        defaultValue={defaultValue}
+        value={defaultValue}
       >
-        {this.props.categories.map(c => <option value={c._id} key={c._id}>{c.name}</option>)}
-      </select>
+        {this.props.categories.map(c => <MenuItem value={c._id} key={c._id}>{c.name}</MenuItem>)}
+      </Select>
     );
   }
 
@@ -43,27 +43,30 @@ class EditCat extends React.Component {
         className="small-modal"
       >
         <div className="edit-categories">
-          <span>Edit category:</span>
-          {this.renderCategories(this.state._id)}
           <div>
-            <span>Color: </span>
-            <input
+            <InputLabel>Edit category:</InputLabel>
+            {this.renderCategories(this.state._id)}
+          </div>
+          <div>
+            <InputLabel>Color: </InputLabel>
+            <Input
               type="color"
               value={this.state.color}
               onChange={(e) => this.setState({ color: e.target.value })}
             />
           </div>
           <div>
-            <span>Name: </span>
-            <input
+            <InputLabel>Name:</InputLabel>
+            <Input
+              placeholder="Name"
               type="text"
               value={this.state.name}
               onChange={(e) => this.setState({ name: e.target.value })}
             />
           </div>
           <div className="categories-controls">
-            <div onClick={this.save} className="success-color">Save</div>
-            <div onClick={onRequestClose} className="failure-color">Cancel</div>
+            <Button onClick={onRequestClose} className="failure-color">Cancel</Button>
+            <Button onClick={this.save} className="success-color">Save</Button>
           </div>
         </div>
       </Modal>

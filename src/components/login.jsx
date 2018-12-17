@@ -3,6 +3,7 @@ import moment from 'moment';
 import qs from 'qs';
 import {parse} from 'url';
 import { GoogleLogin } from 'react-google-login';
+import { Button } from '@material-ui/core';
 import creds from '../.credentials/api-client-secret.json';
 import auth from '../services/authentication';
 import { GOOGLE_AUTHORIZATION_URL } from '../util/constants';
@@ -34,9 +35,9 @@ class Login extends React.Component {
 
   renderLogout = () => (
     <div>
-      <button onClick={() => this.onSuccess()}>
+      <Button onClick={() => this.onSuccess()}>
         Logout from Google
-      </button>
+      </Button>
     </div>
   )
 
@@ -53,13 +54,15 @@ class Login extends React.Component {
   )
 
   renderLogin = () => (
-    <div><button onClick={() => { 
-      signInWithPopup()
-        .then(this.onSuccess)
-        .catch(() => this.props.onError('Login failed'));
-    }}>
-      Login with Google
-    </button></div>
+    <div>
+      <Button onClick={() => { 
+        signInWithPopup()
+          .then(this.onSuccess)
+          .catch(() => this.props.onError('Login failed'));
+      }}>
+        Login with Google
+      </Button>
+    </div>
   )
 
   render() {

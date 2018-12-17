@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import moment from 'moment';
 import schedule from 'node-schedule';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import './styles/App.css';
 import store from './redux/store';
 import db from './redux/db';
@@ -17,6 +18,15 @@ let ipcRenderer;
 if (window.require) {
   ipcRenderer = window.require('electron').ipcRenderer;
 }
+
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  },
+  palette: {
+    type: 'dark'
+  }
+});
 
 export default class App extends React.Component {
   constructor() {
@@ -38,10 +48,12 @@ export default class App extends React.Component {
       <Provider store={store}>
         {this.state.loading ?
           <div className="App-loading">Loading...</div> :
-          <div className="App">
-            <Calendar />
-            <Sidepanel />
-          </div>
+          <MuiThemeProvider theme={theme}>
+            <div className="App">
+              <Calendar />
+              <Sidepanel />
+            </div>
+          </MuiThemeProvider>
         }
       </Provider>
     );

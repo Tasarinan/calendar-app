@@ -1,8 +1,3 @@
-@font-face {
-  font-family: angeltoes;
-  src: url('angeltoes.ttf');
-}
-
 textarea {
   background: none repeat scroll 0 0 #FFFFFF;
   border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
@@ -19,17 +14,11 @@ textarea {
   transition: background-color 0.2s ease 0s;
 }
 
-
-textarea:focus {
-    background: none repeat scroll 0 0 #FFFFFF;
-    outline-width: 0;
-}
-
 .App {
   text-align: center;
   display: flex;
   height: 100vh;
-  font-family: angeltoes;
+  font-family: Roboto;
   font-weight: bold;
   font-size: large;
   overflow-y: hidden;
@@ -39,7 +28,7 @@ textarea:focus {
 .App-loading {
   width: 100%;
   text-align: center;
-  font-family: angeltoes;
+  font-family: Roboto;
   font-weight: bold;
   font-size: xx-large;
   margin-top: 40vh;
@@ -384,8 +373,7 @@ textarea:focus {
 
 .new-task-form,
 .settings {
-  font-family: angeltoes;
-  font-weight: bold;
+  font-family: Roboto;
   font-size: large;
   display: flex;
   flex-flow: column;
@@ -397,8 +385,10 @@ textarea:focus {
   align-items: center;
 }
 
-.new-task-form > div > span {
-  width: 100px;
+.new-task-form > div > label,
+.new-task-form > div > div > label,
+.edit-categories > div > label {
+  width: 120px;
 }
 
 .new-task-form > div > input,
@@ -420,8 +410,9 @@ textarea:focus {
   justify-content: flex-start !important;
 }
 
-.new-task-category > div > img {
-  height: 100%;
+.new-task-category > img {
+  height: 1.5rem;
+  margin-left: 10px;
   cursor: pointer;
 }
 
@@ -443,33 +434,28 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
+.edit-categories > div {
+  display: flex;
+  align-items: center;
+}
+
+.edit-categories > div > div {
+  flex-grow: 1;
+}
+
 .new-task-controls,
 .settings-controls,
 .categories-controls {
-  border-top: 1px solid #dbdada;
-  border-bottom: 1px solid #dbdada;
   position: absolute;
   bottom: 10px;
   align-self: center;
   width: 100%;
 }
 
-.new-task-controls > div,
-.settings-controls > div,
-.categories-controls > div {
-  text-align: center;
-  font-size: x-large;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  border-right: 1px solid #dbdada;
-  flex-grow: 1;
-}
-
-.new-task-controls > div:last-child,
-.settings-controls > div:last-child,
-.categories-controls > div:last-child {
-  border-right: none;
+.new-task-controls > button:last-child,
+.settings-controls > button:last-child,
+.categories-controls > button:last-child {
+  margin-right: 20px;
 }
 
 .settings {
@@ -490,11 +476,21 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
+.new-task-controls,
 .settings-controls,
 .categories-controls {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
+}
+
+.settings-items {
+  overflow-y: auto;
+  position: absolute;
+  top: 40px;
+  bottom: 60px;
+  left: 20px;
+  right: 20px;
 }
 
 .settings-items > div > * {
@@ -503,7 +499,7 @@ textarea:focus {
   align-self: center;
 }
 
-.settings-items > div > span {
+.settings-items > div > span:first-of-type {
   width: 40%;
 }
 
@@ -515,8 +511,7 @@ textarea:focus {
   border: 1px solid #ccc;
   border-radius: 4px;
   height: 200px;
-  font-family: angeltoes;
-  font-weight: bold;
+  font-family: Roboto;
   font-size: large;
   padding: 20px;
 }
@@ -536,6 +531,11 @@ textarea:focus {
   z-index: 10;
 }
 
+
+.button-padding {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
 
 .flex {
   display: flex;

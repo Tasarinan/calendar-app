@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/taskActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
+import { Input, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from './modal';
 import TimePicker from './timepicker';
@@ -39,6 +40,7 @@ class TaskModal extends React.Component {
 
   createTask = () => {
     if (!this.title.value) return;
+
     const task = {
       ...this.state,
       completed: false,
@@ -46,6 +48,7 @@ class TaskModal extends React.Component {
       description: this.description.value,
     };
     delete task.editCategory;
+
     if (this.state.editCategory) {
       task.category = {
         _id: new Date().toISOString(),
@@ -58,6 +61,7 @@ class TaskModal extends React.Component {
     const rev = this.props.task ? this.props.task._rev : null;
     this.props.putTask(task, id, rev);
     this.props.onRequestClose();
+    
     this.setState({
       startTime: null,
       endTime: null,
@@ -68,18 +72,19 @@ class TaskModal extends React.Component {
   }
 
   renderCategories = (cat) => {
-    const onChange = (e) => this.setState({
-      category: e.target.options[e.target.selectedIndex].value
+    const onChange = e => this.setState({
+      category: e.target.value
     });
-    const defaultValue = cat ? cat._id : 'default_category';
+    const defaultValue = cat ? cat._id : this.state.category;
     return (
-      <select
+      <Select
         onChange={onChange}
         name="category"
-        defaultValue={defaultValue}
+        value={defaultValue}
+        input={<Input id="category-input" style={{flexGrow:1}} />}
       >
-        {this.props.categories.map(c => <option value={c._id} key={c._id}>{c.name}</option>)}
-      </select>
+        {this.props.categories.map(c => <MenuItem value={c._id} key={c._id}>{c.name}</MenuItem>)}
+      </Select>
     );
   }
 
@@ -96,8 +101,7 @@ class TaskModal extends React.Component {
       <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
         <form className="new-task-form">
           <div className="new-task-title">
-            <span>Title:</span>
-            <input
+            <Input
               ref={(r) => { this.title = r; } }
               type="text"
               placeholder="Title"
@@ -108,35 +112,39 @@ class TaskModal extends React.Component {
             />
           </div>
           <div className="new-task-description">
-            <span>Description:</span>
-            <textarea
+            <Input
               ref={(r) => { this.description = r; } }
               placeholder="Description"
               name="description"
               defaultValue={task.description || ''}
-            ></textarea>
+              rows={7}
+              multiline
+            />
           </div>
           <div className="new-task-category">
-            <span>Category:</span>
             {this.state.editCategory ?
               <div className="new-task-new-category">
-                <input type="text" ref={r => { this.category = r; }} required/>
-                <input type="color" ref={r => { this.color = r; }}/>
+                <Input type="text" ref={r => { this.category = r; }} required/>
+                <Input type="color" ref={r => { this.color = r; }}/>
               </div> :
-              this.renderCategories(task.category)
+              <div>
+                <InputLabel>Category:</InputLabel>
+                {this.renderCategories(task.category)}
+              </div>
             }
-            <div><Img src={this.state.editCategory ? 'subtract.png' : 'add.png'} alt="Add category" onClick={this.toggleCategoryEdit}/></div>
+            <Img src={this.state.editCategory ? 'subtract.png' : 'add.png'} alt="Add category" onClick={this.toggleCategoryEdit}/>
           </div>
           <div className="new-task-date">
-            <span>Date:</span>
+            <InputLabel>Date:</InputLabel>
             <DatePicker
               name="date"
               selected={this.state.date}
               onChange={(date) => this.setState({ date })}
+              customInput={<Input />}
             />
           </div>
           <div>
-            <span>Start time:</span>
+            <InputLabel>Start time:</InputLabel>
             <TimePicker
               onChange={(time) => this.setState({startTime: time})}
               initialState={task.startTime}
@@ -144,7 +152,7 @@ class TaskModal extends React.Component {
             />
           </div>
           <div>
-            <span>End time:</span>
+            <InputLabel>End time:</InputLabel>
             <TimePicker
               onChange={(time) => this.setState({endTime: time})}
               initialState={task.endTime}
@@ -163,8 +171,8 @@ class TaskModal extends React.Component {
             : null
           }
           <div className="new-task-controls">
-            <div className="success-color" onClick={this.createTask}>Save</div>
-            <div className="failure-color" onClick={onRequestClose}>Cancel</div>
+            <Button className="failure-color" onClick={onRequestClose}>Cancel</Button>
+            <Button className="success-color" onClick={this.createTask}>Save</Button>
           </div>
         </form>
       </Modal>

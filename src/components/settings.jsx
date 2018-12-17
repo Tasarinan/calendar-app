@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Input, Select, MenuItem, Button, Switch } from '@material-ui/core';
 import * as actionCreators from '../redux/actions/appActions';
 import Modal from './modal';
 import EditCategories from './edit-categories';
@@ -36,7 +37,7 @@ class Settings extends React.Component {
   }
 
   changeTaskOrder = (e) => {
-    const val = e.target.options[e.target.selectedIndex].value;
+    const val = e.target.value;
     this.setState({ taskOrder: val });
   }
 
@@ -46,9 +47,7 @@ class Settings extends React.Component {
   }
 
   changeTaskAutoDelete = (e, isCount) => {
-    const value = isCount ?
-      e.target.value :
-      e.target.options[e.target.selectedIndex].value;
+    const value = e.target.value;
 
     this.setState({
       deleteTasksAfter: {
@@ -59,7 +58,7 @@ class Settings extends React.Component {
   }
 
   changeWeekStart = (e) => {
-    const value = e.target.options[e.target.selectedIndex].value;
+    const value = e.target.value;
     this.setState({ weekStart: value });
   }
 
@@ -73,7 +72,7 @@ class Settings extends React.Component {
     return this
       .props
       .categories
-      .map(c => <option value={c._id} key={c._id}>{c.name}</option>);
+      .map(c => <MenuItem value={c._id} key={c._id}>{c.name}</MenuItem>);
   }
 
   renderCalendars = () => {
@@ -81,21 +80,21 @@ class Settings extends React.Component {
       if (this.props.calendars === null) {
         this.props.loadCalendars();
       }
-      return <option value="primary" key="primary">Primary</option>;
+      return <MenuItem value="primary" key="primary">Primary</MenuItem>;
     }
     return this
       .props
       .calendars
-      .map(c => <option value={c.id} key={c.id}>{c.name}</option>);
+      .map(c => <MenuItem value={c.id} key={c.id}>{c.name}</MenuItem>);
   }
 
   changeCategory = (e) => {
-    const id = e.target.options[e.target.selectedIndex].value;
+    const id = e.target.value;
     this.setState({ taskCountCategory: id });
   }
 
   changeCalendar = (e) => {
-    const id = e.target.options[e.target.selectedIndex].value;
+    const id = e.target.value;
     this.setState({ selectedCalendar: id });
   }
 
@@ -109,33 +108,33 @@ class Settings extends React.Component {
           <div className="settings-items">
             <div>
               <span>Order tasks by:</span>
-              <select value={this.state.taskOrder} onChange={this.changeTaskOrder}>
+              <Select value={this.state.taskOrder} onChange={this.changeTaskOrder}>
                 {Object
                   .values(orderOptions)
-                  .map(p => <option value={p} key={p}>{p}</option>)
+                  .map(p => <MenuItem value={p} key={p}>{p}</MenuItem>)
                 }
-              </select>
+              </Select>
             </div>
             <div>
               <span>Week starts on:</span>
-              <select value={this.state.weekStart} onChange={this.changeWeekStart}>
-                <option value={1}>Monday</option>
-                <option value={0}>Sunday</option>
-              </select>
+              <Select value={this.state.weekStart} onChange={this.changeWeekStart}>
+                <MenuItem value={1}>Monday</MenuItem>
+                <MenuItem value={0}>Sunday</MenuItem>
+              </Select>
             </div>
             <div>
               <span>Show week numbers:</span>
-              <input
-                type="checkbox"
+              <Switch
                 checked={this.state.showWeeks}
                 onChange={this.changeShowWeeks}
+                color="primary"
               />
             </div>
             {
               this.state.showWeeks ?
               <div>
                 <span>Start week numbering from:</span>
-                <input
+                <Input
                   type="number"
                   min={1}
                   max={52}
@@ -148,67 +147,67 @@ class Settings extends React.Component {
               this.state.showWeeks ?
               <div>
                 <span>Show weeks task count:</span>
-                <input
-                  type="checkbox"
+                <Switch
                   checked={this.state.showWeekTaskCount}
                   onChange={(e) => this.setState({ showWeekTaskCount: e.target.checked})}
+                  color="primary"
                 />
               </div> : null
             }
             <div>
               <span>Show days task count:</span>
-              <input
-                type="checkbox"
+              <Switch
                 checked={this.state.showTaskCount}
                 onChange={(e) => this.setState({ showTaskCount: e.target.checked})}
+                color="primary"
               />
             </div>
             <div>
               <span>Count completed tasks:</span>
-                <input
-                  type="checkbox"
+                <Switch
                   checked={this.state.countCompletedTasks}
                   onChange={(e) => this.setState({ countCompletedTasks: e.target.checked})}
+                  color="primary"
                 />
             </div>
             <div>
-              <span>Couont tasks with category:</span>
-              <select onChange={this.changeCategory} value={this.state.taskCountCategory}>
-                <option value="*">All</option>
+              <span>Count tasks with category:</span>
+              <Select onChange={this.changeCategory} value={this.state.taskCountCategory}>
+                <MenuItem value="*">All</MenuItem>
                 {this.renderCategories()}
-              </select>
+              </Select>
             </div>
             <div>
               <span>Delete old tasks:</span>
-              <input
-                type="checkbox"
+              <Switch
                 checked={this.state.deleteOldTasks}
                 onChange={() => this.setState({deleteOldTasks: !this.state.deleteOldTasks})}
+                color="primary"
               />
             </div>
             {
               this.state.deleteOldTasks ?
               <div>
                 <span>Delete tasks after:</span>
-                <input
+                <Input
                   type="number"
                   min={1}
                   max={100}
                   value={this.state.deleteTasksAfter.count}
                   onChange={(e) => this.changeTaskAutoDelete(e, true)}
                 />&nbsp;
-                <select
+                <Select
                   value={this.state.deleteTasksAfter.name}
                   onChange={(e) => this.changeTaskAutoDelete(e, false)}
                 >
-                  <option value='day'>Days</option>
-                  <option value='month'>Months</option>
-                  <option value='year'>Years</option>
-                </select>
+                  <MenuItem value='day'>Days</MenuItem>
+                  <MenuItem value='month'>Months</MenuItem>
+                  <MenuItem value='year'>Years</MenuItem>
+                </Select>
               </div> : null
             }
             <div>
-              <button onClick={this.editCategories}>Edit categories</button>
+              <Button onClick={this.editCategories} variant="contained" className="button-padding">Edit categories</Button>
             </div>
             <div>
               <Login
@@ -221,17 +220,17 @@ class Settings extends React.Component {
             {this.props.loggedIn ?
               <div>
                 <span>Calendar to use:</span>
-                <select onChange={this.changeCalendar} value={this.state.selectedCalendar}>
+                <Select onChange={this.changeCalendar} value={this.state.selectedCalendar}>
                   {this.renderCalendars()}
-                </select>
+                </Select>
               </div>
               : null
             }
           </div>
           <div className="settings-controls">
-            <div className="success-color" onClick={this.save}>Save</div>
-            <div className="edit-color" onClick={this.loadDefaults}>Load defaults</div>
-            <div className="failure-color" onClick={this.cancel}>Cancel</div>
+            <Button className="failure-color" onClick={this.cancel}>Cancel</Button>
+            <Button className="edit-color" onClick={this.loadDefaults}>Load defaults</Button>
+            <Button className="success-color" onClick={this.save}>Save</Button>
           </div>
         </div>
       </Modal>
