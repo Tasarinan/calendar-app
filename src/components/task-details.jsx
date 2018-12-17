@@ -1,5 +1,6 @@
 import React from 'react';
 import Markdown from 'react-markdown';
+import { Button } from '@material-ui/core';
 import Modal from './modal';
 import { getTime } from '../util/date';
 import EditTask from './task-new';
@@ -46,17 +47,17 @@ export default class TaskDetails extends React.Component {
           <div><i>Date:</i> {task.date.format(dateFormat)}</div>
           <div><i>Start time:</i> {task.startTime ? getTime(task.startTime) : '-'}</div>
           <div><i>End time:</i> {task.endTime ? getTime(task.endTime) : '-'}</div>
-          <div className={completed}><b>{`${task.completed ? 'C' : 'Not c'}ompleted`}</b></div>
+          <div className={completed}><b>{task.completed ? 'Completed' : 'Not completed'}</b></div>
           <div className="task-details-controls">
-            <div
+            <Button onClick={close}>Close</Button>
+            <Button className="failure-color" onClick={() => deleteTask(task._id)}>Remove</Button>
+            <Button className="edit-color" onClick={this.toggleEdit}>Edit</Button>
+            <Button
               className={`button ${uncompleted}`}
               onClick={() => completeTask(task._id, task.completed)}
             >
-              {`${!task.completed ? 'C' : 'Unc'}omplete`}
-            </div>
-            <div className="edit-color" onClick={this.toggleEdit}>Edit</div>
-            <div className="failure-color" onClick={() => deleteTask(task._id)}>Remove</div>
-            <div onClick={close}>Close</div>
+              {!task.completed ? 'Complete' : 'Uncomplete'}
+            </Button>
           </div>
         </div>
       </Modal>

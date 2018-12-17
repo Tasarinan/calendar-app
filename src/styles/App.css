@@ -19,7 +19,6 @@ textarea {
   display: flex;
   height: 100vh;
   font-family: Roboto;
-  font-weight: bold;
   font-size: large;
   overflow-y: hidden;
   overflow-x: hidden;
@@ -349,11 +348,10 @@ textarea {
 
 .task-details-controls {
   display: flex;
+  justify-content: space-between;
   margin-top: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
-  border-top: 1px solid #dbdada;
-  border-bottom: 1px solid #dbdada;
   position: absolute;
   bottom: 10px;
   width: 90%;
@@ -365,10 +363,6 @@ textarea {
   text-align: center;
   border-left: 1px solid #dbdada;
   cursor: pointer;
-}
-
-.task-details-controls > div:first-child {
-  border-left: none;
 }
 
 .new-task-form,
@@ -550,7 +544,7 @@ textarea {
 }
 
 .edit-color {
-  color: #eae85c;
+  color: #eae85c !important;
 }
 
 .hidden {
