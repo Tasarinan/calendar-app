@@ -14,7 +14,10 @@ class TaskModal extends React.Component {
   constructor (props) {
     super(props);
 
+    const task = props.task || {};
     this.state = {
+      title: task.title || '',
+      description: task.description || '',
       date: moment(),
       startTime: null,
       endTime: null,
@@ -39,13 +42,11 @@ class TaskModal extends React.Component {
   }
 
   createTask = () => {
-    if (!this.title.value) return;
+    if (!this.state.title) return;
 
     const task = {
       ...this.state,
-      completed: false,
-      title: this.title.value,
-      description: this.description.value,
+      completed: false
     };
     delete task.editCategory;
 
@@ -63,6 +64,8 @@ class TaskModal extends React.Component {
     this.props.onRequestClose();
     
     this.setState({
+      title: '',
+      description: '',
       startTime: null,
       endTime: null,
       category: 'default_category',
@@ -102,21 +105,21 @@ class TaskModal extends React.Component {
         <form className="new-task-form">
           <div className="new-task-title">
             <Input
-              ref={(r) => { this.title = r; } }
               type="text"
               placeholder="Title"
               maxLength={100}
               name="title"
-              defaultValue={task.title || ''}
+              value={this.state.title}
+              onChange={e => this.setState({ title: e.target.value })}
               required
             />
           </div>
           <div className="new-task-description">
             <Input
-              ref={(r) => { this.description = r; } }
               placeholder="Description"
               name="description"
-              defaultValue={task.description || ''}
+              value={this.state.description}
+              onChange={e => this.setState({ description: e.target.value })}
               rows={7}
               multiline
             />
