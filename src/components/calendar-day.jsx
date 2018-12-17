@@ -1,4 +1,5 @@
 import React from 'react';
+import { Badge } from '@material-ui/core';
 
 export default (props) => {
   const today = props.today ? 'calendar-today' : '';
@@ -11,19 +12,22 @@ export default (props) => {
     null;
   const shadow = tasks ? 'calendar-day-task-shadow' : '';
   
-  let taskCountNumber = null;
+  let taskCount = 0;
   if (tasks && props.showCount) {
-    const taskCount = props.countCompleted ? 
+    taskCount = props.countCompleted ? 
       tasks.length :
       props.taskColors.filter((t) => !!t).length;
-    taskCountNumber = taskCount ? 
-      <div className="task-count"><div>{taskCount}</div></div>
-      : null;
   }
+  const hiddenBadge = taskCount ? '' : 'hide-badge';
+
   return (
     <div className={`calendar-day ${disabled} ${today} ${focused}`} onClick={props.onClick}>
-      {taskCountNumber}
-      <div>{number}</div>
+      <Badge
+        badgeContent={taskCount}
+        className={`badge day-task-count ${hiddenBadge}`}
+      >
+        <div>{number}</div>
+      </Badge>
       <div className={`calendar-day-tasks ${shadow}`}>
         {tasks}
       </div>

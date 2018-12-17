@@ -3,6 +3,7 @@ import shortId from 'shortid';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Badge } from '@material-ui/core';
 import * as actionCreators from '../redux/actions/calendarActions';
 import * as appActionCreators from '../redux/actions/appActions';
 import Day from './calendar-day';
@@ -56,9 +57,10 @@ class Calendar extends React.Component {
         countCompleted(t) && 
         filterByCategory(t)
       ).length;
-      return count > 0 ? <div className="task-count"><div>{count}</div></div> : null;
+
+      return count;
     }
-    return null;
+    return 0;
   }
 
   getDays = () => {
@@ -69,11 +71,17 @@ class Calendar extends React.Component {
       if (week < 1) {
         week += 52;
       }
+      const weekTaskCount = this.countWeekTasks(day);
       return (
         <div className={`calendar-row flex ${weekClass}`} key={shortId.generate()}>
           <div className="week-number">
-            {this.countWeekTasks(day)}
-            {week}
+            <Badge
+              className={`badge ${!weekTaskCount ? 'hide-badge' : ''}`}
+              color="primary"
+              badgeContent={weekTaskCount}
+            >
+              {week}
+            </Badge>
           </div>
           {row.map(this.mapRowDays)}
         </div>
