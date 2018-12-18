@@ -1,19 +1,3 @@
-textarea {
-  background: none repeat scroll 0 0 #FFFFFF;
-  border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
-  border-image: none;
-  border-radius: 3px;
-  border-style: none solid solid none;
-  border-width: medium 1px 1px medium;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
-  color: #555555;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 1em;
-  line-height: 1.4em;
-  padding: 5px 8px;
-  transition: background-color 0.2s ease 0s;
-}
-
 .App {
   text-align: center;
   display: flex;
@@ -98,10 +82,6 @@ textarea {
   border-radius: 2px;
 }
 
-.calendar-day-tasks > div {
-  flex-grow: 1;
-}
-
 .calendar-day-tasks > div:last-child {
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
@@ -129,10 +109,6 @@ textarea {
   justify-content: space-around;
   align-items: center;
   display: none;
-}
-
-.calendar-row.weeks > .week-number {
-  display: flex;
 }
 
 .calendar-row.weeks > .calendar-day,
@@ -186,10 +162,6 @@ textarea {
   display: flex;
   height: 12vh;
   align-items: center;
-}
-
-.sidepanel-info > div {
-  flex-grow: 1;
 }
 
 .sidepanel-info > div:first-child {
@@ -287,31 +259,6 @@ textarea {
   visibility: visible;
 }
 
-.modal-close {
-  height: 7vh;
-  width: 100%;
-}
-
-.modal-close > img {
-  cursor: pointer;
-  height: 100%;
-  width: auto;
-  float: right;
-}
-
-.ReactModal__Content {
-  background: #373C4F !important;
-  color: white;
-  width: 50% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  z-index: 2;
-}
-
-.ReactModal__Overlay {
-  z-index: 2;
-}
-
 .task-details {
   flex-flow: column;
 }
@@ -366,7 +313,10 @@ textarea {
 .new-task-form > div > input,
 .new-task-form > div > textarea,
 .new-task-form > div > div,
-.new-task-form > div > select{
+.new-task-form > div > select,
+.calendar-day-tasks > div,
+.sidepanel-info > div,
+.edit-categories > div > div {
   flex-grow: 1;
 }
 
@@ -388,15 +338,8 @@ textarea {
   cursor: pointer;
 }
 
-.new-task-form > div > textarea {
-  height: 25vh;
-  resize: none;
-  overflow-y: auto;
-  overflow-x: none;
-  flex-grow: 1;
-}
-
-.edit-categories {
+.edit-categories,
+.settings {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -409,10 +352,6 @@ textarea {
 .edit-categories > div {
   display: flex;
   align-items: center;
-}
-
-.edit-categories > div > div {
-  flex-grow: 1;
 }
 
 .new-task-controls,
@@ -430,15 +369,11 @@ textarea {
   margin-right: 20px;
 }
 
-.settings {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.settings-title {
-  align-self: center;
+.modal-title {
+  align-self: flex-start;
   margin-bottom: 10px;
+  font-weight: bold;
+  font-size: larger;
 }
 
 .settings-items > div {
@@ -459,7 +394,7 @@ textarea {
 .settings-items {
   overflow-y: auto;
   position: absolute;
-  top: 40px;
+  top: 60px;
   bottom: 60px;
   left: 20px;
   right: 20px;
@@ -518,40 +453,9 @@ textarea {
   display: none;
 }
 
-
 .button-padding {
   padding-left: 10px !important;
   padding-right: 10px !important;
-}
-
-.flex {
-  display: flex;
-}
-
-.success-color {
-  color: #3cda49 !important;
-}
-
-.failure-color {
-  color: #ff4b4b !important;
-}
-
-.edit-color {
-  color: #eae85c !important;
-}
-
-.hidden {
-  display: none !important;
-}
-
-@media all and (max-width: 1000px) {
-  .ReactModal__Content {
-    left: 0px !important;
-    right: 0px !important;
-    width: 65% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
 }
 
 @media all and (max-width: 720px) {

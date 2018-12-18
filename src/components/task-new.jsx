@@ -102,6 +102,7 @@ class TaskModal extends React.Component {
     const task = this.props.task || {};
     return (
       <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+        <div className="modal-title">{task._id ? 'Edit task' : 'New task'}</div>
         <form className="new-task-form">
           <div className="new-task-title">
             <Input

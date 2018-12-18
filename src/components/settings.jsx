@@ -104,7 +104,7 @@ class Settings extends React.Component {
       <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
         <EditCategories isOpen={this.state.isEditCatOpen} onRequestClose={this.editCategories} />
         <div className="settings">
-          <div className="settings-title">Settings</div>
+          <div className="modal-title">Settings</div>
           <div className="settings-items">
             <div>
               <span>Order tasks by:</span>

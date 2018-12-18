@@ -13,3 +13,52 @@ input[type=number]::-webkit-outer-spin-button {
 input[type='number'] {
   -moz-appearance:textfield;
 }
+
+.ReactModal__Content {
+  background: #373C4F !important;
+  color: white;
+  width: 50% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  z-index: 2;
+}
+
+.ReactModal__Overlay {
+  z-index: 2;
+}
+
+.flex {
+  display: flex;
+}
+
+.success-color {
+  color: #3cda49 !important;
+}
+
+.failure-color {
+  color: #ff4b4b !important;
+}
+
+.edit-color {
+  color: #eae85c !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media all and (max-width: 1000px) {
+  .ReactModal__Content {
+    left: 0px !important;
+    right: 0px !important;
+    width: 65% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media all and (max-width: 720px) {
+  .ReactModal__Content {
+    width: 80% !important;
+  }
+}

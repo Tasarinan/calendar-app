@@ -31,6 +31,7 @@ export default class TaskDetails extends React.Component {
           onRequestClose={this.toggleEdit}
           task={task}
         />
+        <div className="modal-title">Task details</div>
         <div className="task-details flex">
           <div className="task-details-title"><i>{task.title}</i></div>
           {task.description ?

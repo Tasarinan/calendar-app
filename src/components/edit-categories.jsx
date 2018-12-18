@@ -42,6 +42,7 @@ class EditCat extends React.Component {
         onRequestClose={onRequestClose}
         className="small-modal"
       >
+        <div className="modal-title">Edit category</div>
         <div className="edit-categories">
           <div>
             <InputLabel>Edit category:</InputLabel>
