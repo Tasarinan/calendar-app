@@ -128,16 +128,16 @@
   display: flex;
 }
 
-.month-selector img:first-child {
+.month-selector svg:first-child {
   float: left;
 }
 
-.month-selector img:last-child {
+.month-selector svg:last-child {
   float: right;
 }
 
-.month-selector img:first-child,
-.month-selector img:last-child {
+.month-selector svg:first-child,
+.month-selector svg:last-child {
   margin-top: 1vh;
   height: 5vh;
   cursor: pointer;
@@ -187,7 +187,7 @@
   justify-content: space-between;
 }
 
-.sidepanel-controls > img {
+.sidepanel-controls > svg {
   height: 100%;
   width: auto;
   margin-left: 10px;
@@ -249,8 +249,8 @@
   float: right;
 }
 
-.task-controls > img {
-  height: 30%;
+.task-controls > svg {
+  height: 40%;
   width: auto;
   align-self: center;
 }
@@ -332,7 +332,11 @@
   justify-content: flex-start !important;
 }
 
-.new-task-category > img {
+.new-task-new-category > div:last-of-type {
+  width: 20%;
+}
+
+.new-task-category > svg {
   height: 1.5rem;
   margin-left: 10px;
   cursor: pointer;

@@ -5,10 +5,11 @@ import * as actionCreators from '../redux/actions/taskActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import { Input, Select, MenuItem, InputLabel, Button } from '@material-ui/core';
+import AddCircle from '@material-ui/icons/AddCircle';
+import RemoveCircle from '@material-ui/icons/RemoveCircle';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from './modal';
 import TimePicker from './timepicker';
-import Img from './image';
 
 class TaskModal extends React.Component {
   constructor (props) {
@@ -128,7 +129,7 @@ class TaskModal extends React.Component {
           <div className="new-task-category">
             {this.state.editCategory ?
               <div className="new-task-new-category">
-                <Input type="text" ref={r => { this.category = r; }} required/>
+                <Input type="text" ref={r => { this.category = r; }} placeholder="New category name" required/>
                 <Input type="color" ref={r => { this.color = r; }}/>
               </div> :
               <div>
@@ -136,7 +137,10 @@ class TaskModal extends React.Component {
                 {this.renderCategories(task.category)}
               </div>
             }
-            <Img src={this.state.editCategory ? 'subtract.png' : 'add.png'} alt="Add category" onClick={this.toggleCategoryEdit}/>
+            {this.state.editCategory
+              ? <RemoveCircle onClick={this.toggleCategoryEdit} />
+              : <AddCircle onClick={this.toggleCategoryEdit} />
+            }
           </div>
           <div className="new-task-date">
             <InputLabel>Date:</InputLabel>

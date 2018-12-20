@@ -1,6 +1,8 @@
 import React from 'react';
+import Delete from '@material-ui/icons/Delete';
+import Done from '@material-ui/icons/Done';
+import Clear from '@material-ui/icons/Clear';
 import { getTime } from '../util/date';
-import Img from './image';
 
 export default ({ task, completeTask, deleteTask, viewDetails }) => {
   if (!task || !task._id) return null;
@@ -21,16 +23,11 @@ export default ({ task, completeTask, deleteTask, viewDetails }) => {
         <div className="task-time">{time}</div>
       </div>
       <div className="task-controls">
-        <Img
-          src={`${task.completed ? 'un' : ''}check.png`}
-          alt="complete"
-          onClick={() => completeTask(task._id, task.completed)}
-        />
-        <Img
-          src="trashcan.png"
-          alt="delete"
-          onClick={() => deleteTask(task._id)}
-        />
+        {task.completed
+          ? <Clear onClick={() => completeTask(task._id, task.completed)} />
+          : <Done onClick={() => completeTask(task._id, task.completed)} />
+        }
+        <Delete onClick={() => deleteTask(task._id)} />
       </div>
     </div>
   );

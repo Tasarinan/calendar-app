@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import AddCircle from '@material-ui/icons/AddCircle';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Tasks from './sidepanel-tasks';
 import NewTask from './task-new';
 import Settings from './settings';
-import Img from './image';
 
 class Sidepanel extends React.Component {
   constructor (props) {
@@ -45,16 +46,8 @@ class Sidepanel extends React.Component {
         </div>
         <Tasks date={date}/>
         <div className="sidepanel-controls">
-          <Img
-            src="settings.ico"
-            alt="Settings"
-            onClick={this.toggleSettings}
-          />
-          <Img
-            src="add.png"
-            alt="New task"
-            onClick={this.toggleNewTask}
-          />
+          <SettingsIcon onClick={this.toggleSettings} />
+          <AddCircle onClick={this.toggleNewTask} />
         </div>
       </div>
     );
