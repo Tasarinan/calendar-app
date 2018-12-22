@@ -25,6 +25,8 @@ class TaskModal extends React.Component {
       category: 'default_category',
       fromGoogle: false,
       editCategory: false,
+      newCategoryName: '',
+      newCategoryColor: '#ffffff'
     };
   }
 
@@ -50,12 +52,14 @@ class TaskModal extends React.Component {
       completed: false
     };
     delete task.editCategory;
+    delete task.newCategoryName;
+    delete task.newCategoryColor;
 
     if (this.state.editCategory) {
       task.category = {
         _id: new Date().toISOString(),
-        name: this.category.value,
-        color: this.color.value,
+        name: this.state.newCategoryName,
+        color: this.state.newCategoryColor,
       };
     }
 
@@ -72,6 +76,8 @@ class TaskModal extends React.Component {
       category: 'default_category',
       fromGoogle: true,
       editCategory: false,
+      newCategoryName: '',
+      newCategoryColor: '#ffffff'
     });
   }
 
@@ -129,8 +135,18 @@ class TaskModal extends React.Component {
           <div className="new-task-category">
             {this.state.editCategory ?
               <div className="new-task-new-category">
-                <Input type="text" ref={r => { this.category = r; }} placeholder="New category name" required/>
-                <Input type="color" ref={r => { this.color = r; }}/>
+                <Input
+                  type="text"
+                  placeholder="New category name"
+                  value={this.state.newCategoryName}
+                  onChange={e => this.setState({ newCategoryName: e.target.value })}
+                  required
+                />
+                <Input
+                  type="color"
+                  value={this.state.newCategoryColor}
+                  onChange={e => this.setState({ newCategoryColor: e.target.value })}
+                />
               </div> :
               <div>
                 <InputLabel>Category:</InputLabel>
