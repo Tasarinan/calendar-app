@@ -74,7 +74,7 @@ class Calendar extends React.Component {
       const weekTaskCount = this.countWeekTasks(day);
       return (
         <div className={`calendar-row flex ${weekClass}`} key={shortId.generate()}>
-          <div className="week-number flex">
+          <div className="week-number">
             <Badge
               className={`badge ${!weekTaskCount ? 'hide-badge' : ''}`}
               color="primary"

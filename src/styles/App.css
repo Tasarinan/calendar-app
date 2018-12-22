@@ -111,6 +111,10 @@
   display: none;
 }
 
+.calendar-row.weeks > .week-number {
+  display: flex;
+}
+
 .calendar-row.weeks > .calendar-day,
 .calendar-day-name.weeks {
   width: 13%;
